@@ -1,0 +1,10 @@
+[
+  "test_dashboard_endpoints.py::test_category_ranking",
+  "test_dashboard_endpoints.py::test_date_filters",
+  "test_dashboard_endpoints.py::test_entity_ranking",
+  "test_dashboard_endpoints.py::test_health",
+  "test_dashboard_endpoints.py::test_new_tickets",
+  "test_dashboard_endpoints.py::test_new_tickets_custom_limit",
+  "test_dashboard_endpoints.py::test_stats_gerais",
+  "test_dashboard_endpoints.py::test_technician_ranking"
+]

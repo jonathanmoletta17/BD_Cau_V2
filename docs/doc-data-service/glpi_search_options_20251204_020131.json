@@ -1,0 +1,707 @@
+{
+  "common": {
+    "name": "Características",
+    "table": "",
+    "field": ""
+  },
+  "1": {
+    "name": "Título",
+    "table": "glpi_tickets",
+    "field": "name"
+  },
+  "21": {
+    "name": "Descrição",
+    "table": "glpi_tickets",
+    "field": "content"
+  },
+  "2": {
+    "name": "ID",
+    "table": "glpi_tickets",
+    "field": "id"
+  },
+  "12": {
+    "name": "Status",
+    "table": "glpi_tickets",
+    "field": "status"
+  },
+  "10": {
+    "name": "Urgência",
+    "table": "glpi_tickets",
+    "field": "urgency"
+  },
+  "11": {
+    "name": "Impacto",
+    "table": "glpi_tickets",
+    "field": "impact"
+  },
+  "3": {
+    "name": "Prioridade",
+    "table": "glpi_tickets",
+    "field": "priority"
+  },
+  "15": {
+    "name": "Data de abertura",
+    "table": "glpi_tickets",
+    "field": "date"
+  },
+  "16": {
+    "name": "Data de fechamento",
+    "table": "glpi_tickets",
+    "field": "closedate"
+  },
+  "18": {
+    "name": "Tempo para solução",
+    "table": "glpi_tickets",
+    "field": "time_to_resolve"
+  },
+  "151": {
+    "name": "Tempo para solução + Progresso",
+    "table": "glpi_tickets",
+    "field": "time_to_resolve"
+  },
+  "82": {
+    "name": "Tempo para resolver excedido",
+    "table": "glpi_tickets",
+    "field": "is_late"
+  },
+  "17": {
+    "name": "Data da solução",
+    "table": "glpi_tickets",
+    "field": "solvedate"
+  },
+  "19": {
+    "name": "Última atualização",
+    "table": "glpi_tickets",
+    "field": "date_mod"
+  },
+  "7": {
+    "name": "Categoria",
+    "table": "glpi_itilcategories",
+    "field": "completename"
+  },
+  "80": {
+    "name": "Entidade",
+    "table": "glpi_entities",
+    "field": "completename"
+  },
+  "45": {
+    "name": "Duração total",
+    "table": "glpi_tickets",
+    "field": "actiontime"
+  },
+  "64": {
+    "name": "Última edição por",
+    "table": "glpi_users",
+    "field": "name"
+  },
+  "142": {
+    "name": "Documentos",
+    "table": "glpi_documents",
+    "field": "name"
+  },
+  "400": {
+    "name": "Motivo de pendência",
+    "table": "glpi_pendingreasons",
+    "field": "name"
+  },
+  "155": {
+    "name": "Tempo para atendimento",
+    "table": "glpi_tickets",
+    "field": "time_to_own"
+  },
+  "158": {
+    "name": "Tempo para atendimento + Progresso",
+    "table": "glpi_tickets",
+    "field": "time_to_own"
+  },
+  "159": {
+    "name": "Tempo para adquirir excedido",
+    "table": "glpi_tickets",
+    "field": "is_late"
+  },
+  "180": {
+    "name": "Tempo interno para solução",
+    "table": "glpi_tickets",
+    "field": "internal_time_to_resolve"
+  },
+  "181": {
+    "name": "Tempo interno para solução + Progresso",
+    "table": "glpi_tickets",
+    "field": "internal_time_to_resolve"
+  },
+  "182": {
+    "name": "Tempo interno para resolver excedido",
+    "table": "glpi_tickets",
+    "field": "is_late"
+  },
+  "185": {
+    "name": "Tempo interno para atendimento",
+    "table": "glpi_tickets",
+    "field": "internal_time_to_own"
+  },
+  "186": {
+    "name": "Tempo interno para atendimento + Progresso",
+    "table": "glpi_tickets",
+    "field": "internal_time_to_own"
+  },
+  "187": {
+    "name": "Tempo interno para possuir excedido",
+    "table": "glpi_tickets",
+    "field": "is_late"
+  },
+  "188": {
+    "name": "Próximo nível de escalonamento",
+    "table": "glpi_tickets",
+    "field": "next_escalation_level"
+  },
+  "14": {
+    "name": "Tipo",
+    "table": "glpi_tickets",
+    "field": "type"
+  },
+  "13": {
+    "name": "Elementos associados",
+    "table": "glpi_items_tickets",
+    "field": "items_id"
+  },
+  "131": {
+    "name": "Tipos de itens associados",
+    "table": "glpi_items_tickets",
+    "field": "itemtype"
+  },
+  "9": {
+    "name": "Origem da requisição",
+    "table": "glpi_requesttypes",
+    "field": "name"
+  },
+  "83": {
+    "name": "Localização",
+    "table": "glpi_locations",
+    "field": "completename"
+  },
+  "101": {
+    "name": "Endereço",
+    "table": "glpi_locations",
+    "field": "address"
+  },
+  "102": {
+    "name": "Código postal",
+    "table": "glpi_locations",
+    "field": "postcode"
+  },
+  "103": {
+    "name": "Cidade",
+    "table": "glpi_locations",
+    "field": "town"
+  },
+  "104": {
+    "name": "Estado",
+    "table": "glpi_locations",
+    "field": "state"
+  },
+  "105": {
+    "name": "País",
+    "table": "glpi_locations",
+    "field": "country"
+  },
+  "84": {
+    "name": "Número do prédio",
+    "table": "glpi_locations",
+    "field": "building"
+  },
+  "85": {
+    "name": "Número da sala",
+    "table": "glpi_locations",
+    "field": "room"
+  },
+  "86": {
+    "name": "Comentários da localização",
+    "table": "glpi_locations",
+    "field": "comment"
+  },
+  "998": {
+    "name": "Latitude",
+    "table": "glpi_locations",
+    "field": "latitude"
+  },
+  "999": {
+    "name": "Longitude",
+    "table": "glpi_locations",
+    "field": "longitude"
+  },
+  "requester": {
+    "name": "Requerente",
+    "table": "",
+    "field": ""
+  },
+  "4": {
+    "name": "Requerente",
+    "table": "glpi_users",
+    "field": "name"
+  },
+  "71": {
+    "name": "Grupo requerente",
+    "table": "glpi_groups",
+    "field": "completename"
+  },
+  "22": {
+    "name": "Autor",
+    "table": "glpi_users",
+    "field": "name"
+  },
+  "observer": {
+    "name": "Observador",
+    "table": "",
+    "field": ""
+  },
+  "66": {
+    "name": "Observador",
+    "table": "glpi_users",
+    "field": "name"
+  },
+  "65": {
+    "name": "Grupo observador",
+    "table": "glpi_groups",
+    "field": "completename"
+  },
+  "assign": {
+    "name": "Atribuído",
+    "table": "",
+    "field": ""
+  },
+  "5": {
+    "name": "Técnico",
+    "table": "glpi_users",
+    "field": "name"
+  },
+  "6": {
+    "name": "Atribuído a um fornecedor",
+    "table": "glpi_suppliers",
+    "field": "name"
+  },
+  "8": {
+    "name": "Grupo técnico",
+    "table": "glpi_groups",
+    "field": "completename"
+  },
+  "notification": {
+    "name": "Notificações",
+    "table": "",
+    "field": ""
+  },
+  "35": {
+    "name": "Acompanhamento por e-mail",
+    "table": "glpi_tickets_users",
+    "field": "use_notification"
+  },
+  "34": {
+    "name": "E-mail para o acompanhamento",
+    "table": "glpi_tickets_users",
+    "field": "alternative_email"
+  },
+  "sla": {
+    "name": "SLAs",
+    "table": "",
+    "field": ""
+  },
+  "37": {
+    "name": "SLAs&nbsp;Tempo para atendimento",
+    "table": "glpi_slas",
+    "field": "name"
+  },
+  "30": {
+    "name": "SLAs&nbsp;Tempo para solução",
+    "table": "glpi_slas",
+    "field": "name"
+  },
+  "32": {
+    "name": "SLAs&nbsp;Nível de escalação",
+    "table": "glpi_slalevels",
+    "field": "name"
+  },
+  "ola": {
+    "name": "OLA",
+    "table": "",
+    "field": ""
+  },
+  "190": {
+    "name": "OLA&nbsp;Tempo interno para atendimento",
+    "table": "glpi_olas",
+    "field": "name"
+  },
+  "191": {
+    "name": "OLA&nbsp;Tempo interno para solução",
+    "table": "glpi_olas",
+    "field": "name"
+  },
+  "192": {
+    "name": "OLA&nbsp;Nível de escalação",
+    "table": "glpi_olalevels",
+    "field": "name"
+  },
+  "validation": {
+    "name": "Aprovação",
+    "table": "",
+    "field": ""
+  },
+  "51": {
+    "name": "Um mínimo de validação é necessária",
+    "table": "glpi_tickets",
+    "field": "validation_percent"
+  },
+  "52": {
+    "name": "Aprovação",
+    "table": "glpi_tickets",
+    "field": "global_validation"
+  },
+  "53": {
+    "name": "Comentários da requisição",
+    "table": "glpi_ticketvalidations",
+    "field": "comment_submission"
+  },
+  "54": {
+    "name": "Comentários da validação",
+    "table": "glpi_ticketvalidations",
+    "field": "comment_validation"
+  },
+  "55": {
+    "name": "Status de aprovação",
+    "table": "glpi_ticketvalidations",
+    "field": "status"
+  },
+  "56": {
+    "name": "Data da requisição",
+    "table": "glpi_ticketvalidations",
+    "field": "submission_date"
+  },
+  "57": {
+    "name": "Data da validação",
+    "table": "glpi_ticketvalidations",
+    "field": "validation_date"
+  },
+  "58": {
+    "name": "Requerente",
+    "table": "glpi_users",
+    "field": "name"
+  },
+  "59": {
+    "name": "Aprovador",
+    "table": "glpi_users",
+    "field": "name"
+  },
+  "satisfaction": {
+    "name": "Pesquisa de satisfação",
+    "table": "",
+    "field": ""
+  },
+  "31": {
+    "name": "Tipo",
+    "table": "glpi_ticketsatisfactions",
+    "field": "type"
+  },
+  "60": {
+    "name": "Data de criação",
+    "table": "glpi_ticketsatisfactions",
+    "field": "date_begin"
+  },
+  "61": {
+    "name": "Data de resposta",
+    "table": "glpi_ticketsatisfactions",
+    "field": "date_answered"
+  },
+  "62": {
+    "name": "Satisfação",
+    "table": "glpi_ticketsatisfactions",
+    "field": "satisfaction"
+  },
+  "63": {
+    "name": "Comentários",
+    "table": "glpi_ticketsatisfactions",
+    "field": "comment"
+  },
+  "followup": {
+    "name": "Acompanhamentos",
+    "table": "",
+    "field": ""
+  },
+  "25": {
+    "name": "Descrição",
+    "table": "glpi_itilfollowups",
+    "field": "content"
+  },
+  "36": {
+    "name": "Data",
+    "table": "glpi_itilfollowups",
+    "field": "date"
+  },
+  "27": {
+    "name": "Número de acompanhamentos",
+    "table": "glpi_itilfollowups",
+    "field": "id"
+  },
+  "29": {
+    "name": "Origem da requisição",
+    "table": "glpi_requesttypes",
+    "field": "name"
+  },
+  "91": {
+    "name": "Acompanhamento privado",
+    "table": "glpi_itilfollowups",
+    "field": "is_private"
+  },
+  "93": {
+    "name": "Autor",
+    "table": "glpi_users",
+    "field": "name"
+  },
+  "task": {
+    "name": "Tarefas",
+    "table": "",
+    "field": ""
+  },
+  "26": {
+    "name": "Descrição",
+    "table": "glpi_tickettasks",
+    "field": "content"
+  },
+  "28": {
+    "name": "Número de tarefas",
+    "table": "glpi_tickettasks",
+    "field": "id"
+  },
+  "20": {
+    "name": "Categoria",
+    "table": "glpi_taskcategories",
+    "field": "name"
+  },
+  "92": {
+    "name": "Chamado privado",
+    "table": "glpi_tickettasks",
+    "field": "is_private"
+  },
+  "94": {
+    "name": "Autor",
+    "table": "glpi_users",
+    "field": "name"
+  },
+  "95": {
+    "name": "Técnico encarregado",
+    "table": "glpi_users",
+    "field": "name"
+  },
+  "112": {
+    "name": "Grupo encarregado",
+    "table": "glpi_groups",
+    "field": "completename"
+  },
+  "96": {
+    "name": "Duração",
+    "table": "glpi_tickettasks",
+    "field": "actiontime"
+  },
+  "97": {
+    "name": "Data",
+    "table": "glpi_tickettasks",
+    "field": "date"
+  },
+  "33": {
+    "name": "Status",
+    "table": "glpi_tickettasks",
+    "field": "state"
+  },
+  "173": {
+    "name": "Data inicial",
+    "table": "glpi_tickettasks",
+    "field": "begin"
+  },
+  "174": {
+    "name": "Data final",
+    "table": "glpi_tickettasks",
+    "field": "end"
+  },
+  "175": {
+    "name": "Modelo de tarefa",
+    "table": "glpi_tasktemplates",
+    "field": "name"
+  },
+  "stats": {
+    "name": "Estatísticas",
+    "table": "",
+    "field": ""
+  },
+  "154": {
+    "name": "Tempo de solução",
+    "table": "glpi_tickets",
+    "field": "solve_delay_stat"
+  },
+  "152": {
+    "name": "Hora de fechamento",
+    "table": "glpi_tickets",
+    "field": "close_delay_stat"
+  },
+  "153": {
+    "name": "Tempo de espera",
+    "table": "glpi_tickets",
+    "field": "waiting_duration"
+  },
+  "150": {
+    "name": "Leve em conta o tempo",
+    "table": "glpi_tickets",
+    "field": "takeintoaccount_delay_stat"
+  },
+  "linktickets": {
+    "name": "Chamados relacionados",
+    "table": "",
+    "field": ""
+  },
+  "40": {
+    "name": "Todos chamados relacionados",
+    "table": "glpi_tickets_tickets",
+    "field": "tickets_id_1"
+  },
+  "47": {
+    "name": "Chamados duplicados",
+    "table": "glpi_tickets_tickets",
+    "field": "tickets_id_1"
+  },
+  "41": {
+    "name": "Número de todos chamados relacionados",
+    "table": "glpi_tickets_tickets",
+    "field": "id"
+  },
+  "46": {
+    "name": "Número de chamados duplicados",
+    "table": "glpi_tickets_tickets",
+    "field": "id"
+  },
+  "50": {
+    "name": "Chamados pai",
+    "table": "glpi_tickets",
+    "field": "id"
+  },
+  "67": {
+    "name": "Chamados filhos",
+    "table": "glpi_tickets",
+    "field": "id"
+  },
+  "68": {
+    "name": "Número de chamados filho",
+    "table": "glpi_tickets_tickets",
+    "field": "id"
+  },
+  "69": {
+    "name": "Número de chamados pai",
+    "table": "glpi_tickets_tickets",
+    "field": "id"
+  },
+  "solution": {
+    "name": "Solução",
+    "table": "",
+    "field": ""
+  },
+  "23": {
+    "name": "Tipo de solução",
+    "table": "glpi_solutiontypes",
+    "field": "name"
+  },
+  "24": {
+    "name": "Solução",
+    "table": "glpi_itilsolutions",
+    "field": "content"
+  },
+  "38": {
+    "name": "Qualquer status da solução",
+    "table": "glpi_itilsolutions",
+    "field": "status"
+  },
+  "39": {
+    "name": "Último status da solução",
+    "table": "glpi_itilsolutions",
+    "field": "status"
+  },
+  "cost": {
+    "name": "Custo",
+    "table": "",
+    "field": ""
+  },
+  "48": {
+    "name": "Custo total",
+    "table": "glpi_ticketcosts",
+    "field": "totalcost"
+  },
+  "42": {
+    "name": "Custo de tempo",
+    "table": "glpi_ticketcosts",
+    "field": "cost_time"
+  },
+  "49": {
+    "name": "Custo - Duração",
+    "table": "glpi_ticketcosts",
+    "field": "actiontime"
+  },
+  "43": {
+    "name": "Custo fixo",
+    "table": "glpi_ticketcosts",
+    "field": "cost_fixed"
+  },
+  "44": {
+    "name": "Custo de material",
+    "table": "glpi_ticketcosts",
+    "field": "cost_material"
+  },
+  "problem": {
+    "name": "Problemas",
+    "table": "",
+    "field": ""
+  },
+  "200": {
+    "name": "Número de problemas",
+    "table": "glpi_problems_tickets",
+    "field": "id"
+  },
+  "201": {
+    "name": "Problema",
+    "table": "glpi_problems",
+    "field": "name"
+  },
+  "202": {
+    "name": "Status",
+    "table": "glpi_problems",
+    "field": "status"
+  },
+  "203": {
+    "name": "Data da solução",
+    "table": "glpi_problems",
+    "field": "solvedate"
+  },
+  "204": {
+    "name": "Data de abertura",
+    "table": "glpi_problems",
+    "field": "date"
+  },
+  "tools": {
+    "name": "Ferramentas",
+    "table": "",
+    "field": ""
+  },
+  "193": {
+    "name": "Contract",
+    "table": "glpi_contracts",
+    "field": "name"
+  },
+  "194": {
+    "name": "Tipo de contrato",
+    "table": "glpi_contracttypes",
+    "field": "name"
+  },
+  "document": {
+    "name": "Documentos",
+    "table": "",
+    "field": ""
+  },
+  "119": {
+    "name": "Número de documentos",
+    "table": "glpi_documents_items",
+    "field": "id"
+  }
+}

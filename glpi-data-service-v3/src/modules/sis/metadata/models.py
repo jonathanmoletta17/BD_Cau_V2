@@ -1,0 +1,132 @@
+"""
+SIS Metadata Models - Clean copy from DTIC with schema='sis'
+"""
+from sqlalchemy import Column, Integer, String, Boolean, Text, UniqueConstraint
+from sqlalchemy.dialects.postgresql import TIMESTAMP
+from datetime import datetime
+
+from src.core.database import Base
+
+
+class Entity(Base):
+    """GLPI Entities (SIS schema)."""
+    __tablename__ = 'glpi_entities'
+    __table_args__ = {'schema': 'sis'}
+    
+    id = Column(Integer, primary_key=True, autoincrement=False)
+    name = Column(String(255), index=True)
+    completename = Column(String(255))
+    level = Column(Integer)
+    entities_id = Column(Integer)
+    sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
+
+
+class Group(Base):
+    """GLPI Groups (SIS schema)."""
+    __tablename__ = 'glpi_groups'
+    __table_args__ = {'schema': 'sis'}
+    
+    id = Column(Integer, primary_key=True, autoincrement=False)
+    name = Column(String(255), index=True)
+    is_task = Column(Boolean, default=False)
+    is_itemgroup = Column(Boolean, default=False)
+    sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
+
+
+class ITILCategory(Base):
+    """GLPI ITIL Categories (SIS schema)."""
+    __tablename__ = 'glpi_itilcategories'
+    __table_args__ = {'schema': 'sis'}
+    
+    id = Column(Integer, primary_key=True, autoincrement=False)
+    name = Column(String(255), index=True)
+    completename = Column(String(255))
+    level = Column(Integer)
+    parent_id = Column(Integer)
+    ancestors_cache = Column(String)
+    sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
+
+
+class Location(Base):
+    """GLPI Locations (SIS schema)."""
+    __tablename__ = 'glpi_locations'
+    __table_args__ = {'schema': 'sis'}
+    
+    id = Column(Integer, primary_key=True, autoincrement=False)
+    name = Column(String(255), index=True)
+    level = Column(Integer)
+    parent_id = Column(Integer)
+    ancestors_cache = Column(String)
+    sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
+
+
+class User(Base):
+    """GLPI Users (SIS schema)."""
+    __tablename__ = 'glpi_users'
+    __table_args__ = {'schema': 'sis'}
+    
+    id = Column(Integer, primary_key=True, autoincrement=False)
+    name = Column(String(255), index=True)
+    realname = Column(String(255))
+    firstname = Column(String(255))
+    email = Column(String(255), index=True)
+    is_active = Column(Boolean, default=True)
+    is_deleted = Column(Boolean, default=False)
+    sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
+    
+    def __repr__(self):
+        return f"<User(id={self.id}, name='{self.name}')>"
+
+
+class Profile(Base):
+    """GLPI Profiles (SIS schema)."""
+    __tablename__ = 'glpi_profiles'
+    __table_args__ = {'schema': 'sis'}
+    
+    id = Column(Integer, primary_key=True, autoincrement=False)
+    name = Column(String(255), index=True)
+    is_default = Column(Boolean, default=False)
+    sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
+    
+    def __repr__(self):
+        return f"<Profile(id={self.id}, name='{self.name}')>"
+
+
+class GroupUser(Base):
+    """N:N relationship between groups and users (SIS schema)."""
+    __tablename__ = 'glpi_groups_users'
+    __table_args__ = (
+        UniqueConstraint('users_id', 'groups_id', name='uq_sis_groups_users'),
+        {'schema': 'sis'}
+    )
+    
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    groups_id = Column(Integer, index=True)
+    users_id = Column(Integer, index=True)
+    is_dynamic = Column(Boolean, default=False)
+    is_manager = Column(Boolean, default=False)
+    sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
+    
+    def __repr__(self):
+        return f"<GroupUser(group={self.groups_id}, user={self.users_id})>"
+
+
+class ProfileUser(Base):
+    """N:N relationship between profiles, users, and entities (SIS schema)."""
+    __tablename__ = 'glpi_profiles_users'
+    __table_args__ = (
+        UniqueConstraint('users_id', 'profiles_id', 'entities_id', name='uq_sis_profiles_users'),
+        {'schema': 'sis'}
+    )
+    
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    users_id = Column(Integer, index=True)
+    profiles_id = Column(Integer, index=True)
+    entities_id = Column(Integer, index=True)
+    is_recursive = Column(Boolean, default=False)
+    is_dynamic = Column(Boolean, default=False)
+    sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
+    
+    def __repr__(self):
+        return f"<ProfileUser(user={self.users_id}, profile={self.profiles_id})>"
+

@@ -1,0 +1,12 @@
+.env
+var/state/
+reports/archive_legacy/
+reports/*.md
+reports/*.json
+logs/
+__pycache__/
+*.pyc
+.DS_Store
+.trae/
+.vscode/
+.idea/
