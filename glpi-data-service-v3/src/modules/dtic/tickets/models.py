@@ -104,11 +104,32 @@ class Ticket(Base):
     sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
     versao = Column(Integer, default=1)
     
+    
     def __repr__(self):
         return f"<Ticket(glpi_id={self.glpi_id}, titulo='{self.titulo[:50]}')>"
     
     def to_dict(self):
         """Convert to dictionary."""
+        return {
+            'id': self.id,
+            'glpi_id': self.glpi_id,
+            'titulo': self.titulo,
+            'status_id': self.status_id,
+            'criado_em': self.criado_em.isoformat() if self.criado_em else None,
+            'atualizado_em': self.atualizado_em.isoformat() if self.atualizado_em else None
+        }
+
+
+class TicketChange(Base):
+    """Historical changes to tickets."""
+    __tablename__ = 'ticket_changes'
+    __table_args__ = {'schema': 'dtic'}
+    
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    glpi_id = Column(Integer, unique=True, nullable=False, index=True)
+    ticket_id = Column(Integer, ForeignKey('dtic.tickets.id', ondelete='CASCADE'), nullable=False, index=True)
+    data_mudanca = Column(TIMESTAMP(timezone=True), nullable=False, index=True)
+    usuario_id = Column(Integer)
     usuario_nome = Column(String(255))
     campo = Column(String(100))
     campo_id = Column(Integer)

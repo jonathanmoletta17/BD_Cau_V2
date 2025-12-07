@@ -9,6 +9,8 @@ import logging
 from src.core import config
 from src.modules.dtic.dashboard import router as dashboard_router
 from src.modules.dtic.search import router as search_router
+from src.modules.sis.dashboard import router as sis_dashboard_router
+from src.modules.sis.search import router as sis_search_router
 
 # Setup logging
 logging.basicConfig(
@@ -36,6 +38,8 @@ app.add_middleware(
 # Include routers
 app.include_router(dashboard_router, prefix="/api/v1")
 app.include_router(search_router, prefix="/api/v1")
+app.include_router(sis_dashboard_router, prefix="/api/v1")
+app.include_router(sis_search_router, prefix="/api/v1")
 
 # Health check
 @app.get("/health")
