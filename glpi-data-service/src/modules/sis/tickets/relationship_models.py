@@ -1,7 +1,7 @@
 """
 SIS Ticket Relationship Models
 """
-from sqlalchemy import Column, Integer, String, Text, Boolean, UniqueConstraint, Index
+from sqlalchemy import Column, Integer, String, Text, Boolean, UniqueConstraint, Index, ForeignKey
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 from datetime import datetime
 
@@ -13,15 +13,13 @@ class TicketUser(Base):
     __tablename__ = 'tickets_users'
     __table_args__ = (
         UniqueConstraint('ticket_id', 'user_id', 'type', name='uq_sis_tickets_users'),
-        Index('ix_sis_tickets_users_ticket', 'ticket_id'),
-        Index('ix_sis_tickets_users_user', 'user_id'),
         {'schema': 'sis'}
     )
     
     id = Column(Integer, primary_key=True, autoincrement=True)
-    ticket_id = Column(Integer, nullable=False)
-    user_id = Column(Integer, nullable=False)
-    type = Column(Integer, nullable=False)  # 1=Requester, 2=Assigned, 3=Observer
+    ticket_id = Column(Integer, ForeignKey('sis.tickets.id', ondelete='CASCADE'), nullable=False, index=True)
+    user_id = Column(Integer, ForeignKey('sis.glpi_users.id'), nullable=False, index=True)
+    type = Column(Integer, nullable=False, index=True)  # 1=Requester, 2=Assigned, 3=Observer
     sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
     
     def __repr__(self):
@@ -33,15 +31,13 @@ class TicketGroup(Base):
     __tablename__ = 'tickets_groups'
     __table_args__ = (
         UniqueConstraint('ticket_id', 'group_id', 'type', name='uq_sis_tickets_groups'),
-        Index('ix_sis_tickets_groups_ticket', 'ticket_id'),
-        Index('ix_sis_tickets_groups_group', 'group_id'),
         {'schema': 'sis'}
     )
     
     id = Column(Integer, primary_key=True, autoincrement=True)
-    ticket_id = Column(Integer, nullable=False)
-    group_id = Column(Integer, nullable=False)
-    type = Column(Integer, nullable=False)  # 1=Requester, 2=Assigned
+    ticket_id = Column(Integer, ForeignKey('sis.tickets.id', ondelete='CASCADE'), nullable=False, index=True)
+    group_id = Column(Integer, ForeignKey('sis.glpi_groups.id'), nullable=False, index=True)
+    type = Column(Integer, nullable=False, index=True)  # 1=Requester, 2=Assigned
     sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
     
     def __repr__(self):
@@ -52,15 +48,13 @@ class TicketChange(Base):
     """Ticket changes history (SIS schema)."""
     __tablename__ = 'ticket_changes'
     __table_args__ = (
-        Index('ix_sis_ticket_changes_ticket', 'ticket_id'),
-        Index('ix_sis_ticket_changes_date', 'data_mudanca'),
         {'schema': 'sis'}
     )
     
     id = Column(Integer, primary_key=True, autoincrement=True)
-    glpi_id = Column(Integer, index=True)
-    ticket_id = Column(Integer, nullable=False)
-    data_mudanca = Column(TIMESTAMP(timezone=True), nullable=False)
+    glpi_id = Column(Integer, unique=True, nullable=False, index=True)
+    ticket_id = Column(Integer, ForeignKey('sis.tickets.id', ondelete='CASCADE'), nullable=False, index=True)
+    data_mudanca = Column(TIMESTAMP(timezone=True), nullable=False, index=True)
     usuario_id = Column(Integer)
     campo = Column(String(255))
     valor_antigo = Column(Text)
@@ -76,13 +70,12 @@ class TicketItem(Base):
     """N:N relationship between tickets and items (Assets) (SIS schema)."""
     __tablename__ = 'glpi_items_tickets'
     __table_args__ = (
-        Index('ix_sis_items_tickets_ticket', 'tickets_id'),
         Index('ix_sis_items_tickets_item', 'itemtype', 'items_id'),
         {'schema': 'sis'}
     )
     
     id = Column(Integer, primary_key=True, autoincrement=True)
-    tickets_id = Column(Integer, nullable=False)
+    tickets_id = Column(Integer, nullable=False, index=True) # Not FK because it might refer to GLPI ID
     itemtype = Column(String(100), nullable=False)
     items_id = Column(Integer, nullable=False)
     sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)

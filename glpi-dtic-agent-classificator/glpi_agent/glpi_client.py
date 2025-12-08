@@ -170,15 +170,32 @@ class GlpiClient:
         except Exception:
             return False
 
+    def list_ticket_followups(self, ticket_id: int) -> List[Dict]:
+        """Fetch all followups for a specific ticket."""
+        cfg = self._creds()
+        url = cfg["url"].strip("/") + "/Ticket/" + str(ticket_id) + "/ITILFollowup/"
+        data = self._get(url)
+        if isinstance(data, list):
+            return data
+        return []
+
     def list_categories(self) -> List[Dict[str, Any]]:
-        return self.search_items("ITILCategory", {})
+        # Use robust range fetching to get all categories (up to 1000)
+        return self.list_items_range("ITILCategory", 0, 999)
 
     def categories_map(self) -> Dict[str, int]:
         items = self.list_categories()
         m: Dict[str, int] = {}
+        print(f"DEBUG: categories_map fetched {len(items)} items.")
         for it in items:
             try:
                 name = str(it.get("completename", "")).strip()
+                if not name:
+                     name = str(it.get("name", "")).strip()
+                
+                # Normalize spaces around separator if needed (GLPI uses " > ")
+                # Our context uses " > " (space gt space).
+                
                 cid = int(it.get("id"))
             except Exception:
                 continue

@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  glpi-agent:
+    build: .
+    image: glpi-agent:latest
+    container_name: glpi_classifier_service
+    restart: unless-stopped
+    # Use Host Networking to easily access Localhost Ollama (port 11434)
+    # Alternatively, use 'host.docker.internal' in OLLAMA_URL if on Windows Docker Desktop
+    # But network_mode: host is simplest if supported on Windows (WSL2), otherwise extra_hosts
+    # network_mode: "host" - NOT SUPPORTED on Windows Docker Desktop for localhost access
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    environment:
+      - ENVIRONMENT=test
+      - AGENT_DEVICE=cuda
+      - OLLAMA_URL=http://host.docker.internal:11434
+      - SANDBOX=false
+      # Mount .env if you prefer, or set specific vars here
+
+    volumes:
+      # Mount code for live updates (optional, nice for dev)
+      - ./:/app
+      # Cache for models so we don't redownload on every build
+      - ./model_cache:/root/.cache/torch/sentence_transformers
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+    # Healthcheck (optional)
+    # healthcheck:
+    #   test: ["CMD", "python", "-c", "print('Health OK')"]
+    #   interval: 1m
+    #   timeout: 10s
+    #   retries: 3

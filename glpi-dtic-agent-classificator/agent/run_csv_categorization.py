@@ -69,8 +69,13 @@ class CSVCategorizer(SimpleAgent):
         
         tid = ticket.get("id")
         
-        # Skip if not in CSV
-        if tid not in self.target_ids:
+        # Skip if not in CSV (Handle potential string vs int mismatch)
+        try:
+            tid_int = int(tid)
+        except (ValueError, TypeError):
+            tid_int = -1
+
+        if tid_int not in self.target_ids:
             self.skipped_count += 1
             return
         
@@ -129,7 +134,7 @@ class CSVCategorizer(SimpleAgent):
         if self.processed_count % 100 == 0:
             logger.info(f"Progress: {self.processed_count}/{len(self.target_ids)} tickets processed")
 
-    def run_csv_categorization(self, batch_size=50):
+    def run_csv_categorization(self):
         logger.info("=" * 80)
         logger.info("Starting CSV-Based Categorization")
         logger.info("=" * 80)
@@ -137,35 +142,35 @@ class CSVCategorizer(SimpleAgent):
         logger.info(f"Sandbox Mode: {SANDBOX}")
         logger.info(f"Environment: {self.client.env}")
         
-        if not SANDBOX:
-            logger.warning("⚠️  SANDBOX IS DISABLED - CHANGES WILL BE APPLIED TO DATABASE!")
-            time.sleep(2)  # Give time to cancel if needed
+        if not self.target_ids:
+            logger.error("NO IDs LOADED FROM CSV!")
+            return
+
+        # Iterate directly over the loaded IDs
+        sorted_ids = sorted(list(self.target_ids))
+        logger.info(f"Processing {len(sorted_ids)} IDs...")
         
-        offset = 0
-        
-        while self.processed_count < len(self.target_ids):
-            logger.info(f"Fetching batch at offset {offset}...")
+        for tid in sorted_ids:
+            logger.info(f"Fetching Ticket #{tid}...")
             
             try:
-                tickets = self.client.list_items_range("Ticket", offset, offset + batch_size)
-            except Exception as e:
-                logger.error(f"Error fetching tickets: {e}")
-                break
-                
-            if not tickets:
-                logger.info("No more tickets from API")
-                break
-                
-            for ticket in tickets:
-                if ticket.get("is_deleted") == 1:
+                # Fetch specific ticket
+                ticket = self.client.get_item("Ticket", tid)
+                if not ticket:
+                    logger.warning(f"Ticket #{tid} not found in GLPI.")
                     continue
-                    
-                self.process_ticket_with_metrics(ticket)
-            
-            if len(tickets) < batch_size:
-                break
                 
-            offset += batch_size
+                if ticket.get("is_deleted") == 1:
+                    logger.info(f"Ticket #{tid} is deleted. Skipping.")
+                    continue
+
+                self.process_ticket_with_metrics(ticket)
+                
+            except Exception as e:
+                logger.error(f"Error processing ticket #{tid}: {e}")
+                
+            # Rate limit politeness
+            # time.sleep(0.1) 
             
         self.save_detailed_report()
         self.print_summary()
@@ -189,6 +194,27 @@ class CSVCategorizer(SimpleAgent):
             json.dump(report_data, f, indent=2, ensure_ascii=False)
         
         logger.info(f"Detailed report saved to {report_path}")
+
+        # Save CSV Export
+        self.save_csv_report(date_str)
+
+    def save_csv_report(self, date_str):
+        report_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "reports"))
+        csv_path = os.path.join(report_dir, f"glpi_categorized_{date_str}.csv")
+        
+        logger.info(f"Exporting results to CSV: {csv_path}...")
+        
+        fieldnames = ["ticket_id", "title", "current_category", "predicted_category", "confidence", "action"]
+        
+        with open(csv_path, 'w', newline='', encoding='utf-8-sig') as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames, delimiter=';')
+            writer.writeheader()
+            for metric in self.detailed_metrics:
+                # Filter metric dict to only include export fields
+                row = {k: metric.get(k, "") for k in fieldnames}
+                writer.writerow(row)
+                
+        logger.info(f"CSV Export saved successfully.")
 
     def print_summary(self):
         logger.info("=" * 80)

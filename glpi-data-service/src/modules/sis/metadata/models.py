@@ -15,7 +15,7 @@ class Entity(Base):
     
     id = Column(Integer, primary_key=True, autoincrement=False)
     name = Column(String(255), index=True)
-    completename = Column(String(255))
+    completename = Column(Text)
     level = Column(Integer)
     entities_id = Column(Integer)
     sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
@@ -40,10 +40,10 @@ class ITILCategory(Base):
     
     id = Column(Integer, primary_key=True, autoincrement=False)
     name = Column(String(255), index=True)
-    completename = Column(String(255))
+    completename = Column(Text)
     level = Column(Integer)
     parent_id = Column(Integer)
-    ancestors_cache = Column(String)
+    ancestors_cache = Column(Text)
     sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
 
 
@@ -56,7 +56,7 @@ class Location(Base):
     name = Column(String(255), index=True)
     level = Column(Integer)
     parent_id = Column(Integer)
-    ancestors_cache = Column(String)
+    ancestors_cache = Column(Text)
     sincronizado_em = Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
 
 
@@ -129,4 +129,3 @@ class ProfileUser(Base):
     
     def __repr__(self):
         return f"<ProfileUser(user={self.users_id}, profile={self.profiles_id})>"
-

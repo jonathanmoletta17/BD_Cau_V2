@@ -22,7 +22,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from glpi_agent.glpi_client import GlpiClient
 from glpi_agent.preprocess import join_title_description
-from glpi_agent.config import SANDBOX
+from glpi_agent.config import SANDBOX, ENVIRONMENT
+from agent.llm_connector import LLMConnector
 
 # --- Constants ---
 CONFIDENCE_THRESHOLD = 0.70
@@ -41,7 +42,7 @@ class SimpleAgent:
         logger.info("Initializing Simple Agent...")
         
         # 1. Connect to GLPI
-        self.client = GlpiClient(environment="test")
+        self.client = GlpiClient(environment=ENVIRONMENT)
         self.client.init_session()
         
         if not self.client.session_token:
@@ -52,17 +53,13 @@ class SimpleAgent:
 
         # 2. Load Categories
         logger.info("Fetching Categories from GLPI API...")
-        self.cat_map = self.client.categories_map()
+        full_cat_map = self.client.categories_map()
         
-        if not self.cat_map:
+        if not full_cat_map:
             logger.error("No categories found in GLPI. Exiting.")
             sys.exit(1)
-            
-        self.cat_names = list(self.cat_map.keys())
-        self.cat_ids = list(self.cat_map.values())
-        logger.info(f"Loaded {len(self.cat_names)} categories.")
 
-        # 2.1 Load Context/Instructions
+        # 2.1 Load Context/Instructions (MOVED UP)
         self.context_map = {}
         try:
             context_path = os.path.join(os.path.dirname(__file__), "category_context.json")
@@ -70,9 +67,31 @@ class SimpleAgent:
                 self.context_map = json.load(f)
             logger.info(f"Loaded context definitions for {len(self.context_map)} categories.")
         except FileNotFoundError:
-            logger.warning(f"category_context.json not found at {context_path}. Using category names only.")
+            logger.warning(f"category_context.json not found at {context_path}. Using all categories (Fallback).")
 
-        # 3. Load Model
+        # 3. Filter Categories
+        # Only keep categories that are present in the context_map
+        if self.context_map:
+            self.cat_map = {}
+            # Logic: Iterating over CONTEXT allows us to simulate categories that don't exist in GLPI
+            for name in self.context_map:
+                if name in full_cat_map:
+                    self.cat_map[name] = full_cat_map[name]
+                elif SANDBOX:
+                    # In Sandbox, we allow simulating categories that don't exist yet
+                    # We assign ID 0 or -1 to indicate it's a simulated category
+                    self.cat_map[name] = 0
+            
+            logger.info(f"Filtered Categories: {len(full_cat_map)} in GLPI / {len(self.context_map)} in Context -> {len(self.cat_map)} active for Simulation.")
+        else:
+            self.cat_map = full_cat_map
+            logger.info("No context map found, using ALL fetched categories.")
+
+        self.cat_names = list(self.cat_map.keys())
+        self.cat_ids = list(self.cat_map.values())
+        logger.info(f"Final Active Categories: {len(self.cat_names)}")
+
+        # Context already loaded above
         logger.info(f"Loading Model on {DEVICE}...")
         self.model = SentenceTransformer("intfloat/multilingual-e5-large", device=DEVICE)
         
@@ -99,6 +118,16 @@ class SimpleAgent:
             "skipped_correct": 0,
             "errors": 0
         }
+        
+        # 5. Hybrid Intelligence
+        try:
+            self.llm = LLMConnector()
+            self.use_llm = True
+            logger.info("Hybrid Intelligence (LLM) Enabled.")
+        except Exception as e:
+            logger.error(f"Failed to init LLM: {e}. Falling back to standard vector search.")
+            self.use_llm = False
+
         logger.info("Agent Ready.")
 
     def save_report(self):
@@ -137,13 +166,43 @@ class SimpleAgent:
         # 1. Understand
         query_embedding = self.model.encode(f"query: {text}", convert_to_tensor=True, device=DEVICE)
         
-        # 2. Match
+        # 2. Match - Get Top candidates
         scores = util.cos_sim(query_embedding, self.cat_embeddings)[0]
+        
+        # Standard Vector Best (for logging/fallback)
         best_score_idx = torch.argmax(scores).item()
         best_score = scores[best_score_idx].item()
+        vector_suggested_cat = self.cat_names[best_score_idx]
+        vector_suggested_id = self.cat_ids[best_score_idx]
         
-        suggested_cat_name = self.cat_names[best_score_idx]
-        suggested_cat_id = self.cat_ids[best_score_idx]
+        # --- Hybrid Logic ---
+        final_cat_name = vector_suggested_cat
+        final_cat_id = vector_suggested_id
+        final_conf = best_score
+        
+        if self.use_llm and best_score > 0.60: # Only bother LLM if we have some minimal relevance
+            # Get Top 5
+            top_k = min(5, len(self.cat_names))
+            top_results = torch.topk(scores, k=top_k)
+            
+            top_indices = top_results.indices.tolist()
+            top_names = [self.cat_names[i] for i in top_indices]
+            
+            logger.info(f"Vector Top 1: {vector_suggested_cat} ({best_score:.4f})")
+            logger.info("Asking LLM Judge...")
+            
+            llm_decision = self.llm.decide_category(text, top_names)
+            llm_cat = llm_decision.get("category")
+            llm_reason = llm_decision.get("reason", "No reason provided")
+            
+            if llm_cat and llm_cat in self.cat_map:
+                final_cat_name = llm_cat
+                final_cat_id = self.cat_map[llm_cat]
+                final_conf = 0.95 # Artificial high confidence for LLM choice
+                logger.info(f"LLM Choice: \033[92m{final_cat_name}\033[0m")
+                logger.info(f"Reason: {llm_reason}")
+            else:
+                logger.warning(f"LLM returned invalid category: {llm_cat}. Keeping vector choice.")
         
         # Get current category name for logging
         current_cat_name = "Uncategorized/Unknown"
@@ -152,34 +211,34 @@ class SimpleAgent:
                 current_cat_name = name
                 break
         
-        logger.info(f"Current: {current_cat_name} | Suggested: {suggested_cat_name} | Conf: {best_score:.4f}")
+        logger.info(f"Current: {current_cat_name} | Suggested: {final_cat_name} | Conf: {final_conf:.4f}")
 
         # 3. Decision
-        if best_score < CONFIDENCE_THRESHOLD:
+        if final_conf < CONFIDENCE_THRESHOLD:
             logger.info("Action: SKIP (Low Confidence)")
             self.stats["skipped_low_conf"] += 1
             return
 
-        if suggested_cat_id == current_cat_id:
+        if final_cat_id == current_cat_id and current_cat_id not in [0, None]:
             logger.info("Action: SKIP (Already Correct)")
             self.stats["skipped_correct"] += 1
             return
 
         # 4. Update
-        logger.info(f"Action: UPDATE -> Changing to {suggested_cat_name}")
+        logger.info(f"Action: UPDATE -> Changing to {final_cat_name}")
         
         if SANDBOX:
             logger.info("SANDBOX MODE: Skipping actual update.")
-            self.stats["updated"] += 1 # Count as updated for stats in sandbox
+            self.stats["updated"] += 1 
             return
 
         try:
-            success = self.client.update_ticket_category(tid, suggested_cat_id)
+            success = self.client.update_ticket_category(tid, final_cat_id)
             
             if success:
                 logger.info("GLPI Update: SUCCESS")
                 self.stats["updated"] += 1
-                msg = f"Agente AI: Recategorizado automaticamente de '{current_cat_name}' para '{suggested_cat_name}' (Confiança: {best_score:.2f})."
+                msg = f"Agente Híbrido: Recategorizado automaticamente para '{final_cat_name}'.\nMotivo (AI): {llm_decision.get('reason','') if self.use_llm else 'Vector Match'}"
                 self.client.add_followup(tid, msg)
             else:
                 logger.error("GLPI Update: FAILED")
@@ -191,7 +250,7 @@ class SimpleAgent:
     def run_batch(self, limit=5):
         logger.info("Fetching recent tickets from GLPI...")
         try:
-            tickets = self.client.search_items("Ticket", {"is_deleted": "0", "status": "notold"})
+            tickets = self.client.search_items("Ticket", {"is_deleted": "0", "status": "notold", "sort": "id", "order": "DESC"})
             if not tickets:
                 logger.warning("No active tickets found.")
                 return

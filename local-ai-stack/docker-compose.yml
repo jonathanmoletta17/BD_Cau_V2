@@ -1,0 +1,32 @@
+services:
+  llm-service:
+    image: nvcr.io/nim/meta/llama-3.1-8b-instruct:latest
+    container_name: glpi-nim-llm
+    runtime: nvidia
+    shm_size: "16g"
+    environment:
+      - NGC_API_KEY=${NGC_API_KEY}
+      - UCX_WARN_UNUSED_ENV_VARS=n
+      - VLLM_USE_CUDA_GRAPH=false
+      - NIM_LOG_LEVEL=DEBUG
+    volumes:
+      - C:\NIM\cache:/opt/nim/.cache
+    ports:
+      - "9000:8000"  # Mapped to 9000 to avoid conflict with port 8000
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/v1/health/ready"]
+      start_period: 240s
+      interval: 30s
+      timeout: 20s
+      retries: 120
+    stop_grace_period: 3m
+
+volumes: {}

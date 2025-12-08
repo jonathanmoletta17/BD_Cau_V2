@@ -67,3 +67,10 @@ Thumbs.db
 *.db
 *.sqlite
 *.sqlite3
+
+# ===========================
+# Large CSV Data Files
+# ===========================
+glpi-dtic-agent-classificator/glpi.csv
+glpi-dtic-agent-classificator/data-large-glpi.csv
+
