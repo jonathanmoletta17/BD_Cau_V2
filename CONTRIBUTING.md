@@ -159,7 +159,7 @@ Antes de abrir um PR, certifique-se:
 
 ### Backend (Python)
 ```bash
-cd glpi-data-service-v3
+cd glpi-data-service
 pytest                    # Rodar todos os testes
 pytest tests/test_api.py  # Rodar teste específico
 pytest -v                 # Verbose

@@ -41,13 +41,13 @@ BD_Cau_V2/ (estrutura OLD - não existe mais)
 ### Estrutura
 ```
 BD_Cau_V2/ (estrutura ATUAL)
-├── glpi-data-service-v3/          ✅ Backend principal (FastAPI + PostgreSQL)
+├── glpi-data-service/             ✅ Backend principal (FastAPI + PostgreSQL)
 ├── glpi-dtic-agent-classificator/ ✅ IA para classificação de tickets
-├── glpi-dtic-dashboard/           ✅ Dashboard React DTIC
-├── glpi-dtic-smart-search/        ✅ Busca inteligente DTIC
-├── glpi-sis-dashboard/            ✅ Dashboard React SIS
-├── glpi-sis-smart-search/         ✅ Busca inteligente SIS
-├── glpi-sis-carregadores-dashboard/ ✅ Dashboard carregadores
+├── glpi-dtic-dashboard/           ✅ Dashboard React DTIC (porta 3005)
+├── glpi-dtic-smart-search/        ✅ Busca inteligente DTIC (porta 3002)
+├── glpi-sis-dashboard/            ✅ Dashboard React SIS (porta 3001)
+├── glpi-sis-smart-search/         ✅ Busca inteligente SIS (porta 3003)
+├── glpi-sis-carregadores-dashboard/ ✅ Dashboard carregadores (porta 3004)
 └── docs/                          ✅ Documentação técnica
 ```
 
@@ -71,7 +71,7 @@ BD_Cau_V2/ (estrutura ATUAL)
   - Evita complexidade de coordenação multi-repo
 
 ### 2. Separação de Concerns
-- **Backend**: FastAPI + SQLAlchemy + PostgreSQL (`glpi-data-service-v3`)
+- **Backend**: FastAPI + SQLAlchemy + PostgreSQL (`glpi-data-service`)
 - **Frontend**: React + Vite + TypeScript (dashboards)
 - **Agentes**: Python standalone (`agent-classificator`)
 - **Busca**: Componentes especializados (smart-search)

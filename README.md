@@ -5,10 +5,10 @@ Monorepo contendo serviços de análise, classificação e visualização de dad
 ## 📂 Estrutura do Projeto
 
 ### Backend & Serviços
-- **`glpi-data-service-v3/`**: API Principal (FastAPI + PostgreSQL)
-  - Evolução da v2 com melhorias de performance e novas rotas
+- **`glpi-data-service/`**: API Principal (FastAPI + PostgreSQL)
+  - Backend unificado para DTIC e SIS (porta 8000)
   - Sincronização de dados GLPI com banco local
-  - Schemas: `glpi`, `sis`, `dtic`
+  - Schemas: `dtic`, `sis`
 
 - **`glpi-dtic-agent-classificator/`**: Agente de Classificação de Tickets
   - Classificação automática usando IA/NLP
@@ -38,9 +38,9 @@ Monorepo contendo serviços de análise, classificação e visualização de dad
 
 ## 🚀 Como Rodar
 
-### Backend (glpi-data-service-v3)
+### Backend (glpi-data-service)
 ```bash
-cd glpi-data-service-v3
+cd glpi-data-service
 pip install -r requirements.txt
 cp .env.example .env  # Configure suas variáveis
 uvicorn src.main:app --reload
@@ -107,11 +107,17 @@ Consulte `CONTRIBUTING.md` para:
 - [Modelo de Dados GLPI](docs/doc-data-service/)
 - [Histórico de Migração](MIGRATION_HISTORY.md)
 
-## 🔧 Ambientes
+## 🔧 Mapeamento de Portas
 
-- **Desenvolvimento**: localhost (venv local + PostgreSQL local)
-- **Homologação**: TBD
-- **Produção**: TBD
+| Serviço | Porta |
+|---------|-------|
+| PostgreSQL | 5432 |
+| Backend API | 8000 |
+| SIS Dashboard | 3001 |
+| DTIC Smart Search | 3002 |
+| SIS Smart Search | 3003 |
+| SIS Carregadores | 3004 |
+| DTIC Dashboard | 3005 |
 
 ## 📞 Contato
 

@@ -19,7 +19,7 @@
 ## 🚫 NÃO REFERENCIAR (Projetos Órfãos)
 
 Estes projetos **NÃO EXISTEM MAIS**:
-- ❌ `glpi-data-service-v2` (substituído por v3)
+- ❌ `glpi-data-service-v2` (substituído)
 - ❌ `rag-local`
 - ❌ `crawl4ai_workspace`
 - ❌ DOE-RS
@@ -91,14 +91,15 @@ chore(scope): manutenção
 
 ```
 BD_Cau_V2/
-├── glpi-data-service-v3/              # Backend (porta 8000)
+├── glpi-data-service/                 # Backend (porta 8000)
 ├── glpi-dtic-agent-classificator/     # Agente IA
-├── glpi-dtic-dashboard/               # Dashboard React
-├── glpi-sis-dashboard/                # Dashboard SIS
+├── glpi-dtic-dashboard/               # Dashboard DTIC (porta 3005)
+├── glpi-sis-dashboard/                # Dashboard SIS (porta 3001)
+├── glpi-dtic-smart-search/            # Busca DTIC (porta 3002)
+├── glpi-sis-smart-search/             # Busca SIS (porta 3003)
+├── glpi-sis-carregadores-dashboard/   # Carregadores (porta 3004)
 ├── local-ai-stack/                    # Ollama + Open WebUI
 ├── docs/architecture/                 # Arquitetura
-├── .antigravity/                      # Contexto Antigravity
-├── .agent/workflows/                  # Workflows
 └── .cursorrules                       # Regras Cursor/Trae
 ```
 

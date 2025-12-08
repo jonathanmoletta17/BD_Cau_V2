@@ -25,13 +25,13 @@ TODO commit DEVE seguir: `type(scope): message`
 ### Monorepo com 7 Subprojetos
 ```
 BD_Cau_V2/
-├── glpi-data-service-v3/          # Backend FastAPI + PostgreSQL
+├── glpi-data-service/             # Backend FastAPI + PostgreSQL
 ├── glpi-dtic-agent-classificator/ # Agente IA (Embeddings + LLM)
-├── glpi-dtic-dashboard/           # Dashboard React DTIC
-├── glpi-dtic-smart-search/        # Busca inteligente DTIC
-├── glpi-sis-dashboard/            # Dashboard SIS
-├── glpi-sis-smart-search/         # Busca SIS
-└── glpi-sis-carregadores-dashboard/
+├── glpi-dtic-dashboard/           # Dashboard React DTIC (porta 3005)
+├── glpi-dtic-smart-search/        # Busca inteligente DTIC (porta 3002)
+├── glpi-sis-dashboard/            # Dashboard SIS (porta 3001)
+├── glpi-sis-smart-search/         # Busca SIS (porta 3003)
+└── glpi-sis-carregadores-dashboard/ # Carregadores (porta 3004)
 ```
 
 ### Não Referenciar (Projetos Órfãos)
@@ -268,7 +268,7 @@ Confirmar se usuário está em projeto diferente.
 ### Setup Rápido
 ```bash
 # Backend
-cd glpi-data-service-v3 && pip install -r requirements.txt
+cd glpi-data-service && pip install -r requirements.txt
 
 # Frontend
 cd glpi-dtic-dashboard/frontend && npm install
