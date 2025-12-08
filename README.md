@@ -14,6 +14,13 @@ Monorepo contendo serviços de análise, classificação e visualização de dad
   - Classificação automática usando IA/NLP
   - Integração com API GLPI
   - Validação e contexto de categorias
+  - Classificação automática usando IA/NLP
+  - Integração com API GLPI
+
+- **`glpi-analysis-cli/`**: Ferramenta de Análise CLI
+  - Análise de dados e relatórios
+  - Assistente IA baseado em PandasAI
+  - Suporte a múltiplos backends LLM
 
 ### Dashboards (Frontend React/Vite)
 - **`glpi-dtic-dashboard/`**: Painel Principal DTIC
@@ -115,9 +122,9 @@ Consulte `CONTRIBUTING.md` para:
 | Backend API | 8000 |
 | SIS Dashboard | 3001 |
 | DTIC Smart Search | 3002 |
-| SIS Smart Search | 3003 |
 | SIS Carregadores | 3004 |
-| DTIC Dashboard | 3005 |
+| SIS Smart Search | 3005 |
+| DTIC Dashboard | 3006 |
 
 ## 📞 Contato
 

@@ -1,5 +1,9 @@
 FROM python:3.10-slim
 
+# Set Locale for UTF-8 support
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
+
 WORKDIR /app
 
 # Install system dependencies if needed

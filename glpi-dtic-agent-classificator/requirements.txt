@@ -4,3 +4,4 @@ requests
 sentence-transformers
 pandas
 torch
+rapidfuzz

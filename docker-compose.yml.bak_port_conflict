@@ -64,7 +64,7 @@ services:
   # Frontend Applications
   # ==========================================
 
-  # DTIC Dashboard - Porta 3006 (3005 realocada para SIS Smart Search)
+  # DTIC Dashboard - Porta 3005 (3000 reservada para Open WebUI)
   dtic-dashboard:
     build:
       context: ./glpi-dtic-dashboard/frontend
@@ -72,7 +72,7 @@ services:
     container_name: dtic-dashboard
     restart: unless-stopped
     ports:
-      - "3006:80"
+      - "3005:80"
     networks:
       - app_network
     depends_on:
@@ -106,7 +106,7 @@ services:
     depends_on:
       - data-service
 
-  # SIS Smart Search - Porta 3005 (Requisito: Buscador SIS)
+  # SIS Smart Search - Porta 3003
   sis-smart-search:
     build:
       context: ./glpi-sis-smart-search/frontend
@@ -114,7 +114,7 @@ services:
     container_name: sis-smart-search
     restart: unless-stopped
     ports:
-      - "3005:80"
+      - "3003:80"
     networks:
       - app_network
     depends_on:

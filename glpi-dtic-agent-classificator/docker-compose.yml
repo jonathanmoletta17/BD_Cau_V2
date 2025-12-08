@@ -16,7 +16,9 @@ services:
     environment:
       - ENVIRONMENT=test
       - AGENT_DEVICE=cuda
-      - OLLAMA_URL=http://host.docker.internal:11434
+      - LLM_BASE_URL=${LLM_BASE_URL}
+      - LLM_MODEL_NAME=${LLM_MODEL_NAME}
+      - LLM_API_KEY=${LLM_API_KEY}
       - SANDBOX=false
       # Mount .env if you prefer, or set specific vars here
 

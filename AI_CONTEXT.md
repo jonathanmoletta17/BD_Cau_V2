@@ -8,8 +8,8 @@
 ## ⚡ Quick Facts
 
 - **Tipo**: Monorepo
-- **Foco**: Ecossistema GLPI (7 subprojetos)
-- **Backend**: FastAPI + PostgreSQL
+- **Foco**: Ecossistema GLPI (8 subprojetos)
+- **Backend**: FastAPI + PostgreSQL + CLI Analysis
 - **Frontend**: React + Vite + TypeScript
 - **IA**: Arquitetura Híbrida (Embeddings + LLM)
 - **GPU**: RTX A4000 16GB (disponível)
@@ -92,6 +92,7 @@ chore(scope): manutenção
 ```
 BD_Cau_V2/
 ├── glpi-data-service/                 # Backend (porta 8000)
+├── glpi-analysis-cli/                 # Ferramenta CLI de Análise
 ├── glpi-dtic-agent-classificator/     # Agente IA
 ├── glpi-dtic-dashboard/               # Dashboard DTIC (porta 3005)
 ├── glpi-sis-dashboard/                # Dashboard SIS (porta 3001)

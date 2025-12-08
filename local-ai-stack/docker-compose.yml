@@ -1,32 +1,29 @@
 services:
-  llm-service:
-    image: nvcr.io/nim/meta/llama-3.1-8b-instruct:latest
-    container_name: glpi-nim-llm
+  vllm-llm-awq:
+    image: vllm/vllm-openai:latest
+    container_name: glpi-vllm-awq
     runtime: nvidia
     shm_size: "16g"
     environment:
-      - NGC_API_KEY=${NGC_API_KEY}
-      - UCX_WARN_UNUSED_ENV_VARS=n
-      - VLLM_USE_CUDA_GRAPH=false
-      - NIM_LOG_LEVEL=DEBUG
+      - HF_TOKEN=${HF_TOKEN:-} # Opcional, modelo é público
     volumes:
-      - C:\NIM\cache:/opt/nim/.cache
+      - C:\NIM\cache\huggingface:/root/.cache/huggingface
     ports:
-      - "9000:8000"  # Mapped to 9000 to avoid conflict with port 8000
+      - "9000:8000"
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
               count: 1
-              capabilities: [gpu]
+              capabilities: [ gpu ]
     restart: unless-stopped
+    command: >
+      --model hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4 --quantization awq_marlin --gpu-memory-utilization 0.90 --max-model-len 4096 --dtype auto --trust-remote-code --enforce-eager --disable-log-stats
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/v1/health/ready"]
-      start_period: 240s
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
+      start_period: 300s
       interval: 30s
-      timeout: 20s
-      retries: 120
-    stop_grace_period: 3m
-
-volumes: {}
+      timeout: 10s
+      retries: 60
+    stop_grace_period: 2m
