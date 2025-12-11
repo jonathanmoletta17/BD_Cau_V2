@@ -6,6 +6,8 @@ from typing import List, Dict, Any
 from .schemas import TicketContext
 import os
 
+from .fsm_standalone import TicketFSM
+
 class SurgicalOpenerAgent:
     def __init__(self, model_name: str = "llama3.1:8b", ollama_url: str = None):
         self.model_name = model_name
@@ -29,6 +31,7 @@ class SurgicalOpenerAgent:
         if ollama_url: # Se passado no construtor
              self.ollama_url = ollama_url
         self.prompts = self._load_prompts()
+        self.fsm = TicketFSM() # Inicializa o cérebro de regras
         
     def _load_prompts(self) -> Dict[str, Any]:
         prompt_path = Path(__file__).parent / "prompts.yaml"
@@ -57,61 +60,54 @@ class SurgicalOpenerAgent:
 
     def process_ticket(self, user_input: str, current_context: TicketContext = None) -> TicketContext:
         """
-        Processa a entrada do usuário e retorna o contexto atualizado.
+        Processa a entrada do usuário utilizando FSM Híbrida (Regras + LLM).
         """
+        # 1. Recupera ou Cria Contexto
+        if current_context is None:
+            current_context = TicketContext(original_complaint=user_input)
+            
+        # 2. Chama LLM para extração "inteligente" (Intent, Entities)
+        # O LLM atua agora como um "Parser Semântico", não como o decisor final.
         system_prompt = self.prompts.get("system", "")
+        llm_response_str = self._call_llm(system_prompt, user_input)
         
-        start_request_text = user_input
-        # Se tivessemos contexto anterior, poderiamos concatenar
-        
-        llm_response_str = self._call_llm(system_prompt, start_request_text)
-        
+        extracted_data = {}
         try:
-            data = json.loads(llm_response_str)
-            # Garante que original_complaint esteja presente
-            if "original_complaint" not in data:
-                data["original_complaint"] = user_input
-                
-            updated_context = TicketContext(**data)
-            
-            # Validação Extra: Se não está pronto e não tem pergunta, algo deu errado.
-            # O Prompt deveria ter gerado response_to_user. Se falhou, forçamos.
-            if not updated_context.ready_to_submit and not updated_context.response_to_user:
-                # Fallback: Se não sei o que fazer, pergunto algo genérico técnico
-                updated_context.response_to_user = "Pode me dar mais detalhes técnicos sobre o problema?"
-            
-            # Lógica simples de verificação de preenchimento (se o LLM acertou os slots mas esqueceu a flag)
-            if updated_context.urgency and updated_context.impact and updated_context.location and updated_context.summary:
-                updated_context.ready_to_submit = True
-            
-            return updated_context
-            
+            extracted_data = json.loads(llm_response_str)
         except Exception as e:
-            print(f"Erro no processamento (LLM ou Validação): {e}")
-            # Fallback seguro
-            return TicketContext(
-                original_complaint=user_input, 
-                response_to_user="Desculpe, tive um erro técnico interno. Pode repetir?"
-            )
+            print(f"Erro parse JSON LLM: {e}. Usando fallback FSM puro.")
+        
+        # 3. Passa a bola para a FSM (O Cérebro)
+        # A FSM recebe o input bruto E o que o LLM achou.
+        # Ela decide se acredita no LLM, aplica regras rígidas e atualiza o contexto.
+        updated_context = self.fsm.process_input(current_context, user_input, llm_data=extracted_data)
+        
+        return updated_context
 
     def run(self):
         """Loop simples para teste no terminal"""
-        print(">> Agente Opener Iniciado (Digite 'sair' para encerrar)")
+        print(">> Agente Opener HÍBRIDO Iniciado (FSM + LLM)")
+        ctx = None 
+        
         while True:
             user_input = input("\nUsuário: ")
             if user_input.lower() in ["sair", "exit"]:
                 break
             
-            ctx = self.process_ticket(user_input)
-            print(f"\n>> Agente (JSON Interno): {ctx.model_dump_json(indent=2)}")
+            # Mantém estado entre turnos no loop local
+            ctx = self.process_ticket(user_input, current_context=ctx)
             
             if ctx.response_to_user:
                 print(f"\n>> Agente: {ctx.response_to_user}")
             
             if ctx.ready_to_submit:
                 print("\n>> [SISTEMA] TICKET PRONTO PARA ABERTURA.")
-                # Aqui poderia chamar a API do GLPI real se fosse o caso
-                break
+                print(f">> Resumo: {ctx.summary}")
+                print(f">> Local: {ctx.location}")
+                print(f">> Urgência: {ctx.urgency}")
+                # Reset para novo ticket
+                ctx = None
+
 
 if __name__ == "__main__":
     agent = SurgicalOpenerAgent()

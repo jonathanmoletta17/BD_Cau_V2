@@ -109,10 +109,11 @@ class TicketFSM:
                 return match.group(1).title()
         return None
 
-    def process_input(self, ctx: TicketContext, user_input: str) -> TicketContext:
+    def process_input(self, ctx: TicketContext, user_input: str, llm_data: Dict = None) -> TicketContext:
         """
         Processa o input do usuário e atualiza o estado do ticket.
         Esta função substitui a lógica "cega" do LLM atual.
+        Pode receber dados pré-processados pelo LLM (llm_data) para refinar a extração.
         """
         # 1. Update Descrição / Histórico
         if not ctx.description:
@@ -120,8 +121,12 @@ class TicketFSM:
         ctx.history.append(f"User: {user_input}")
 
         # 2. Detectar Intenção (Se ainda não tem)
+        extracted_intent = None
+        if llm_data and "intent" in llm_data:
+             extracted_intent = llm_data["intent"]
+        
         if not ctx.intent:
-            ctx.intent = self._detect_intent(ctx.description)
+            ctx.intent = extracted_intent or self._detect_intent(ctx.description)
 
         # 3. Aplicar Regras da Intenção (Defaults)
         rule = self.rules.get(ctx.intent)
@@ -132,7 +137,15 @@ class TicketFSM:
                 ctx.impact = rule["impact"]
 
         # 4. Extração de Entidades (Slots) do INPUT ATUAL
+        # Prioriza Regex (Mais confiável/Validado), Fallback para LLM
         current_loc = self._extract_location(user_input)
+        
+        if not current_loc:
+             # Se regex não pegou, vê se o LLM achou algo útil
+             if llm_data and "location" in llm_data and llm_data["location"]:
+                 # TODO: Adicionar validação aqui para evitar alucinação "insira local aqui"
+                 current_loc = llm_data["location"]
+
         if current_loc:
             ctx.location = current_loc
 

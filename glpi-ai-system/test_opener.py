@@ -37,8 +37,39 @@ def test_real_glpi_submission():
     else:
         print(f"❌ Agente não finalizou o ticket para envio. Contexto: {ctx.model_dump_json()}")
 
+def test_interactive_flow():
+    print("\n[TEST] Cenario Interativo: Internet (Sem Local Inicial).")
+    # Instancia agente (Mockando URL para test local se necessario, mas assumindo env var)
+    agent = SurgicalOpenerAgent()
+    
+    # Passo 1: Usuário reclama mas não diz onde (FSM deve bloquear)
+    msg1 = "Minha internet caiu"
+    print(f"User (1): {msg1}")
+    ctx = agent.process_ticket(msg1)
+    
+    print(f"Agent (1): {ctx.response_to_user}")
+    
+    if ctx.ready_to_submit:
+        print("❌ FALHA: Agente aceitou ticket sem localização!")
+        return
+
+    # Passo 2: Usuário responde o local
+    msg2 = "Estou no setor de RH"
+    print(f"User (2): {msg2}")
+    
+    # Passamos o contexto atualizado de volta
+    ctx = agent.process_ticket(msg2, current_context=ctx)
+    
+    print(f"Agent (2): {ctx.response_to_user}")
+    
+    if ctx.ready_to_submit:
+        print(f"✅ Agente marcou como pronto! Resumo: {ctx.summary}")
+    else:
+        print("❌ FALHA: Agente não finalizou mesmo após receber local.")
+
 if __name__ == "__main__":
     try:
         test_real_glpi_submission()
+        test_interactive_flow()
     except Exception as e:
         print(f"Erro fatal nos testes: {e}")

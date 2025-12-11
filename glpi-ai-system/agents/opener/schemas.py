@@ -15,6 +15,10 @@ class TicketContext(BaseModel):
     impact: Optional[Literal["Individual", "Setorial", "Organizacional"]] = Field(default=None)
     
     # Controle de Estado
+    intent: Optional[str] = Field(default=None, description="Intenção detectada (ex: internet_issue)")
+    missing_info: list[str] = Field(default_factory=list, description="Lista de slots faltando")
+    history: list[str] = Field(default_factory=list, description="Histórico da conversa")
+    
     technical_question_asked: bool = False
     ready_to_submit: bool = False
     
