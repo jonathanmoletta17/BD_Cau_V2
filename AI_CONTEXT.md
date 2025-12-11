@@ -78,11 +78,21 @@ chore(scope): manutenção
 
 ---
 
-## 🔧 Hardware
+## 🔧 Hardware & AI Architecture
 
 **GPU**: NVIDIA RTX A4000 (16GB VRAM)
-- Modelos recomendados: `llama3:13b`, `mistral:7b`
-- Setup: `local-ai-stack/docker-compose.yml`
+**Drivers**: 
+- **Estável**: 566.x (REQUIRED para WSL2 vLLM)
+- ❌ **Instável**: 591.44 (Quebra JIT/xgrammar)
+
+**Local AI Stack (vLLM)**:
+- **Porta**: 9000 (Externa) -> 8000 (Interna)
+- **Modelo**: `Qwen/Qwen2.5-Coder-7B-Instruct-AWQ`
+- **Configuração**: `config.json` padrão (sem Triton Flags)
+- **⚠️ LIMITAÇÃO CRÍTICA**: 
+    - **NÃO USAR** `response_format={"type": "json_object"}`. Isso causa crash do servidor (erro de linker xgrammar).
+    - **USAR** Prompt Engineering para extrair JSON.
+
 - Embeddings locais: sentence-transformers (GPU)
 
 ---

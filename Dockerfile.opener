@@ -1,0 +1,20 @@
+FROM python:3.10-slim
+
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+COPY glpi-ai-system /app/glpi-ai-system
+WORKDIR /app/glpi-ai-system
+RUN pip install --no-cache-dir -r requirements.txt
+
+WORKDIR /app
+COPY glpi-ai-system/app_web.py /app/
+
+ENV PYTHONPATH=/app/glpi-ai-system
+
+# Porta do Chainlit
+EXPOSE 8081
+
+# Comando de Startup
+CMD ["chainlit", "run", "app_web.py", "--port", "8081", "-w"]

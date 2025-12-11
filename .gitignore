@@ -74,3 +74,6 @@ Thumbs.db
 glpi-dtic-agent-classificator/glpi.csv
 glpi-dtic-agent-classificator/data-large-glpi.csv
 
+
+# MCP Secrets
+mcp_toolbox/secrets/

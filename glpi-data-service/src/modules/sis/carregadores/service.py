@@ -1,11 +1,13 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import func, case, and_, or_, desc, literal
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from src.modules.sis.carregadores.models import Carregador
 from src.modules.sis.tickets.models import Ticket
 from src.modules.sis.tickets.relationship_models import TicketItem
 from src.modules.sis.metadata.models import Entity  # For location name if needed
+from src.modules.sis.config.models import Setting
+from src.modules.sis.carregadores.expediente import business_minutes_today, is_in_expediente
 
 # Constants
 STATUS_OCUPADO = [2, 3, 4] # Processing, Planned, Pending
@@ -15,7 +17,12 @@ CARREGADOR_ITEMTYPE = 'PluginGenericobjectCarregador'
 class CarregadoresService:
     @staticmethod
     def get_kanban(db: Session):
-        # 1. Fetch all Carregadores
+        # 1. Config de expediente
+        cfg = db.query(Setting).filter(Setting.key == 'expediente').first()
+        start_hhmm = (cfg.value or {}).get('startHour', '08:00') if cfg else '08:00'
+        end_hhmm = (cfg.value or {}).get('endHour', '18:00') if cfg else '18:00'
+
+        # 2. Fetch all Carregadores
         carregadores = db.query(Carregador).filter(Carregador.is_deleted == False).all()
         
         ocupados = []
@@ -57,6 +64,11 @@ class CarregadoresService:
                 if ent:
                     ent_name = ent.name
 
+                # Métricas diárias (expediente)
+                now_utc = datetime.now(timezone.utc)
+                tempo_ocupado_hoje = business_minutes_today(start_time, now_utc, start_hhmm, end_hhmm)
+                expediente = "em" if is_in_expediente(now_utc, start_hhmm, end_hhmm) else "fim"
+
                 ocupados.append({
                     "id": charger.id,
                     "nome": charger.name,
@@ -65,7 +77,9 @@ class CarregadoresService:
                         "titulo": active_ticket.titulo,
                         "localizacao": ent_name
                     },
-                    "tempo_min": tempo_min
+                    "tempo_min": tempo_min,
+                    "tempo_ocupado_min_hoje": tempo_ocupado_hoje,
+                    "expediente_status": expediente
                 })
             else:
                 # Disponivel - Find last closed ticket
@@ -99,11 +113,18 @@ class CarregadoresService:
                         "localizacao": ""
                     }
 
+                # Métricas diárias (expediente)
+                now_utc = datetime.now(timezone.utc)
+                tempo_disponivel_hoje = business_minutes_today((last_ticket.solucionado_em or last_ticket.fechado_em) if last_ticket else None, now_utc, start_hhmm, end_hhmm)
+                expediente = "em" if is_in_expediente(now_utc, start_hhmm, end_hhmm) else "fim"
+
                 disponiveis.append({
                     "id": charger.id,
                     "nome": charger.name,
                     "ultimo_ticket": last_ticket_data,
-                    "tempo_min": tempo_min
+                    "tempo_min": tempo_min,
+                    "tempo_disponivel_min_hoje": tempo_disponivel_hoje,
+                    "expediente_status": expediente
                 })
 
         return {"ocupados": ocupados, "disponiveis": disponiveis}
@@ -184,7 +205,10 @@ class CarregadoresService:
                 "tempo_atribuido": f"{i['tempo_min']} min",
                 "tempo_disponivel": None,
                 "ticket_id": i['ticket']['id'],
-                "ref_date": None
+                "ref_date": None,
+                "tempo_ocupado_min_hoje": i.get('tempo_ocupado_min_hoje', 0),
+                "tempo_disponivel_min_hoje": 0,
+                "expediente_status": i.get('expediente_status', 'aguardando')
             })
             
         # Disponiveis
@@ -197,7 +221,10 @@ class CarregadoresService:
                 "tempo_atribuido": None,
                 "tempo_disponivel": f"{i['tempo_min']} min",
                 "ticket_id": i['ultimo_ticket']['id'] if i['ultimo_ticket'] else None,
-                "ref_date": None 
+                "ref_date": None,
+                "tempo_ocupado_min_hoje": 0,
+                "tempo_disponivel_min_hoje": i.get('tempo_disponivel_min_hoje', 0),
+                "expediente_status": i.get('expediente_status', 'aguardando')
             })
             
         return result

@@ -3,6 +3,7 @@ GLPI Sync Service
 Centralized logic for synchronizing data from GLPI to PostgreSQL.
 Supports multiple contexts (DTIC, SIS) by accepting dynamic models.
 """
+import requests
 import logging
 import hashlib
 import html
@@ -62,8 +63,44 @@ def clean_html(raw_html):
     return text_content if text_content else None
 
 
+
+
 class SyncService:
     """Service to handle GLPI synchronization logic."""
+
+    @staticmethod
+    def _fetch_with_backoff(client: GLPIClient, entity_type: str, criteria: Dict[str, Any], 
+                          start: int, step: int, limit_step: int = 50) -> Any:
+        """
+        Fetches data with a backoff strategy to handle HTTP 400/416 errors at end of range.
+        Recursively reduces step size to find remaining items.
+        Returns:
+            - List[Dict]: Items found.
+            - int: 0 if End of Range confirmed.
+        """
+        range_end = start + step - 1
+        range_header = f"{start}-{range_end}"
+        local_criteria = criteria.copy()
+        local_criteria['range'] = range_header
+        
+        try:
+            items = client.make_request(entity_type, local_criteria)
+            return items
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code in [400, 416]:
+                # If step is small enough, assume legitimate end of data
+                if step <= limit_step:
+                    logger.info(f"   ℹ️ End of range confirmed (Step {step} failed at {start}).")
+                    return 0
+                
+                # Backoff: Try a smaller step (10% of current)
+                new_step = max(limit_step, step // 10)
+                logger.warning(f"   ⚠️ Range {range_header} rejected (HTTP {e.response.status_code}). Backing off to step {new_step}...")
+                
+                # Recursive call
+                return SyncService._fetch_with_backoff(client, entity_type, criteria, start, new_step, limit_step)
+            raise e
+
 
     @staticmethod
     def sync_entities(client: GLPIClient, session, EntityModel: Type):
@@ -261,22 +298,43 @@ class SyncService:
         logger.info("   ✅ Profile-User relations synced.")
 
     @staticmethod
-    def sync_tickets(client: GLPIClient, session, TicketModel: Type, valid_ids: Dict, context: str = 'dtic', limit: int = None):
-        logger.info(f"🚀 Syncing Tickets ({context.upper()})...{f' [LIMIT={limit}]' if limit else ''}")
+    def sync_tickets(client: GLPIClient, session, TicketModel: Type, valid_ids: Dict, context: str = 'dtic', limit: int = None, since_date: datetime = None):
+        logger.info(f"🚀 Syncing Tickets ({context.upper()})...{f' [LIMIT={limit}]' if limit else ''}{f' [SINCE={since_date}]' if since_date else ''}")
         
+        if limit: logger.info(f"   ⚠️ Limit applied: {limit}")
+        
+        # Debug Valid IDs
+        v_ent = len(valid_ids.get('entities', []))
+        v_cat = len(valid_ids.get('categories', []))
+        v_loc = len(valid_ids.get('locations', []))
+        v_usr = len(valid_ids.get('users', []))
+        logger.info(f"   🔍 Context: {context}, Valid Entities: {v_ent}, Valid Categories: {v_cat}, Valid Locations: {v_loc}, Valid Users: {v_usr}")
+
         range_start = 0
         range_step = 100
         total = 0
         
+        # Base criteria
+        criteria = {'expand_dropdowns': 'false'}
+        
+        # Incremental filter
+        if since_date:
+            # GLPI format: YYYY-MM-DD HH:MM:SS
+            # Criteria: date_mod > since_date
+            criteria['criteria[0][field]'] = 'date_mod'
+            criteria['criteria[0][searchtype]'] = 'morethan'
+            criteria['criteria[0][value]'] = since_date.strftime('%Y-%m-%d %H:%M:%S')
+        
         while True:
             if limit and total >= limit: break
             
-            range_header = f"{range_start}-{range_start + range_step - 1}"
-            try:
-                tickets = client.make_request('Ticket', {'range': range_header, 'expand_dropdowns': 'false'})
-            except Exception:
-                break
+            # Use Backoff Strategy
+            result = SyncService._fetch_with_backoff(client, 'Ticket', criteria, range_start, range_step)
             
+            if result == 0: 
+                break
+                
+            tickets = result
             if not tickets: break
             
             for t in tickets:
@@ -346,9 +404,9 @@ class SyncService:
                     session.add(ticket)
             
             session.commit()
-            total += len(tickets)
+            total += len(tickets) # Increment by ACTUAL count
             logger.info(f"   Processed {total} tickets...")
-            range_start += range_step
+            range_start += len(tickets) # Advance by ACTUAL count
             
         logger.info(f"   ✅ Total Tickets Synced: {total}")
 
@@ -372,10 +430,10 @@ class SyncService:
         
         while True:
             if limit and count_u >= limit: break
-            range_header = f"{range_start}-{range_start + range_step - 1}"
-            try:
-                actors = client.make_request('Ticket_User', {'range': range_header})
-            except Exception: break
+            
+            result = SyncService._fetch_with_backoff(client, 'Ticket_User', {}, range_start, range_step)
+            if result == 0: break
+            actors = result
             if not actors: break
             
             for a in actors:
@@ -398,17 +456,17 @@ class SyncService:
                     session.add(tu)
                     count_u += 1
             session.commit()
-            range_start += range_step
+            range_start += len(actors)
             
         # 2. Groups
         range_start = 0
         count_g = 0
         while True:
             if limit and count_g >= limit: break
-            range_header = f"{range_start}-{range_start + range_step - 1}"
-            try:
-                actors = client.make_request('Group_Ticket', {'range': range_header})
-            except Exception: break
+            
+            result = SyncService._fetch_with_backoff(client, 'Group_Ticket', {}, range_start, range_step)
+            if result == 0: break
+            actors = result
             if not actors: break
             
             for a in actors:
@@ -430,17 +488,17 @@ class SyncService:
                     session.add(tg)
                     count_g += 1
             session.commit()
-            range_start += range_step
+            range_start += len(actors)
             
         logger.info("   ✅ Ticket Actors synced.")
 
     @staticmethod
-    def sync_ticket_changes(client: GLPIClient, session, models: Dict, valid_ids: Dict, limit: int = None):
+    def sync_ticket_changes(client: GLPIClient, session, models: Dict, valid_ids: Dict, limit: int = None, since_date: datetime = None):
         """
         Sync Ticket History (Logs).
         Handles differences between DTIC and SIS TicketChange models dynamically.
         """
-        logger.info(f"🚀 Syncing Ticket Changes (History)...{f' [LIMIT={limit}]' if limit else ''}")
+        logger.info(f"🚀 Syncing Ticket Changes...{f' [LIMIT={limit}]' if limit else ''}{f' [SINCE={since_date}]' if since_date else ''}")
         TicketModel = models['Ticket']
         TicketChange = models['TicketChange']
         
@@ -457,22 +515,27 @@ class SyncService:
         
         while True:
             if limit and total_changes >= limit: break
-            range_header = f"{range_start}-{range_start + range_step - 1}"
-            try:
-                # Filter logs for Tickets
-                criteria = {
-                    'range': range_header,
-                    'criteria[0][field]': 'itemtype',
-                    'criteria[0][searchtype]': 'equals',
-                    'criteria[0][value]': 'Ticket',
-                    'sort': 'id',
-                    'order': 'ASC'
-                }
-                logs = client.make_request('Log', criteria)
-            except Exception as e:
-                logger.error(f"   ❌ Error fetching logs: {e}")
-                break
             
+            # Filter logs for Tickets
+            criteria = {
+                'criteria[0][field]': 'itemtype',
+                'criteria[0][searchtype]': 'equals',
+                'criteria[0][value]': 'Ticket',
+                'sort': 'id',
+                'order': 'ASC'
+            }
+            
+            if since_date:
+                # Add date filter for logs
+                # Note: 'date_mod' in Log table usually represents the event time
+                criteria['criteria[1][link]'] = 'AND'
+                criteria['criteria[1][field]'] = 'date_mod'
+                criteria['criteria[1][searchtype]'] = 'morethan'
+                criteria['criteria[1][value]'] = since_date.strftime('%Y-%m-%d %H:%M:%S')
+            
+            result = SyncService._fetch_with_backoff(client, 'Log', criteria, range_start, range_step)
+            if result == 0: break
+            logs = result
             if not logs: break
             
             for log in logs:
@@ -520,7 +583,7 @@ class SyncService:
             if len(logs) > 0:
                 logger.info(f"   Processed {total_changes} logs...")
             
-            range_start += range_step
+            range_start += len(logs)
 
         logger.info(f"   ✅ Total Changes Synced: {total_changes}")
 
@@ -565,11 +628,10 @@ class SyncService:
         
         while True:
             if limit and count >= limit: break
-            range_header = f"{range_start}-{range_start + range_step - 1}"
-            try:
-                # Relation type in API is usually Item_Ticket
-                links = client.make_request('Item_Ticket', {'range': range_header})
-            except Exception: break
+            
+            result = SyncService._fetch_with_backoff(client, 'Item_Ticket', {}, range_start, range_step)
+            if result == 0: break
+            links = result
             if not links: break
             
             for l in links:
@@ -619,6 +681,6 @@ class SyncService:
                     session.merge(ti)
                     count += 1
             session.commit()
-            range_start += range_step
+            range_start += len(links)
             
         logger.info("   ✅ Ticket Items synced.")

@@ -1,0 +1,258 @@
+- id: 1_hardware_e_impressão
+  name: 1. Hardware e Impressão
+  description: 'Categoria principal: 1. Hardware e Impressão'
+  keywords: 'Categoria principal: 1. Hardware e Impressão'
+  embedding_source: 'passage: 1. Hardware e Impressão: Categoria principal: 1. Hardware
+    e Impressão'
+- id: 1_hardware_e_impressão_computa
+  name: 1. Hardware e Impressão > Computadores e Notebooks
+  description: 'Categoria principal: Computadores e Notebooks'
+  keywords: 'Categoria principal: Computadores e Notebooks'
+  embedding_source: 'passage: 1. Hardware e Impressão > Computadores e Notebooks:
+    Categoria principal: Computadores e Notebooks'
+- id: 1_hardware_e_impressão_computa
+  name: 1. Hardware e Impressão > Computadores e Notebooks > Manutenção / Reparo
+  description: Lentidão, não liga, tela azul, travamentos
+  keywords: Lentidão, não liga, tela azul, travamentos
+  embedding_source: 'passage: 1. Hardware e Impressão > Computadores e Notebooks >
+    Manutenção / Reparo: Lentidão, não liga, tela azul, travamentos'
+- id: 1_hardware_e_impressão_computa
+  name: 1. Hardware e Impressão > Computadores e Notebooks > Solicitação de Equipamento
+  description: Novo equipamento, troca, empréstimo
+  keywords: Novo equipamento, troca, empréstimo
+  embedding_source: 'passage: 1. Hardware e Impressão > Computadores e Notebooks >
+    Solicitação de Equipamento: Novo equipamento, troca, empréstimo'
+- id: 1_hardware_e_impressão_impress
+  name: 1. Hardware e Impressão > Impressoras e Scanners
+  description: 'Categoria p rincipal: Impressoras e Scanners'
+  keywords: 'Categoria p rincipal: Impressoras e Scanners'
+  embedding_source: 'passage: 1. Hardware e Impressão > Impressoras e Scanners: Categoria
+    p rincipal: Impressoras e Scanners'
+- id: 1_hardware_e_impressão_impress
+  name: 1. Hardware e Impressão > Impressoras e Scanners > Falhas e Erros
+  description: Atolamento, não imprime, qualidade ruim
+  keywords: Atolamento, não imprime, qualidade ruim
+  embedding_source: 'passage: 1. Hardware e Impressão > Impressoras e Scanners > Falhas
+    e Erros: Atolamento, não imprime, qualidade ruim'
+- id: 1_hardware_e_impressão_impress
+  name: 1. Hardware e Impressão > Impressoras e Scanners > Instalação de Impressora
+  description: Mapeamento na rede, driver
+  keywords: Mapeamento na rede, driver
+  embedding_source: 'passage: 1. Hardware e Impressão > Impressoras e Scanners > Instalação
+    de Impressora: Mapeamento na rede, driver'
+- id: 1_hardware_e_impressão_impress
+  name: 1. Hardware e Impressão > Impressoras e Scanners > Suprimentos
+  description: Toner, papel, cartucho
+  keywords: Toner, papel, cartucho
+  embedding_source: 'passage: 1. Hardware e Impressão > Impressoras e Scanners > Suprimentos:
+    Toner, papel, cartucho'
+- id: 1_hardware_e_impressão_instala
+  name: 1. Hardware e Impressão > Instalação de Equipamentos
+  description: Instalação de computadores, substituição de equipamentos, novos monitores,
+    montagem de setup, conectar cabos, alocação de ativos
+  keywords: Instalação de computadores, substituição de equipamentos, novos monitores,
+    montagem de setup, conectar cabos, alocação de ativos
+  embedding_source: 'passage: 1. Hardware e Impressão > Instalação de Equipamentos:
+    Instalação de computadores, substituição de equipamentos, novos monitores, montagem
+    de setup, conectar cabos, alocação de ativos'
+- id: 1_hardware_e_impressão_perifér
+  name: 1. Hardware e Impressão > Periféricos
+  description: Mouse, teclado, fone de ouvido, webcam, mousepad, cabo de energia,
+    HDMI, VGA, cabo USB
+  keywords: Mouse, teclado, fone de ouvido, webcam, mousepad, cabo de energia, HDMI,
+    VGA, cabo USB
+  embedding_source: 'passage: 1. Hardware e Impressão > Periféricos: Mouse, teclado,
+    fone de ouvido, webcam, mousepad, cabo de energia, HDMI, VGA, cabo USB'
+- id: 2_acesso_e_identidade
+  name: 2. Acesso e Identidade
+  description: 'Categoria principal: 2. Acesso e Identidade'
+  keywords: 'Categoria principal: 2. Acesso e Identidade'
+  embedding_source: 'passage: 2. Acesso e Identidade: Categoria principal: 2. Acesso
+    e Identidade'
+- id: 2_acesso_e_identidade_gerencia
+  name: 2. Acesso e Identidade > Gerenciamento de Usuário
+  description: 'Categoria principal: Gerenciamento de Usuário'
+  keywords: 'Categoria principal: Gerenciamento de Usuário'
+  embedding_source: 'passage: 2. Acesso e Identidade > Gerenciamento de Usuário: Categoria
+    principal: Gerenciamento de Usuário'
+- id: 2_acesso_e_identidade_gerencia
+  name: 2. Acesso e Identidade > Gerenciamento de Usuário > Alteração de Perfil /
+    Cargo
+  description: Mudança de setor, atualização de dados
+  keywords: Mudança de setor, atualização de dados
+  embedding_source: 'passage: 2. Acesso e Identidade > Gerenciamento de Usuário >
+    Alteração de Perfil / Cargo: Mudança de setor, atualização de dados'
+- id: 2_acesso_e_identidade_gerencia
+  name: 2. Acesso e Identidade > Gerenciamento de Usuário > Desligamento / Bloqueio
+  description: Remoção de acesso, bloqueio de conta
+  keywords: Remoção de acesso, bloqueio de conta
+  embedding_source: 'passage: 2. Acesso e Identidade > Gerenciamento de Usuário >
+    Desligamento / Bloqueio: Remoção de acesso, bloqueio de conta'
+- id: 2_acesso_e_identidade_gerencia
+  name: 2. Acesso e Identidade > Gerenciamento de Usuário > Novo Usuário
+  description: Criação de conta de rede e email
+  keywords: Criação de conta de rede e email
+  embedding_source: 'passage: 2. Acesso e Identidade > Gerenciamento de Usuário >
+    Novo Usuário: Criação de conta de rede e email'
+- id: 2_acesso_e_identidade_permissõ
+  name: 2. Acesso e Identidade > Permissões
+  description: 'Categoria principal: Permissões'
+  keywords: 'Categoria principal: Permissões'
+  embedding_source: 'passage: 2. Acesso e Identidade > Permissões: Categoria principal:
+    Permissões'
+- id: 2_acesso_e_identidade_permissõ
+  name: 2. Acesso e Identidade > Permissões > Acesso VPN / Túnel
+  description: FortiClient, acesso remoto, teletrabalho
+  keywords: FortiClient, acesso remoto, teletrabalho
+  embedding_source: 'passage: 2. Acesso e Identidade > Permissões > Acesso VPN / Túnel:
+    FortiClient, acesso remoto, teletrabalho'
+- id: 2_acesso_e_identidade_permissõ
+  name: 2. Acesso e Identidade > Permissões > Acesso a Pastas de Rede
+  description: Drive DADOS/SCANNER, pasta pública, pastas de setores
+  keywords: Drive DADOS/SCANNER, pasta pública, pastas de setores
+  embedding_source: 'passage: 2. Acesso e Identidade > Permissões > Acesso a Pastas
+    de Rede: Drive DADOS/SCANNER, pasta pública, pastas de setores'
+- id: 2_acesso_e_identidade_permissõ
+  name: 2. Acesso e Identidade > Permissões > Caixas de Email Compartilhadas
+  description: Email departamental, enviar como
+  keywords: Email departamental, enviar como
+  embedding_source: 'passage: 2. Acesso e Identidade > Permissões > Caixas de Email
+    Compartilhadas: Email departamental, enviar como'
+- id: 2_acesso_e_identidade_senhas_e
+  name: 2. Acesso e Identidade > Senhas e Desbloqueio
+  description: 'Categoria principal: Senhas e Desbloqueio'
+  keywords: 'Categoria principal: Senhas e Desbloqueio'
+  embedding_source: 'passage: 2. Acesso e Identidade > Senhas e Desbloqueio: Categoria
+    principal: Senhas e Desbloqueio'
+- id: 2_acesso_e_identidade_senhas_e
+  name: 2. Acesso e Identidade > Senhas e Desbloqueio > Reset de Senha de Rede
+  description: Senha Windows/AD, conta bloqueada
+  keywords: Senha Windows/AD, conta bloqueada
+  embedding_source: 'passage: 2. Acesso e Identidade > Senhas e Desbloqueio > Reset
+    de Senha de Rede: Senha Windows/AD, conta bloqueada'
+- id: 2_acesso_e_identidade_senhas_e
+  name: 2. Acesso e Identidade > Senhas e Desbloqueio > Reset de Senha de Sistemas
+  description: PROA, SOE, FPE, outros sistemas
+  keywords: PROA, SOE, FPE, outros sistemas
+  embedding_source: 'passage: 2. Acesso e Identidade > Senhas e Desbloqueio > Reset
+    de Senha de Sistemas: PROA, SOE, FPE, outros sistemas'
+- id: 3_software_e_sistemas
+  name: 3. Software e Sistemas
+  description: 'Categoria principal: 3. Software e Sistemas'
+  keywords: 'Categoria principal: 3. Software e Sistemas'
+  embedding_source: 'passage: 3. Software e Sistemas: Categoria principal: 3. Software
+    e Sistemas'
+- id: 3_software_e_sistemas_configur
+  name: 3. Software e Sistemas > Configuração de Software
+  description: Configurar sistema, parâmetros, ajustes, personalização, alterar opções
+  keywords: Configurar sistema, parâmetros, ajustes, personalização, alterar opções
+  embedding_source: 'passage: 3. Software e Sistemas > Configuração de Software: Configurar
+    sistema, parâmetros, ajustes, personalização, alterar opções'
+- id: 3_software_e_sistemas_office_3
+  name: 3. Software e Sistemas > Office 365 e Email
+  description: 'Categoria principal: Office 365 e Email'
+  keywords: 'Categoria principal: Office 365 e Email'
+  embedding_source: 'passage: 3. Software e Sistemas > Office 365 e Email: Categoria
+    principal: Office 365 e Email'
+- id: 3_software_e_sistemas_office_3
+  name: 3. Software e Sistemas > Office 365 e Email > Licenças e Instalação Office
+  description: E3, ativação, Setor de Dúvidas, Word, Excel
+  keywords: E3, ativação, Setor de Dúvidas, Word, Excel
+  embedding_source: 'passage: 3. Software e Sistemas > Office 365 e Email > Licenças
+    e Instalação Office: E3, ativação, Setor de Dúvidas, Word, Excel'
+- id: 3_software_e_sistemas_office_3
+  name: 3. Software e Sistemas > Office 365 e Email > Outlook / Email
+  description: Configuração, erros, sincronização
+  keywords: Configuração, erros, sincronização
+  embedding_source: 'passage: 3. Software e Sistemas > Office 365 e Email > Outlook
+    / Email: Configuração, erros, sincronização'
+- id: 3_software_e_sistemas_office_3
+  name: 3. Software e Sistemas > Office 365 e Email > Teams / SharePoint / OneDrive
+  description: Colaboração, arquivos na nuvem
+  keywords: Colaboração, arquivos na nuvem
+  embedding_source: 'passage: 3. Software e Sistemas > Office 365 e Email > Teams
+    / SharePoint / OneDrive: Colaboração, arquivos na nuvem'
+- id: 3_software_e_sistemas_outros_s
+  name: 3. Software e Sistemas > Outros Softwares
+  description: 'Categoria principal: Outros Softwares'
+  keywords: 'Categoria principal: Outros Softwares'
+  embedding_source: 'passage: 3. Software e Sistemas > Outros Softwares: Categoria
+    principal: Outros Softwares'
+- id: 3_software_e_sistemas_outros_s
+  name: 3. Software e Sistemas > Outros Softwares > Atualização de Software
+  description: Updates, novas versões
+  keywords: Updates, novas versões
+  embedding_source: 'passage: 3. Software e Sistemas > Outros Softwares > Atualização
+    de Software: Updates, novas versões'
+- id: 3_software_e_sistemas_outros_s
+  name: 3. Software e Sistemas > Outros Softwares > Instalação de Software
+  description: Instalar programa, aplicativo, AutoCAD, Adobe, navegador, plugin
+  keywords: Instalar programa, aplicativo, AutoCAD, Adobe, navegador, plugin
+  embedding_source: 'passage: 3. Software e Sistemas > Outros Softwares > Instalação
+    de Software: Instalar programa, aplicativo, AutoCAD, Adobe, navegador, plugin'
+- id: 3_software_e_sistemas_sistemas
+  name: 3. Software e Sistemas > Sistemas Corporativos
+  description: 'Categoria principal: Sistemas Corporativos'
+  keywords: 'Categoria principal: Sistemas Corporativos'
+  embedding_source: 'passage: 3. Software e Sistemas > Sistemas Corporativos: Categoria
+    principal: Sistemas Corporativos'
+- id: 3_software_e_sistemas_sistemas
+  name: 3. Software e Sistemas > Sistemas Corporativos > PROA
+  description: Erros, dúvidas, processos administrativos
+  keywords: Erros, dúvidas, processos administrativos
+  embedding_source: 'passage: 3. Software e Sistemas > Sistemas Corporativos > PROA:
+    Erros, dúvidas, processos administrativos'
+- id: 3_software_e_sistemas_sistemas
+  name: 3. Software e Sistemas > Sistemas Corporativos > SOE / FPE / GCE
+  description: Sistemas estaduais, centro de custos
+  keywords: Sistemas estaduais, centro de custos
+  embedding_source: 'passage: 3. Software e Sistemas > Sistemas Corporativos > SOE
+    / FPE / GCE: Sistemas estaduais, centro de custos'
+- id: 3_software_e_sistemas_sistemas
+  name: 3. Software e Sistemas > Sistemas Corporativos > Sistemas de RH (RHE)
+  description: Folha de pagamento, ponto eletrônico
+  keywords: Folha de pagamento, ponto eletrônico
+  embedding_source: 'passage: 3. Software e Sistemas > Sistemas Corporativos > Sistemas
+    de RH (RHE): Folha de pagamento, ponto eletrônico'
+- id: 4_rede_e_conectividade
+  name: 4. Rede e Conectividade
+  description: 'Categoria principal: 4. Rede e Conectividade'
+  keywords: 'Categoria principal: 4. Rede e Conectividade'
+  embedding_source: 'passage: 4. Rede e Conectividade: Categoria principal: 4. Rede
+    e Conectividade'
+- id: 4_rede_e_conectividade_infraes
+  name: 4. Rede e Conectividade > Infraestrutura Física
+  description: 'Categoria principal: Infraestrutura Física'
+  keywords: 'Categoria principal: Infraestrutura Física'
+  embedding_source: 'passage: 4. Rede e Conectividade > Infraestrutura Física: Categoria
+    principal: Infraestrutura Física'
+- id: 4_rede_e_conectividade_infraes
+  name: 4. Rede e Conectividade > Infraestrutura Física > Ponto de Rede
+  description: Instalação ou reparo de tomada de rede
+  keywords: Instalação ou reparo de tomada de rede
+  embedding_source: 'passage: 4. Rede e Conectividade > Infraestrutura Física > Ponto
+    de Rede: Instalação ou reparo de tomada de rede'
+- id: 4_rede_e_conectividade_infraes
+  name: 4. Rede e Conectividade > Infraestrutura Física > Telefonia
+  description: VoIP, ramal mudo, configuração de ramal
+  keywords: VoIP, ramal mudo, configuração de ramal
+  embedding_source: 'passage: 4. Rede e Conectividade > Infraestrutura Física > Telefonia:
+    VoIP, ramal mudo, configuração de ramal'
+- id: 4_rede_e_conectividade_interne
+  name: 4. Rede e Conectividade > Internet e Wi-Fi
+  description: 'Categoria principal: Internet e Wi-Fi'
+  keywords: 'Categoria principal: Internet e Wi-Fi'
+  embedding_source: 'passage: 4. Rede e Conectividade > Internet e Wi-Fi: Categoria
+    principal: Internet e Wi-Fi'
+- id: 4_rede_e_conectividade_interne
+  name: 4. Rede e Conectividade > Internet e Wi-Fi > Configurar Wi-Fi
+  description: Celular, notebook, senha Wi-Fi
+  keywords: Celular, notebook, senha Wi-Fi
+  embedding_source: 'passage: 4. Rede e Conectividade > Internet e Wi-Fi > Configurar
+    Wi-Fi: Celular, notebook, senha Wi-Fi'
+- id: 4_rede_e_conectividade_interne
+  name: 4. Rede e Conectividade > Internet e Wi-Fi > Sem Conexão / Lentidão
+  description: Não navega, internet lenta
+  keywords: Não navega, internet lenta
+  embedding_source: 'passage: 4. Rede e Conectividade > Internet e Wi-Fi > Sem Conexão
+    / Lentidão: Não navega, internet lenta'

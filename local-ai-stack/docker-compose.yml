@@ -6,8 +6,10 @@ services:
     shm_size: "16g"
     environment:
       - HF_TOKEN=${HF_TOKEN:-} # Opcional, modelo é público
+      - TZ=${TZ}
+      - VLLM_USE_TRITON_FLASH_ATTN=0
     volumes:
-      - C:\NIM\cache\huggingface:/root/.cache/huggingface
+      - C:\AI_DATA\cache\huggingface:/root/.cache/huggingface
     ports:
       - "9000:8000"
     deploy:
@@ -19,7 +21,7 @@ services:
               capabilities: [ gpu ]
     restart: unless-stopped
     command: >
-      --model hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4 --quantization awq_marlin --gpu-memory-utilization 0.90 --max-model-len 4096 --dtype auto --trust-remote-code --enforce-eager --disable-log-stats
+      --model Qwen/Qwen2.5-Coder-7B-Instruct-AWQ --quantization awq --gpu-memory-utilization 0.50 --max-model-len 8192 --dtype auto --trust-remote-code --enforce-eager --disable-custom-all-reduce --disable-log-stats
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
       start_period: 300s

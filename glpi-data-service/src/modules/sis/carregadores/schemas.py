@@ -32,12 +32,16 @@ class KanbanOccupiedItem(BaseModel):
     nome: str
     ticket: KanbanTicket
     tempo_min: int
+    tempo_ocupado_min_hoje: Optional[int] = 0
+    expediente_status: Optional[str] = 'aguardando'
 
 class KanbanAvailableItem(BaseModel):
     id: int
     nome: str
     ultimo_ticket: Optional[KanbanTicket] = None
     tempo_min: int
+    tempo_disponivel_min_hoje: Optional[int] = 0
+    expediente_status: Optional[str] = 'aguardando'
 
 class KanbanData(BaseModel):
     ocupados: List[KanbanOccupiedItem]

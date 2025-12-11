@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login GLPI</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+  </head>
+  <body>
+    <main class="container">
+      <h1>Autenticação GLPI</h1>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="login">Usuário</label>
+          <input id="login" name="login" type="text" autocomplete="username" aria-describedby="loginHelp" required />
+          <div id="loginError" class="error" role="alert" aria-live="polite"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <div class="password-row">
+            <input id="password" name="password" type="password" autocomplete="current-password" minlength="8" required />
+            <button type="button" id="togglePwd" aria-pressed="false">Mostrar</button>
+          </div>
+          <small id="pwdHelp">Mínimo de 8 caracteres.</small>
+          <div id="passwordError" class="error" role="alert" aria-live="polite"></div>
+        </div>
+
+        <button type="submit" id="loginBtn">Entrar</button>
+      </form>
+
+      <div id="serverError" class="error" role="alert" aria-live="assertive"></div>
+      <div id="success" class="success" aria-live="polite"></div>
+    </main>
+
+    <script src="/static/js/login.js"></script>
+  </body>
+</html>
+

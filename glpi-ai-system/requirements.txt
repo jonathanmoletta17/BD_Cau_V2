@@ -1,0 +1,11 @@
+requests==2.31.0
+python-dotenv==1.0.0
+PyYAML==6.0.1
+pydantic==2.6.0
+chainlit==1.1.304
+
+# AI/ML Dependencies (CPU versions recommended for non-gpu containers)
+torch>=2.2.0 --index-url https://download.pytorch.org/whl/cpu
+transformers>=4.37.0
+sentence-transformers>=2.3.0
+numpy<2.0.0

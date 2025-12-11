@@ -8,6 +8,7 @@ Usage:
 import sys
 import argparse
 import logging
+import concurrent.futures
 from pathlib import Path
 from datetime import datetime
 
@@ -16,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.core import Config, Database
 from src.core.glpi_client import GLPIClient
+from src.core.models import SyncState  # ✅ Import SyncState
 from src.services.sync_service import SyncService
 
 # Import Models dynamically
@@ -71,9 +73,9 @@ def get_models(context):
     return None
 
 
-def run_sync(context, sync_type, limit=None):
+def run_sync(context, sync_type, limit=None, incremental=False):
     print("\n" + "=" * 60)
-    print(f"[START] SYNC: Context={context.upper()}, Type={sync_type.upper()}{f', Limit={limit}' if limit else ''}")
+    print(f"[START] SYNC: Context={context.upper()}, Type={sync_type.upper()}{f', Limit={limit}' if limit else ''}{', INCREMENTAL' if incremental else ''}")
     print("=" * 60)
     
     # 1. Models
@@ -133,9 +135,59 @@ def run_sync(context, sync_type, limit=None):
                     'categories': set(r.id for r in session.query(models['Category'].id).all()),
                 }
                 
-                SyncService.sync_tickets(client, session, models['Ticket'], valid_ids, context, limit)
-                SyncService.sync_ticket_actors(client, session, models, valid_ids, limit)
-                SyncService.sync_ticket_changes(client, session, models, valid_ids, limit)
+                # Incremental Logic
+                since_ticket = None
+                since_changes = None
+                
+                start_ticket_sync = datetime.utcnow()
+                
+                if incremental:
+                    # Fetch State
+                    st_ticket = session.query(SyncState).filter_by(context=context, entity_type='Ticket').first()
+                    st_changes = session.query(SyncState).filter_by(context=context, entity_type='TicketChange').first()
+                    
+                    if st_ticket:
+                        since_ticket = st_ticket.last_sync
+                        logger.info(f"   🕒 Incremental Ticket: Since {since_ticket}")
+                    if st_changes:
+                        since_changes = st_changes.last_sync
+                        logger.info(f"   🕒 Incremental Changes: Since {since_changes}")
+                
+                # Sync Tickets
+                SyncService.sync_tickets(client, session, models['Ticket'], valid_ids, context, limit, since_date=since_ticket)
+                
+                # Update State if Incremental AND no limit (Full Sync)
+                if incremental and not limit:
+                    if not st_ticket:
+                        st_ticket = SyncState(context=context, entity_type='Ticket')
+                        session.add(st_ticket)
+                    st_ticket.last_sync = start_ticket_sync
+                    session.commit()
+                elif incremental and limit:
+                    logger.warning("   ⚠️ Incremental Sync with LIMIT: State NOT updated.")
+                
+                # Actors (Always full for now? Or depends on ticket? Usually tied to tickets)
+                # Actors don't have date_mod easily accessible via API root usually, 
+                # but if we sync tickets, we might want to refresh actors for those tickets?
+                # For Phase 1, we leave actors as is (might be bottleneck later, but let's stick to plan)
+                # Actually sync_ticket_actors is full scan?
+                if not incremental:
+                    SyncService.sync_ticket_actors(client, session, models, valid_ids, limit)
+                else:
+                    logger.info("   ℹ️ Skipping Actor Sync in Incremental Mode (Optimization)")
+                
+                # Ticket Changes (Logs)
+                start_changes_sync = datetime.utcnow()
+                SyncService.sync_ticket_changes(client, session, models, valid_ids, limit, since_date=since_changes)
+                
+                if incremental and not limit:
+                    if not st_changes:
+                        st_changes = SyncState(context=context, entity_type='TicketChange')
+                        session.add(st_changes)
+                    st_changes.last_sync = start_changes_sync
+                    session.commit()
+                elif incremental and limit:
+                    logger.warning("   ⚠️ Incremental Sync with LIMIT: State NOT updated.")
                 
                 # Sync Ticket Items (Assets)
                 if 'TicketItem' in models:
@@ -155,6 +207,7 @@ def main():
     parser.add_argument('--context', choices=['dtic', 'sis', 'all'], default='all')
     parser.add_argument('--type', choices=['metadata', 'tickets', 'all'], default='all')
     parser.add_argument('--limit', type=int, help='Limit number of tickets/changes for testing', default=None)
+    parser.add_argument('--incremental', action='store_true', help='Perform incremental sync based on last run')
     
     args = parser.parse_args()
     
@@ -162,13 +215,23 @@ def main():
     
     start_time = datetime.now()
     
-    for ctx in contexts:
-        run_sync(ctx, args.type, args.limit)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=len(contexts)) as executor:
+        future_to_ctx = {
+            executor.submit(run_sync, ctx, args.type, args.limit, args.incremental): ctx 
+            for ctx in contexts
+        }
+        
+        for future in concurrent.futures.as_completed(future_to_ctx):
+            ctx = future_to_ctx[future]
+            try:
+                future.result()
+            except Exception as exc:
+                logger.error(f"❌ Context {ctx.upper()} generated an exception: {exc}")
 
         
     duration = (datetime.now() - start_time).total_seconds()
     print("\n" + "=" * 60)
-    print(f"[DONE] ALL TASKS COMPLETED in {duration:.1f}s")
+    print(f"[DONE] ALL TASKS COMPLETED (Parallel) in {duration:.1f}s")
     print("=" * 60)
 
 

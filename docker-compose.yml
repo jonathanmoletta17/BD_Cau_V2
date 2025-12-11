@@ -60,6 +60,37 @@ services:
       timeout: 10s
       retries: 3
 
+  # [NEW] Real-Time Sync Service
+  glpi-sync:
+    build:
+      context: ./glpi-data-service
+      dockerfile: Dockerfile
+    container_name: glpi-sync-service
+    restart: unless-stopped
+    # Use the same image but override command to run daemon
+    command: [ "python", "-u", "scripts/daemon_sync.py" ]
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER:-glpi_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-glpi_dev_password}
+      - POSTGRES_DB=${POSTGRES_DB:-glpi_data}
+      - GLPI_DTIC_URL=${GLPI_DTIC_URL}
+      - GLPI_DTIC_APP_TOKEN=${GLPI_DTIC_APP_TOKEN}
+      - GLPI_DTIC_USER_TOKEN=${GLPI_DTIC_USER_TOKEN}
+      - GLPI_SIS_URL=${GLPI_SIS_URL:-}
+      - GLPI_SIS_APP_TOKEN=${GLPI_SIS_APP_TOKEN:-}
+      - GLPI_SIS_USER_TOKEN=${GLPI_SIS_USER_TOKEN:-}
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./glpi-data-service/logs:/app/logs
+    networks:
+      - app_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   # ==========================================
   # Frontend Applications
   # ==========================================
@@ -133,6 +164,51 @@ services:
       - app_network
     depends_on:
       - data-service
+  # ==========================================
+  # AI Agents (MANAGED SEPARATELY IN SUB-FOLDERS)
+  # ==========================================
+
+  # GLPI Agent Classificator (Worker - Headless)
+  ai-worker:
+    build:
+      context: ./glpi-ai-system
+      dockerfile: Dockerfile
+    container_name: glpi-ai-worker
+    command: [ "python", "-u", "daemon_classifier.py" ]
+    restart: unless-stopped
+    environment:
+      - LLM_BASE_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
+      - OLLAMA_CHAT_URL=http://host.docker.internal:11434/api/chat
+      - LLM_MODEL_NAME=${LLM_MODEL_NAME:-Qwen/Qwen2.5-Coder-7B-Instruct-AWQ}
+      - LLM_API_KEY=${LLM_API_KEY:-dummy}
+      - PYTHONPATH=/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - app_network
+
+  # GLPI Agent Assistant (Web Interface - Chainlit)
+  ai-web:
+    build:
+      context: ./glpi-ai-system
+      dockerfile: Dockerfile
+    container_name: glpi-ai-web
+    # Chainlit command with headless mode false for web access? No, standard is headless=true inside container usually, served on port?
+    # Chainlit default: host 0.0.0.0 port 8000
+    command: [ "chainlit", "run", "app_web.py", "--host", "0.0.0.0", "--port", "8000", "--headless" ]
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    environment:
+      - LLM_BASE_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
+      - OLLAMA_GENERATE_URL=http://host.docker.internal:11434/api/generate
+      - LLM_MODEL_NAME=${LLM_MODEL_NAME:-Qwen/Qwen2.5-Coder-7B-Instruct-AWQ}
+      - LLM_API_KEY=${LLM_API_KEY:-dummy}
+      - PYTHONPATH=/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - app_network
 
 networks:
   app_network:

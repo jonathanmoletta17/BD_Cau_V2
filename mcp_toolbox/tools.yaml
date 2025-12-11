@@ -1,0 +1,216 @@
+version: "1.1"
+description: "Toolbox MCP Completo (Database, GLPI, GCP, Git)"
+
+tools:
+  # ============================================================================
+  # DATABASE TOOLS (PostgreSQL)
+  # ============================================================================
+  - name: db_list_tables
+    description: "Lista todas as tabelas e views disponíveis nos schemas 'public', 'dtic' e 'sis'."
+    parameters:
+      type: object
+      properties:
+        schema:
+          type: string
+          description: "O schema para filtrar (opcional). Use 'all' para ver tudo."
+          default: "all"
+          enum: ["public", "dtic", "sis", "all"]
+    handler:
+      type: python
+      path: "mcp_toolbox/db_ops.py"
+      function: "list_tables"
+
+  - name: db_get_schema
+    description: "Obtém a definição de colunas e tipos de uma tabela específica."
+    parameters:
+      type: object
+      properties:
+        table_name:
+          type: string
+          description: "Nome da tabela (ex: dtic.glpi_tickets)"
+        schema:
+          type: string
+          description: "Schema da tabela (default: public). Ignorado se table_name contiver ponto."
+          default: "public"
+    handler:
+      type: python
+      path: "mcp_toolbox/db_ops.py"
+      function: "get_table_schema"
+
+  - name: db_read_sql
+    description: "Executa consultas SQL de LEITURA (SELECT/EXPLAIN) no banco de dados. Bloqueia escrita."
+    parameters:
+      type: object
+      properties:
+        query:
+          type: string
+          description: "A query SQL para executar."
+    handler:
+      type: python
+      path: "mcp_toolbox/db_ops.py"
+      function: "run_read_only_sql"
+
+  # ============================================================================
+  # GLPI OPERATIONS (Docker / ETL)
+  # ============================================================================
+  - name: glpi_trigger_sync
+    description: "Força a execução do sync de dados do GLPI para o banco local via container."
+    policy: human_approval_required
+    parameters:
+      type: object
+      properties:
+        context:
+          type: string
+          description: "Contexto da sincronização"
+          default: "all"
+          enum: ["dtic", "sis", "all"]
+        sync_type:
+          type: string
+          description: "Tipo de dados a sincronizar"
+          default: "tickets"
+          enum: ["metadata", "tickets", "all"]
+    handler:
+      type: python
+      path: "mcp_toolbox/glpi_ops.py"
+      function: "trigger_sync"
+
+  - name: glpi_check_sync
+    description: "Verifica os logs recentes do serviço de dados para conferir status do sync."
+    parameters:
+      type: object
+      properties: {}
+    handler:
+      type: python
+      path: "mcp_toolbox/glpi_ops.py"
+      function: "check_sync_status"
+
+  # ============================================================================
+  # AGENT CLASSIFICATOR (AI)
+  # ============================================================================
+  - name: agent_simulate_classification
+    description: "Simula a classificação de um ticket usando o modelo atual via container."
+    parameters:
+      type: object
+      properties:
+        title:
+          type: string
+          description: "Título do ticket"
+        description:
+          type: string
+          description: "Descrição completa do ticket"
+    handler:
+      type: python
+      path: "mcp_toolbox/agent_ops.py"
+      function: "simulate_classification"
+
+  # ============================================================================
+  # GCP OPERATIONS (AlloyDB, BigQuery, Dataplex, Storage)
+  # ============================================================================
+  - name: bq_query
+    description: "Executa queries no BigQuery (Analítico)."
+    parameters:
+      type: object
+      properties:
+        query:
+          type: string
+          description: "SQL analítico para BigQuery."
+        project_id:
+          type: string
+          description: "GCP Project ID."
+        dry_run:
+          type: boolean
+          description: "Se true, apenas estima custo (default: true)."
+          default: true
+    handler:
+      type: python
+      path: "mcp_toolbox/gcp_ops.py"
+      function: "bq_query"
+
+  - name: dataplex_search
+    description: "Busca assets no catálogo de dados (Dataplex) para governança."
+    parameters:
+      type: object
+      properties:
+        query:
+          type: string
+          description: "Termo de busca (ex: 'tag:sensitive')."
+        project_id:
+          type: string
+          description: "GCP Project ID."
+    handler:
+      type: python
+      path: "mcp_toolbox/gcp_ops.py"
+      function: "dataplex_search"
+
+  - name: gcs_list_files
+    description: "Lista arquivos em um bucket do Google Cloud Storage."
+    parameters:
+      type: object
+      properties:
+        bucket_name:
+          type: string
+        prefix:
+          type: string
+          description: "Prefixo/pasta opcional."
+    handler:
+      type: python
+      path: "mcp_toolbox/gcp_ops.py"
+      function: "gcs_list"
+
+  - name: alloydb_backup_create
+    description: "Dispara backup manual no AlloyDB (Requer Aprovação)."
+    policy: human_approval_required
+    parameters:
+      type: object
+      properties:
+        cluster_id:
+            type: string
+        backup_id:
+            type: string
+        project_id:
+            type: string
+        region:
+            type: string
+    handler:
+      type: python
+      path: "mcp_toolbox/gcp_ops.py"
+      function: "alloydb_backup"
+
+  # ============================================================================
+  # GIT OPERATIONS
+  # ============================================================================
+  - name: git_status
+    description: "Verifica status do repositório local."
+    parameters:
+      type: object
+      properties: {}
+    handler:
+      type: python
+      path: "mcp_toolbox/git_ops.py"
+      function: "git_status"
+
+  - name: git_log
+    description: "Lê histórico de commits recente."
+    parameters:
+      type: object
+      properties:
+        limit:
+          type: integer
+          default: 5
+    handler:
+      type: python
+      path: "mcp_toolbox/git_ops.py"
+      function: "git_log"
+
+  - name: git_create_branch
+    policy: human_approval_required
+    description: "Cria uma nova branch para trabalho."
+    parameters:
+      type: object
+      properties:
+        branch_name:
+          type: string
+    handler:
+      type: python
+      path: "mcp_toolbox/git_ops.py"
+      function: "git_create_branch"
