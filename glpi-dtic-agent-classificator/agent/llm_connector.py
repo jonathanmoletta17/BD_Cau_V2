@@ -23,7 +23,7 @@ class LLMConnector:
              self.base_url = self.base_url.replace("host.docker.internal", "localhost")
         
         self.api_key = os.getenv("LLM_API_KEY", "dummy")
-        self.model = os.getenv("LLM_MODEL_NAME", "meta/llama-3.1-8b-instruct") 
+        self.model = os.getenv("LLM_MODEL_NAME", "llama3.1:8b") 
         
         self.api_endpoint = f"{self.base_url.rstrip('/')}/chat/completions"
         
@@ -101,8 +101,53 @@ class LLMConnector:
             print(f"[LLMConnector] Failed to parse JSON: {response_text}")
             return {"category": "Error", "reason": "Invalid JSON"}
 
-if __name__ == "__main__":
-    print(">>> Testing LLMConnector (OpenAI Compatible)...")
-    connector = LLMConnector()
-    res = connector.chat_completion([{"role": "user", "content": "Hello! Are you ready?"}])
-    print(f"Response: {res}")
+    def service_desk_dialog(self, history: List[Dict], categories: List[str]) -> str:
+        """
+        Generates the next response in the Service Desk conversation.
+        history: List of {"role": "user"/"assistant", "content": "..."}
+        categories: List of valid GLPI category names.
+        
+        Returns: 
+           - A text string (question/clarification) to send to the user.
+           - OR a JSON string if the ticket is ready to be created.
+        """
+        categories_str = ", ".join(categories)
+        
+        system_prompt = f"""You are a helpful IT Service Desk Assistant linked to GLPI.
+        Your goal is to collect information to open a support ticket.
+        
+        REQUIRED INFORMATION:
+        1. Description of the problem (Clear and detailed).
+        2. Category (Must be one of: {categories_str}).
+        3. Urgency (High/Medium/Low).
+        4. Impact (High/Medium/Low).
+        5. User Email (Required for identification).
+        
+        INSTRUCTIONS:
+        - Converse naturally with the user in Portuguese (Brazil).
+        - DO NOT INVENT DETAILS. Use ONLY information provided by the user.
+        - If information is missing (including Email), ask clarifying questions.
+        - DO NOT ask for everything at once. Be polite.
+        - Infer Category, Urgency, and Impact from context if possible.
+        
+        CRITICAL: 
+        - DO NOT generate the JSON ticket until you have Description AND Email.
+        
+        FINAL OUTPUT FORMAT:
+        WHEN you have all 5 pieces of information:
+        OUTPUT A SINGLE JSON OBJECT like this:
+        {{
+            "action": "create_ticket",
+            "title": "Short title",
+            "description": "Full description",
+            "category": "Exact Category Name",
+            "urgency": "High" | "Medium" | "Low",
+            "impact": "High" | "Medium" | "Low",
+            "email": "user@email.com"
+        }}
+        """
+        
+        messages = [{"role": "system", "content": system_prompt}] + history
+        
+        # We allow a bit more creativity (temperature 0.3) but still focused
+        return self._send_request(messages, temperature=0.3)

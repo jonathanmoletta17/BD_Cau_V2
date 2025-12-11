@@ -1,15 +1,31 @@
 version: '3.8'
 
 services:
+  # --- WhatsApp HTTP API (WAHA) ---
+  waha:
+    image: devlikeapro/waha:latest
+    container_name: waha_api
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - WHATSAPP_DEFAULT_ENGINE=WEBJS
+      - WAHA_DASHBOARD_ENABLED=true
+      - WAHA_DASHBOARD_USERNAME=admin
+      - WAHA_DASHBOARD_PASSWORD=admin
+      - WHATSAPP_RESTART_ON_FAIL=true
+      - WAHA_API_KEY=mysecretkey
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - waha_data:/app/sessions
+
+  # --- Agent Service ---
   glpi-agent:
     build: .
     image: glpi-agent:latest
     container_name: glpi_classifier_service
     restart: unless-stopped
-    # Use Host Networking to easily access Localhost Ollama (port 11434)
-    # Alternatively, use 'host.docker.internal' in OLLAMA_URL if on Windows Docker Desktop
-    # But network_mode: host is simplest if supported on Windows (WSL2), otherwise extra_hosts
-    # network_mode: "host" - NOT SUPPORTED on Windows Docker Desktop for localhost access
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -20,12 +36,12 @@ services:
       - LLM_MODEL_NAME=${LLM_MODEL_NAME}
       - LLM_API_KEY=${LLM_API_KEY}
       - SANDBOX=false
-      # Mount .env if you prefer, or set specific vars here
+      # WAHA Configuration
+      - WAHA_BASE_URL=http://waha:3000
+      - WAHA_API_KEY=mysecretkey
 
     volumes:
-      # Mount code for live updates (optional, nice for dev)
       - ./:/app
-      # Cache for models so we don't redownload on every build
       - ./model_cache:/root/.cache/torch/sentence_transformers
 
     deploy:
@@ -35,9 +51,9 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [ gpu ]
-    # Healthcheck (optional)
-    # healthcheck:
-    #   test: ["CMD", "python", "-c", "print('Health OK')"]
-    #   interval: 1m
-    #   timeout: 10s
-    #   retries: 3
+
+    depends_on:
+      - waha
+
+volumes:
+  waha_data:

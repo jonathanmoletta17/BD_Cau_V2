@@ -144,6 +144,73 @@ class GlpiClient:
                 res.append(it)
         return res
 
+    def get_user_by_email(self, email: str) -> Optional[int]:
+        """
+        Searches for a user by email using the explicit GLPI Search API criteria.
+        Returns the User ID if found, otherwise None.
+        """
+        if not email or "@" not in email:
+            return None
+            
+        # Field 5 = Email
+        # Field 2 = ID (forcedisplay to ensure it is returned)
+        import urllib.parse
+        encoded_email = urllib.parse.quote(email)
+        
+        # Criteria 5 (Email) contains/equals email
+        query = f"/search/User?criteria[0][field]=5&criteria[0][searchtype]=contains&criteria[0][value]={encoded_email}&forcedisplay[0]=2"
+        
+        cfg = self._creds()
+        url = cfg["url"].strip("/") + query
+        
+        try:
+            data = self._get(url)
+            if isinstance(data, dict):
+                # Check 'data' list
+                results = data.get("data", [])
+                if results and isinstance(results, list):
+                    for user in results:
+                        # GLPI returns fields keyed by ID. 
+                        # ID is key "2" (int) or sometimes just in the object if forced.
+                        # Based on debug: "2": 4020
+                        uid = user.get("2")
+                        if uid:
+                            return int(uid)
+            return None
+        except Exception as e:
+            print(f"Error searching user by email: {e}")
+            return None
+
+    def get_user_by_phone_or_email(self, identifier: str) -> Optional[int]:
+        """
+        Attempts to find a User ID by checking:
+        1. mobile (Exact match or contains)
+        2. phone (Exact match or contains)
+        3. email (Exact match)
+        """
+        # Search by Mobile
+        # Note: GLPI Search API is tricky. We'll try exact matches first via criteria if possible,
+        # but search_items here just appends params.
+        # "mobile": identifier
+        
+        # 1. Try Mobile
+        users = self.search_items("User", {"mobile": identifier, "is_deleted": "0"})
+        if users and isinstance(users, list) and len(users) > 0:
+            return int(users[0]['id'])
+            
+        # 2. Try Phone
+        users = self.search_items("User", {"phone": identifier, "is_deleted": "0"})
+        if users and isinstance(users, list) and len(users) > 0:
+            return int(users[0]['id'])
+            
+        # 3. Try Email (if identifier looks like email)
+        if "@" in identifier:
+             users = self.search_items("User", {"email": identifier, "is_deleted": "0"})
+             if users and isinstance(users, list) and len(users) > 0:
+                return int(users[0]['id'])
+
+        return None
+
     def update_ticket_category(self, ticket_id: int, category_name: str) -> bool:
         if self.env == "prod":
             return False
@@ -219,24 +286,63 @@ class GlpiClient:
         except Exception:
             return None
 
-    def create_ticket(self, name: str, content: str, category_id: Optional[int]) -> Optional[int]:
+    def create_ticket(self, name: str, content: str, category_id: Optional[int], urgency: int = 3, impact: int = 3, requester_id: Optional[int] = None) -> Optional[int]:
         if self.env == "prod":
             return None
         cfg = self._creds()
         url = cfg["url"].strip("/") + "/Ticket/"
-        payload = {"name": name, "content": content}
+        payload = {
+            "name": name, 
+            "content": content,
+            "urgency": urgency,
+            "impact": impact
+        }
         if category_id is not None:
             payload["itilcategories_id"] = category_id
+        
+        if requester_id is not None:
+            payload["_users_id_requester"] = requester_id
+
+        # Create Ticket first
         body = json.dumps({"input": payload}).encode("utf-8")
         req = urllib.request.Request(url, data=body, method="POST", headers=self._headers())
+        
+        new_ticket_id = None
         try:
             with urllib.request.urlopen(req, context=self._ssl_context()) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 if isinstance(data, dict):
-                    return int(data.get("id")) if data.get("id") else None
-                return None
+                    new_ticket_id = int(data.get("id")) if data.get("id") else None
         except Exception:
             return None
+            
+        # Link Requester if Ticket created and ID provided
+        # Note: If _users_id_requester worked, this might fail with 400 (Duplicate).
+        # We try anyway to be sure.
+        if new_ticket_id and requester_id:
+            try:
+                # Add Requester (type 1 = Requester)
+                link_url = cfg["url"].strip("/") + "/Ticket_User/"
+                link_payload = {
+                    "tickets_id": new_ticket_id,
+                    "users_id": requester_id,
+                    "type": 1  # 1=Requester, 2=Observer, 3=Assignee
+                }
+                link_body = json.dumps({"input": link_payload}).encode("utf-8")
+                link_req = urllib.request.Request(link_url, data=link_body, method="POST", headers=self._headers())
+                with urllib.request.urlopen(link_req, context=self._ssl_context()) as resp:
+                    pass # Success
+            except urllib.error.HTTPError as e:
+                err_body = e.read().decode('utf-8')
+                # Ignore 400 if it's likely "Already exists"
+                if e.code == 400:
+                     print(f"DEBUG: Link requester {requester_id} to {new_ticket_id} returned 400 (Likely already added): {err_body}")
+                else:
+                     print(f"Failed to link requester {requester_id} to ticket {new_ticket_id}: HTTP {e.code}: {err_body}")
+            except Exception as e:
+                print(f"Failed to link requester {requester_id} to ticket {new_ticket_id}: {e}")
+                
+        return new_ticket_id
 
     def get_item(self, itemtype: str, item_id: int) -> Optional[Dict[str, Any]]:
         cfg = self._creds()

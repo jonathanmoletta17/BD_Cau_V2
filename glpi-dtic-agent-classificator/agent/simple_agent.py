@@ -150,26 +150,18 @@ class SimpleAgent:
         except Exception as e:
             logger.error(f"Failed to save report: {e}")
 
-    def process_ticket(self, ticket: Dict):
-        self.stats["processed"] += 1
-        tid = ticket.get("id")
-
-        title = ticket.get("name", "")
-        content = ticket.get("content", "")
-        current_cat_id = ticket.get("itilcategories_id")
-        
-        text = join_title_description(title, content)
-        
-        logger.info(f"--- Processing Ticket #{tid} ---")
-        logger.info(f"Title: {title}")
-        
+    def predict_category(self, text: str) -> Tuple[str, int, float]:
+        """
+        Predicts the category for a given text using Hybrid logic.
+        Returns: (category_name, category_id, confidence_score)
+        """
         # 1. Understand
         query_embedding = self.model.encode(f"query: {text}", convert_to_tensor=True, device=DEVICE)
         
         # 2. Match - Get Top candidates
         scores = util.cos_sim(query_embedding, self.cat_embeddings)[0]
         
-        # Standard Vector Best (for logging/fallback)
+        # Standard Vector Best
         best_score_idx = torch.argmax(scores).item()
         best_score = scores[best_score_idx].item()
         vector_suggested_cat = self.cat_names[best_score_idx]
@@ -180,7 +172,7 @@ class SimpleAgent:
         final_cat_id = vector_suggested_id
         final_conf = best_score
         
-        if self.use_llm and best_score > 0.60: # Only bother LLM if we have some minimal relevance
+        if self.use_llm and best_score > 0.60:
             # Get Top 5
             top_k = min(5, len(self.cat_names))
             top_results = torch.topk(scores, k=top_k)
@@ -203,6 +195,26 @@ class SimpleAgent:
                 logger.info(f"Reason: {llm_reason}")
             else:
                 logger.warning(f"LLM returned invalid category: {llm_cat}. Keeping vector choice.")
+        
+        return final_cat_name, final_cat_id, final_conf
+
+    def handle_conversation(self, history: List[Dict]) -> str:
+        """
+        Delegates the conversation to the LLM.
+        """
+        if not self.use_llm:
+            return "Erro: Módulo de IA indisponível."
+            
+        # Limit category list to top 100
+        return self.llm.service_desk_dialog(history, self.cat_names[:100])
+        
+        text = join_title_description(title, content)
+        
+        logger.info(f"--- Processing Ticket #{tid} ---")
+        logger.info(f"Title: {title}")
+        
+        # Call Predict
+        final_cat_name, final_cat_id, final_conf = self.predict_category(text)
         
         # Get current category name for logging
         current_cat_name = "Uncategorized/Unknown"
@@ -238,7 +250,7 @@ class SimpleAgent:
             if success:
                 logger.info("GLPI Update: SUCCESS")
                 self.stats["updated"] += 1
-                msg = f"Agente Híbrido: Recategorizado automaticamente para '{final_cat_name}'.\nMotivo (AI): {llm_decision.get('reason','') if self.use_llm else 'Vector Match'}"
+                msg = f"Agente Híbrido: Recategorizado automaticamente para '{final_cat_name}'."
                 self.client.add_followup(tid, msg)
             else:
                 logger.error("GLPI Update: FAILED")
