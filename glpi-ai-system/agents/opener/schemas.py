@@ -5,6 +5,9 @@ class TicketContext(BaseModel):
     # O que o usuário disse (Raw)
     original_complaint: str
     
+    # Raciocínio (Chain of Thought)
+    reasoning: Optional[str] = Field(default=None, description="Explicação passo-a-passo antes de preencher os campos")
+    
     # O que extraímos (Slots)
     summary: Optional[str] = Field(default=None, description="Título curto para o GLPI")
     description: Optional[str] = Field(default=None, description="Descrição técnica enriquecida")

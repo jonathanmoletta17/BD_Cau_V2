@@ -1,0 +1,128 @@
+
+==================== CENÁRIO: Desbloqueio de Senha (Teste Regra ID) ====================
+🔹 Iniciando Sessão GLPI...
+✅ GLPI Conectado.
+
+👤 User: Olá, bloqueei minha senha de rede, pode me ajudar?
+🤖 Agent: Para poder ajudar, preciso de mais detalhes: Em qual sala você está? E há algum erro específico que apareceu quando tentou acessar a rede?
+   [Estado] Ready: False | Impact: Individual | Missing: ['location']
+
+👤 User: Sou do setor de Protocolo, sala 10
+🤖 Agent: Certo, registrei que o reinício não resolveu. Isso pode ser credencial expirada. Abri o chamado para o suporte verificar seu perfil no Setor de Protocolo.
+   [Estado] Ready: True | Impact: Individual | Missing: []
+
+🚀 TICKET REVIEW:
+   - Resumo: Bloqueio de senha de rede - Setor de Protocolo
+   - Descrição: Usuário bloqueou senha de rede. Precisa de ajuda para resolver.
+   - Local: Sala 10
+   - Urgência: Média
+   - Impacto: Individual
+
+📨 Enviando para GLPI...
+✅ Resultado GLPI: {'id': 69869, 'message': 'Item adicionado com sucesso: Bloqueio de senha de rede - Setor de Protocolo'}
+==================================================
+
+==================== CENÁRIO: Queda Geral de Internet (Teste Impacto) ====================
+🔹 Iniciando Sessão GLPI...
+✅ GLPI Conectado.
+
+👤 User: A internet parou de funcionar no prédio inteiro!
+🤖 Agent: Para eu acionar a equipe correta, preciso de mais detalhes: Qual é o setor ou área específica que está afetada? E por favor, em qual andar você está?
+   [Estado] Ready: False | Impact: Organizacional | Missing: ['location']
+
+👤 User: Estou na recepção do térreo
+🤖 Agent: Para eu acionar a equipe correta, preciso de um detalhe: O led do monitor acende ou ele está totalmente apagado? E por favor, em qual sala você está?
+   [Estado] Ready: False | Impact: Organizacional | Missing: ['location']
+==================================================
+
+==================== CENÁRIO: Desbloqueio de Senha (Teste Regra ID) ====================
+🔹 Iniciando Sessão GLPI...
+✅ GLPI Conectado.
+
+👤 User: Olá, bloqueei minha senha de rede, pode me ajudar?
+🤖 Agent: Em qual sala você trabalha?
+   [Estado] Ready: False | Impact: Individual | Missing: ['location']
+
+👤 User: Sou do setor de Protocolo, sala 10
+🤖 Agent: Encaminharei para a Segurança. Chamado aberto.
+   [Estado] Ready: True | Impact: Individual | Missing: []
+
+🚀 TICKET REVIEW:
+   - Resumo: Bloqueio de Senha Rede
+   - Descrição: Usuário bloqueou sua senha de rede.
+   - Local: Sala 10
+   - Urgência: Média
+   - Impacto: Individual
+
+📨 Enviando para GLPI...
+✅ Resultado GLPI: {'id': 69870, 'message': 'Item adicionado com sucesso: Bloqueio de Senha Rede'}
+==================================================
+
+==================== CENÁRIO: Queda Geral de Internet (Teste Impacto) ====================
+🔹 Iniciando Sessão GLPI...
+✅ GLPI Conectado.
+
+👤 User: A internet parou de funcionar no prédio inteiro!
+🤖 Agent: Afeta todos os andares? Qual seu setor?
+   [Estado] Ready: False | Impact: Organizacional | Missing: ['location']
+
+👤 User: Estou na recepção do térreo
+🤖 Agent: Encaminharei para a equipe de TI. Chamado aberto.
+   [Estado] Ready: True | Impact: Organizacional | Missing: []
+
+🚀 TICKET REVIEW:
+   - Resumo: Queda geral de link
+   - Descrição: Queda massiva.
+   - Local: Recepção do térreo
+   - Urgência: Alta
+   - Impacto: Organizacional
+
+📨 Enviando para GLPI...
+✅ Resultado GLPI: {'id': 69871, 'message': 'Item adicionado com sucesso: Queda geral de link'}
+==================================================
+
+==================== CENÁRIO: Desbloqueio de Senha (Teste Regra ID) ====================
+🔹 Iniciando Sessão GLPI...
+✅ GLPI Conectado.
+
+👤 User: Olá, bloqueei minha senha de rede, pode me ajudar?
+🤖 Agent: Em qual sala você trabalha?
+   [Estado] Ready: False | Impact: Individual | Missing: ['location']
+
+👤 User: Sou do setor de Protocolo, sala 10
+🤖 Agent: Encaminharei para a Segurança. Chamado aberto.
+   [Estado] Ready: True | Impact: Individual | Missing: []
+
+🚀 TICKET REVIEW:
+   - Resumo: Bloqueio de Senha - Rede
+   - Descrição: Usuário bloqueou sua senha de rede.
+   - Local: Sala 10
+   - Urgência: Média
+   - Impacto: Individual
+
+📨 Enviando para GLPI...
+✅ Resultado GLPI: {'id': 69872, 'message': 'Item adicionado com sucesso: Bloqueio de Senha - Rede'}
+==================================================
+
+==================== CENÁRIO: Queda Geral de Internet (Teste Impacto) ====================
+🔹 Iniciando Sessão GLPI...
+✅ GLPI Conectado.
+
+👤 User: A internet parou de funcionar no prédio inteiro!
+🤖 Agent: Afeta todos os andares? Qual seu setor?
+   [Estado] Ready: False | Impact: Organizacional | Missing: ['location']
+
+👤 User: Estou na recepção do térreo
+🤖 Agent: Encaminharei para a equipe de TI. Chamado aberto.
+   [Estado] Ready: True | Impact: Organizacional | Missing: []
+
+🚀 TICKET REVIEW:
+   - Resumo: Queda geral de link
+   - Descrição: Queda massiva.
+   - Local: Recepção do térreo
+   - Urgência: Alta
+   - Impacto: Organizacional
+
+📨 Enviando para GLPI...
+✅ Resultado GLPI: {'id': 69873, 'message': 'Item adicionado com sucesso: Queda geral de link'}
+==================================================

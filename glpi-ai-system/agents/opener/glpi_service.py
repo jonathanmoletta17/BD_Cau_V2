@@ -51,26 +51,44 @@ class GLPIService:
         except:
             pass
 
-    def create_ticket(self, title: str, description: str, location: str = None, urgency: str = "Média"):
+    def create_ticket(self, title: str, description: str, location: str = None, urgency: str = "Média", impact: str = "Individual"):
         """Cria um chamado simples"""
         if not self.session_token:
             if not self.init_session():
                 return {"error": "Falha na autenticação"}
 
-        # Mapeamento simples de Urgência (GLPI usa 1 a 5)
-        # 1=Muto Baixa, 2=Baixa, 3=Média, 4=Alta, 5=Muito Alta
+        # Mapeamento de Urgência
+        # 1=Muito Baixa, 2=Baixa, 3=Média, 4=Alta, 5=Muito Alta
         urgency_map = {
             "Baixa": 2,
             "Média": 3,
             "Alta": 4
         }
+        
+        # Mapeamento de Impacto
+        # 1=Muito Baixo (Individual), 3=Médio (Setorial), 5=Muito Alto (Organizacional)
+        # Nota: GLPI usa matriz Urgencia x Impacto = Prioridade
+        # Vamos assumir:
+        # Individual -> 3 (Médio - Afeta 1 pessoa a ponto de travar, ou 2 se for dúvida)
+        # Mas para simplificar e garantir atenção:
+        # Individual -> 3 (Médio)
+        # Setorial -> 4 (Alto)
+        # Organizacional -> 5 (Muito Alto)
+        impact_map = {
+            "Individual": 3,
+            "Setorial": 4,
+            "Organizacional": 5
+        }
+
         glpi_urgency = urgency_map.get(urgency, 3)
+        glpi_impact = impact_map.get(impact, 3)
 
         payload = {
             "input": {
                 "name": title,
                 "content": f"{description}\n\n[Local]: {location if location else 'Não informado'}\n[Criado por Agente IA]",
                 "urgency": glpi_urgency,
+                "impact": glpi_impact,
                 # "itilcategories_id": ... (Poderíamos inferir, mas vamos deixar padrão)
             }
         }

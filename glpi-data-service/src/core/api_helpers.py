@@ -90,7 +90,7 @@ class TicketAPIHelper:
         finally:
             if close_session:
                 session.close()
-    
+
     @staticmethod
     def list_tickets_api_ready(limit: int = 100, offset: int = 0, session: Session = None) -> List[Dict]:
         """

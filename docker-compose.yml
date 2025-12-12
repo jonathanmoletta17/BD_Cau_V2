@@ -174,14 +174,21 @@ services:
       context: ./glpi-ai-system
       dockerfile: Dockerfile
     container_name: glpi-ai-worker
-    command: [ "python", "-u", "daemon_classifier.py" ]
+    # Running as FastAPI Server + Background Daemon + Reload
+    command: [ "uvicorn", "agents.classifier.server:app", "--host", "0.0.0.0", "--port", "8002", "--reload", "--reload-exclude", ".files", "--reload-exclude", ".chainlit" ]
     restart: unless-stopped
+    ports:
+      - "8002:8002"
     environment:
       - LLM_BASE_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
-      - OLLAMA_CHAT_URL=http://host.docker.internal:11434/api/chat
       - LLM_MODEL_NAME=${LLM_MODEL_NAME:-Qwen/Qwen2.5-Coder-7B-Instruct-AWQ}
       - LLM_API_KEY=${LLM_API_KEY:-dummy}
+      - GLPI_TEST_URL=http://10.72.16.202/atual/apirest.php
+      - GLPI_TEST_USER_TOKEN=skpUVqfIFO0FvcUuPrcVA3sZO37o9ADARpaar71f
+      - GLPI_TEST_APP_TOKEN=DCrrU5udtPELzURvQ8wI561U4yLInulor1RE3JRj
       - PYTHONPATH=/app
+    volumes:
+      - ./glpi-ai-system:/app
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:
@@ -193,18 +200,21 @@ services:
       context: ./glpi-ai-system
       dockerfile: Dockerfile
     container_name: glpi-ai-web
-    # Chainlit command with headless mode false for web access? No, standard is headless=true inside container usually, served on port?
-    # Chainlit default: host 0.0.0.0 port 8000
-    command: [ "chainlit", "run", "app_web.py", "--host", "0.0.0.0", "--port", "8000", "--headless" ]
+    # Chainlit command with watch (-w) flag for hot reload
+    command: [ "chainlit", "run", "app_web.py", "--host", "0.0.0.0", "--port", "8000", "--headless", "-w" ]
     restart: unless-stopped
     ports:
       - "8001:8000"
     environment:
       - LLM_BASE_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
-      - OLLAMA_GENERATE_URL=http://host.docker.internal:11434/api/generate
       - LLM_MODEL_NAME=${LLM_MODEL_NAME:-Qwen/Qwen2.5-Coder-7B-Instruct-AWQ}
       - LLM_API_KEY=${LLM_API_KEY:-dummy}
+      - GLPI_TEST_URL=http://10.72.16.202/atual/apirest.php
+      - GLPI_TEST_USER_TOKEN=skpUVqfIFO0FvcUuPrcVA3sZO37o9ADARpaar71f
+      - GLPI_TEST_APP_TOKEN=DCrrU5udtPELzURvQ8wI561U4yLInulor1RE3JRj
       - PYTHONPATH=/app
+    volumes:
+      - ./glpi-ai-system:/app
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:

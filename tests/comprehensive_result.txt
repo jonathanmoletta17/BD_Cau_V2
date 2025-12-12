@@ -1,0 +1,67 @@
+RESUMO DOS TESTES
+✅ PASSOU - Happy Path - Full Info
+      -> Final Context: {
+  "original_complaint": "Ola, sou do RH, sala 202. Minha impressora HP nao esta imprimindo nada.",
+  "reasoning": "Usuário relatou problema específico (impressão não funciona). Disse localização (Sala 202). Preciso verificar se está conectado e perguntar sobre papel.",
+  "summary": "Impressora HP não imprime",
+  "description": "Usuário reporta impressão não funcionando. Investigar conexão e papel disponível.",
+  "location": "Sala 202",
+  "urgency": "Média",
+  "impact": null,
+  "intent": null,
+  "missing_info": [],
+  "history": [
+    "User: Ola, sou do RH, sala 202. Minha impressora HP nao esta imprimindo nada.",
+    "Agent: Para eu acionar a equipe correta, preciso de um detalhe: O cabo da impressora está conectado na porta certa do computador? E por favor, você tem papel suficiente no estoque?"
+  ],
+  "technical_question_asked": false,
+  "ready_to_submit": true,
+  "response_to_user": "Para eu acionar a equipe correta, preciso de um detalhe: O cabo da impressora está conectado na porta certa do computador? E por favor, você tem papel suficiente no estoque?"
+}
+--------------------
+✅ PASSOU - Partial Info - Vague Flow
+      -> Final Context: {
+  "original_complaint": "meu pc não liga",
+  "reasoning": "Usuário relatou problema vago. Disse localização (Sala de Reuniões). Preciso verificar se é um problema de cabo ou fonte.",
+  "summary": "Computador não liga",
+  "description": "Usuário reporta PC inoperante. Fase de diagnóstico inicial.",
+  "location": "Sala de Reuniões",
+  "urgency": "Alta",
+  "impact": null,
+  "intent": null,
+  "missing_info": [],
+  "history": [
+    "User: meu pc não liga",
+    "Agent: Para eu acionar a equipe correta, preciso de um detalhe: O led do monitor acende ou ele está totalmente apagado? E por favor, em qual sala você está?",
+    "User: está apagado o led",
+    "Agent: O led do monitor está apagado, então provavelmente é um problema com o cabo ou a fonte. Por favor, diga-me em qual sala você está?",
+    "User: estou na sala de reuniões",
+    "Agent: Certo, registrei que o led do monitor está apagado e você está na Sala de Reuniões. Vou abrir um chamado para a equipe verificar se é um problema com o cabo ou fonte."
+  ],
+  "technical_question_asked": false,
+  "ready_to_submit": true,
+  "response_to_user": "Certo, registrei que o led do monitor está apagado e você está na Sala de Reuniões. Vou abrir um chamado para a equipe verificar se é um problema com o cabo ou fonte."
+}
+--------------------
+✅ PASSOU - Security - Password Reset
+      -> Final Context: {
+  "original_complaint": "preciso resetar a senha do servidor do diretor, sala 101",
+  "reasoning": "Pedido de senha. Local informado (101). Urgência é Média (procedura padrão), mesmo sendo Diretor. Aviso de segurança necessário.",
+  "summary": "Solicitação de Reset de Senha - Servidor Diretor",
+  "description": "Usuário solicita reset de senha para servidor do diretor. Encaminhar para equipe de Segurança.",
+  "location": "Sala 101",
+  "urgency": "Média",
+  "impact": null,
+  "intent": null,
+  "missing_info": [],
+  "history": [
+    "User: preciso resetar a senha do servidor do diretor, sala 101",
+    "Agent: Entendido. Por questões de segurança, vou encaminhar sua solicitação para a equipe de Infraestrutura realizar o reset seguro. O chamado foi aberto."
+  ],
+  "technical_question_asked": false,
+  "ready_to_submit": true,
+  "response_to_user": "Entendido. Por questões de segurança, vou encaminhar sua solicitação para a equipe de Infraestrutura realizar o reset seguro. O chamado foi aberto."
+}
+--------------------
+
+🏆 TODOS OS TESTES PASSARAM! O AGENTE ESTÁ ROBUSTO.

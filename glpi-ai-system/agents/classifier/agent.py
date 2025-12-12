@@ -10,8 +10,8 @@ from sentence_transformers import SentenceTransformer, util
 from .schemas import ClassificationInput, ClassificationResult
 
 class SurgicalClassifierAgent:
-    def __init__(self, model_name: str = "llama3.1:8b"):
-        self.model_name = model_name
+    def __init__(self, model_name: str = None):
+        self.model_name = model_name or os.getenv("LLM_MODEL_NAME", "llama3.1:8b")
         self.base_dir = Path(__file__).parent
         
         # 1. Carregar Prompts
@@ -54,25 +54,29 @@ class SurgicalClassifierAgent:
         return candidates
 
     def _call_llm(self, system_prompt: str, user_prompt: str) -> str:
-        """Chamada padrão ao Ollama"""
+        """Chamada compatível com OpenAI API (vLLM)"""
+        base_url = os.getenv("LLM_BASE_URL", "http://host.docker.internal:9000/v1").rstrip('/')
+        api_url = f"{base_url}/chat/completions"
+        
         payload = {
             "model": self.model_name,
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
-            "format": "json",
-            "stream": False,
-            "options": {"temperature": 0.1} # Temperatura baixa para classificação
+            "temperature": 0.1,
+            # "response_format": {"type": "json_object"}
         }
         
         try:
-            ollama_url = os.getenv("OLLAMA_CHAT_URL", "http://localhost:11434/api/chat")
-            response = requests.post(ollama_url, json=payload, timeout=30)
+            response = requests.post(api_url, json=payload, timeout=60)
             response.raise_for_status()
-            return response.json()["message"]["content"]
+            result = response.json()
+            return result["choices"][0]["message"]["content"]
         except Exception as e:
             print(f"❌ [Classifier] Erro no LLM: {e}")
+            if 'response' in locals() and response.text:
+                 print(f"Detalhe: {response.text}")
             raise e
 
     def classify(self, input_data: ClassificationInput) -> ClassificationResult:
@@ -93,7 +97,8 @@ class SurgicalClassifierAgent:
         llm_response = self._call_llm(system_prompt, user_prompt)
         
         try:
-            data = json.loads(llm_response)
+            clean_response = llm_response.replace("```json", "").replace("```", "").strip()
+            data = json.loads(clean_response)
             result = ClassificationResult(**data)
             
             # Etapa 3: Validação / Fuzzy Match (Garantir ID)
