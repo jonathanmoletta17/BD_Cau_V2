@@ -11,7 +11,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.core import Database
 from src.core.database import Base
-from src.core.models import SyncState  # ✅ Register SyncState
+from src.core.models import SyncState
+from src.core.models import BootstrapState
 
 # --- IMPORT ALL MODELS (To register in Base.metadata) ---
 

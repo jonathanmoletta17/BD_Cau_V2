@@ -17,6 +17,12 @@ from sync import run_sync
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("E2E_TEST")
 
+# Override Ollama URL for Local Host execution (Windows)
+import os
+os.environ["OLLAMA_BASE_URL"] = "http://localhost:11434"
+# Override DB Host if running from Windows (assuming port is mapped)
+os.environ["POSTGRES_HOST"] = "localhost"
+
 def check_ticket(session, glpi_id):
     """Query and print ticket details."""
     # Assuming DTIC context based on URL (cau.ppiratini usually DTIC?)
@@ -58,6 +64,22 @@ def main():
     
     print("\n3. Post-Sync Check:")
     check_ticket(session, 11909)
+
+    print("\n4. Checking RAG Embedding...")
+    try:
+        query_rag = text(f"""
+            SELECT k.id, k.ticket_id, substring(k.content, 1, 50) as snippet 
+            FROM dtic.knowledge_entries k
+            JOIN dtic.tickets t ON k.ticket_id = t.id
+            WHERE t.glpi_id = 11909
+        """)
+        res_rag = session.execute(query_rag).fetchone()
+        if res_rag:
+            print(f"   ✅ FOUND Embedding: ID={res_rag.id}, Content='{res_rag.snippet}...'")
+        else:
+            print(f"   ❌ NOT FOUND Embedding for Ticket 11909.")
+    except Exception as e:
+         print(f"   ⚠️ Error checking RAG: {e}")
     
     session.close()
 

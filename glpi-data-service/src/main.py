@@ -13,6 +13,10 @@ from src.modules.sis.dashboard import router as sis_dashboard_router
 from src.modules.sis.search import router as sis_search_router
 from src.modules.sis.carregadores import router as sis_carregadores_router
 from src.modules.sis.config import router as sis_config_router
+from src.modules.dtic.knowledge.router import router as knowledge_router
+from src.modules.dtic.tickets.analysis_routes import router as analysis_router
+from src.core.database import Database, Base
+from sqlalchemy import text
 
 # Setup logging
 logging.basicConfig(
@@ -28,6 +32,25 @@ app = FastAPI(
     version="3.0.0"
 )
 
+# Startup Event: Init DB
+@app.on_event("startup")
+async def startup_event():
+    logger.info("Initializing Database...")
+    Database._initialize()
+    engine = Database._engine
+    
+    # 1. Enable pgvector extension
+    with engine.connect() as conn:
+        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+        conn.commit()
+    
+    # 2. Create tables (if they don't exist)
+    # Note: In production we use Alembic, here for simplicity we use create_all
+    # We must import models so Base knows about them
+    from src.modules.dtic.knowledge.models import KnowledgeEntry
+    Base.metadata.create_all(bind=engine)
+    logger.info("Database initialized with Knowledge Support.")
+
 # CORS
 app.add_middleware(
     CORSMiddleware,
@@ -40,6 +63,8 @@ app.add_middleware(
 # Include routers
 app.include_router(dashboard_router, prefix="/api/v1")
 app.include_router(search_router, prefix="/api/v1")
+app.include_router(analysis_router, prefix="/api/v1") # Advanced Analysis
+app.include_router(knowledge_router, prefix="/api/v1") # RAG Support
 app.include_router(sis_dashboard_router, prefix="/api/v1")
 app.include_router(sis_search_router, prefix="/api/v1")
 app.include_router(sis_carregadores_router, prefix="/api/v1")

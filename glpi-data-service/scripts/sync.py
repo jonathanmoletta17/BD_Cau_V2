@@ -10,15 +10,15 @@ import argparse
 import logging
 import concurrent.futures
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.core import Config, Database
 from src.core.glpi_client import GLPIClient
-from src.core.models import SyncState  # ✅ Import SyncState
-from src.services.sync_service import SyncService
+from src.core.models import SyncState, OrphanChange  # ✅ Import SyncState & OrphanChange
+from src.services.sync import SyncService
 
 # Import Models dynamically
 import src.modules.dtic.metadata as dtic_meta
@@ -47,6 +47,7 @@ def get_models(context):
             'Profile': dtic_meta.Profile,
             'GroupUser': dtic_meta.GroupUser,
             'ProfileUser': dtic_meta.ProfileUser,
+            'OrphanChange': src.core.models.OrphanChange,
             'Ticket': dtic_tickets.Ticket,
             'TicketUser': dtic_tickets.TicketUser,
             'TicketGroup': dtic_tickets.TicketGroup,
@@ -146,22 +147,27 @@ def run_sync(context, sync_type, limit=None, incremental=False):
                     st_ticket = session.query(SyncState).filter_by(context=context, entity_type='Ticket').first()
                     st_changes = session.query(SyncState).filter_by(context=context, entity_type='TicketChange').first()
                     
-                    if st_ticket:
-                        since_ticket = st_ticket.last_sync
-                        logger.info(f"   🕒 Incremental Ticket: Since {since_ticket}")
-                    if st_changes:
-                        since_changes = st_changes.last_sync
-                        logger.info(f"   🕒 Incremental Changes: Since {since_changes}")
+                    if st_ticket and st_ticket.last_sync:
+                        # Safety Margin (Lookback Window): Subtract 1 hour to catch late commits/clock skew
+                        since_ticket = st_ticket.last_sync - timedelta(hours=1)
+                        logger.info(f"   🕒 Incremental Ticket: Since {st_ticket.last_sync} (Lookback: {since_ticket})")
+                    if st_changes and st_changes.last_sync:
+                        since_changes = st_changes.last_sync - timedelta(hours=1)
+                        logger.info(f"   🕒 Incremental Changes: Since {st_changes.last_sync} (Lookback: {since_changes})")
                 
                 # Sync Tickets
-                SyncService.sync_tickets(client, session, models['Ticket'], valid_ids, context, limit, since_date=since_ticket)
+                max_ticket_date = SyncService.sync_tickets(client, session, models, valid_ids, context, limit, since_date=since_ticket)
                 
                 # Update State if Incremental AND no limit (Full Sync)
-                if incremental and not limit:
+                if incremental and not limit and max_ticket_date:
                     if not st_ticket:
                         st_ticket = SyncState(context=context, entity_type='Ticket')
                         session.add(st_ticket)
-                    st_ticket.last_sync = start_ticket_sync
+                    
+                    # Update ONLY if newer
+                    if not st_ticket.last_sync or max_ticket_date > st_ticket.last_sync:
+                        st_ticket.last_sync = max_ticket_date
+                        logger.info(f"   💾 Cursor Updated (Ticket): {max_ticket_date}")
                     session.commit()
                 elif incremental and limit:
                     logger.warning("   ⚠️ Incremental Sync with LIMIT: State NOT updated.")
@@ -176,15 +182,17 @@ def run_sync(context, sync_type, limit=None, incremental=False):
                 else:
                     logger.info("   ℹ️ Skipping Actor Sync in Incremental Mode (Optimization)")
                 
-                # Ticket Changes (Logs)
-                start_changes_sync = datetime.utcnow()
-                SyncService.sync_ticket_changes(client, session, models, valid_ids, limit, since_date=since_changes)
+                # Sync Changes
+                max_changes_date = SyncService.sync_ticket_changes(client, session, models, valid_ids, limit, since_date=since_changes)
                 
-                if incremental and not limit:
+                if incremental and not limit and max_changes_date:
                     if not st_changes:
                         st_changes = SyncState(context=context, entity_type='TicketChange')
                         session.add(st_changes)
-                    st_changes.last_sync = start_changes_sync
+                        
+                    if not st_changes.last_sync or max_changes_date > st_changes.last_sync:
+                        st_changes.last_sync = max_changes_date
+                        logger.info(f"   💾 Cursor Updated (Changes): {max_changes_date}")
                     session.commit()
                 elif incremental and limit:
                     logger.warning("   ⚠️ Incremental Sync with LIMIT: State NOT updated.")

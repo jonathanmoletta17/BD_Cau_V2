@@ -19,6 +19,7 @@ from sync import run_sync
 # Import Database & SyncState for bootstrap checks
 from src.core import Database
 from src.core.models import SyncState
+from src.core.models import BootstrapState
 from sqlalchemy import text # Fix: Import text for raw sql execution if needed, or just use ORM query
 
 # Setup Logging
@@ -96,60 +97,47 @@ def ensure_schema():
         raise
 
 def bootstrap_if_needed(contexts=['dtic', 'sis']):
-    """Check if we need a full sync (first run)."""
     logger.info("🔎 Checking Bootstrap Status...")
     session = Database.get_session()
-    
     try:
-        needs_bootstrap = False
-        
-        # Check if SyncState table is empty
-        count = session.query(SyncState).count()
-        if count == 0:
-            logger.info("   🆕 Clean Install Detected (No Sync State).")
-            needs_bootstrap = True
-        else:
-            logger.info(f"   ℹ️  Existing State Found ({count} records). Skipping Bootstrap.")
-            
+        pending = []
+        for ctx in contexts:
+            state = session.query(BootstrapState).filter_by(context=ctx).first()
+            if not state or state.status != 'completed':
+                pending.append(ctx)
         session.close()
-        
-        if needs_bootstrap:
-            logger.info("🚀 STARTING BOOTSTRAP (Full Initial Sync)...")
-            for ctx in contexts:
-                # Run FULL sync (incremental=False)
-                # We limit to metadata and tickets for safety? Or ALL?
-                # User wants "dados populados completamente". So ALL.
-                logger.info(f"   📦 Bootstrapping {ctx.upper()}...")
+        if not pending:
+            logger.info("✅ Bootstrap already completed.")
+            return
+        logger.info("🚀 Starting Full Bootstrap...")
+        session = Database.get_session()
+        for ctx in pending:
+            bs = session.query(BootstrapState).filter_by(context=ctx).first()
+            if not bs:
+                bs = BootstrapState(context=ctx, status='pending', last_attempt=datetime.utcnow())
+                session.add(bs)
+            else:
+                bs.status = 'pending'
+                bs.last_attempt = datetime.utcnow()
+            session.commit()
+            logger.info(f"   Bootstrapping {ctx.upper()}...")
+            try:
                 run_sync(context=ctx, sync_type='all', limit=None, incremental=False)
-                
-                # After Full Sync, we MUST initialize SyncState so next run is Incremental
-                # scripts/sync.py currently ONLY updates SyncState if incremental=True
-                # This is a gap in previous logic!
-                # If we run Full Sync, we should ideally set the SyncState to NOW.
-                # Let's fix this by calling init_sync_state script?
-                # Or relying on the fact that next incremental run will find no state -> query from 0?
-                # No, if no state, incremental query might default to full scan or None?
-                # In sync.py: if incremental: st_ticket = ... if st_ticket: since_date = ...
-                # If st_ticket is None (which it is), since_date is None.
-                # So SyncService runs Full Scan AGAIN? 
-                # Yes. SyncService.sync_tickets: if since_date is None -> Full Scan logic.
-                
-                # OPTIMIZATION:
-                # We should Initialize State AFTER Bootstrap.
-                pass
-            
-            # Run Init Sync State to mark "Now" as the baseline for future updates
-            logger.info("   💾 Initializing Sync State baseline...")
-            import subprocess
-            init_script = Path(__file__).parent / 'init_sync_state.py'
-            subprocess.run([sys.executable, str(init_script)], check=True)
-            
-            logger.info("✅ Bootstrap Complete.")
-            
+                bs = session.query(BootstrapState).filter_by(context=ctx).first()
+                bs.status = 'completed'
+                bs.last_attempt = datetime.utcnow()
+                session.commit()
+                logger.info(f"   {ctx.upper()} completed.")
+            except Exception as e:
+                logger.error(f"❌ Bootstrap error on {ctx}: {e}")
+                bs = session.query(BootstrapState).filter_by(context=ctx).first()
+                bs.status = 'pending'
+                bs.last_attempt = datetime.utcnow()
+                session.commit()
+                raise
+        logger.info("✅ Bootstrap Complete.")
     except Exception as e:
         logger.error(f"❌ Bootstrap Failed: {e}")
-        # Don't crash, user might fix later.
-        pass
 
 def main():
     logger.info("🚀 Starting GLPI Sync Daemon...")

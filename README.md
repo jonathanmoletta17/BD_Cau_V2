@@ -110,9 +110,9 @@ Consulte `CONTRIBUTING.md` para:
 
 ## 📖 Documentação Adicional
 
-- [Comparação V1 vs V2](docs/V1_VS_V2_ORGANIZATION.md)
-- [Modelo de Dados GLPI](docs/doc-data-service/)
-- [Histórico de Migração](MIGRATION_HISTORY.md)
+- [Comparação V1 vs V2](docs/general/V1_VS_V2_ORGANIZATION.md)
+- [Modelo de Dados GLPI](docs/glpi-data-service/)
+- [Histórico de Migração](docs/general/MIGRATION_HISTORY.md)
 
 ## 🔧 Mapeamento de Portas
 

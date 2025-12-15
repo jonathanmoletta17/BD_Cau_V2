@@ -8,7 +8,7 @@ from sqlalchemy import (
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 from datetime import datetime
 
-from src.core.database import Base
+from src.core.base import Base
 
 
 class Ticket(Base):

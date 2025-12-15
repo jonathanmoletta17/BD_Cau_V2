@@ -22,7 +22,7 @@ nvidia-smi
 ### 2. Iniciar stack (Ollama + Open WebUI)
 ```bash
 cd local-ai-stack
-docker compose up -d
+docker compose --env-file ../.env up -d
 ```
 
 ### 3. Verificar containers
@@ -56,7 +56,7 @@ ollama run gpt-oss-20b "Olá, como você está?"
 
 ```bash
 cd local-ai-stack
-docker compose down
+docker compose --env-file ../.env down
 ```
 
 ## Portas Utilizadas

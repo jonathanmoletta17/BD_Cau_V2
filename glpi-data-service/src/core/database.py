@@ -9,8 +9,8 @@ from sqlalchemy.orm import sessionmaker, Session, declarative_base
 
 from .config import config
 
-# Declarative Base for all SQLAlchemy models
-Base = declarative_base()
+# Base is now in src.core.base
+from .base import Base
 
 
 class Database:
@@ -89,3 +89,7 @@ class Database:
             cls._engine.dispose()
             cls._engine = None
             cls._session_factory = None
+
+# Alias for backward compatibility (used by main.py dependency injection)
+get_db = Database.get_db
+get_db_session = Database.get_db

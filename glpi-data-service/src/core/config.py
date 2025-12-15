@@ -32,9 +32,10 @@ class Config:
     }
     
     # GLPI API Configuration (DTIC)
-    GLPI_DTIC_URL: str = os.getenv("GLPI_DTIC_URL", "")
-    GLPI_DTIC_APP_TOKEN: str = os.getenv("GLPI_DTIC_APP_TOKEN", "")
-    GLPI_DTIC_USER_TOKEN: str = os.getenv("GLPI_DTIC_USER_TOKEN", "")
+    # GLPI PROD Context (Previously DTIC)
+    GLPI_DTIC_URL: str = os.getenv("GLPI_PROD_URL", "")
+    GLPI_DTIC_APP_TOKEN: str = os.getenv("GLPI_PROD_APP_TOKEN", "")
+    GLPI_DTIC_USER_TOKEN: str = os.getenv("GLPI_PROD_USER_TOKEN", "")
     
     # GLPI API Configuration (SIS - future)
     GLPI_SIS_URL: str = os.getenv("GLPI_SIS_URL", "")
@@ -67,3 +68,11 @@ class Config:
 
 # Global config instance
 config = Config()
+
+# SAFETY CHECK: Prevent using Test Environment as Production Source
+if "10.72.16.202" in config.GLPI_DTIC_URL:
+    import sys
+    print("\n[CRITICAL] SAFETY LOCK: 'GLPI_DTIC_URL' is pointing to Test Environment (10.72.16.202).")
+    print("           This is FORBIDDEN for the Data Service (Source of Truth).")
+    print("           Please check GLPI_PROD_URL in your .env file.\n")
+    sys.exit(1)

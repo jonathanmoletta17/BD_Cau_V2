@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 from datetime import datetime
 
-from src.core.database import Base
+from src.core.base import Base
 
 class Carregador(Base):
     """GLPI Plugin Generic Object: Carregador (SIS schema)."""

@@ -1,2 +1,0 @@
-FROM gemma2:27b-instruct-q3_K_M
-PARAMETER num_ctx 2048

@@ -1,4 +1,11 @@
+import sys
+from pathlib import Path
+
+# Add src to path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from datetime import datetime, timezone, timedelta
+from src.modules.dtic.tickets.models import Ticket # Just to ensure src is reachable
 from src.modules.sis.carregadores.expediente import business_minutes_today, is_in_expediente
 
 TZ = timezone(timedelta(hours=-3))
