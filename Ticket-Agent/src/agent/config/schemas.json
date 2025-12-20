@@ -1,0 +1,100 @@
+{
+  "schemas": {
+    "reset_password": {
+      "required": [
+        "username"
+      ],
+      "optional": [
+        "target_system"
+      ],
+      "defaults": {
+        "target_system": "Rede/Windows"
+      },
+      "description": "Reset de senha"
+    },
+    "create_user": {
+      "required": [
+        "full_name",
+        "department",
+        "user_type"
+      ],
+      "conditionalRequired": {
+        "user_type": {
+          "Efetivo": [
+            "cpf",
+            "matricula"
+          ],
+          "Estagiário": [
+            "rg"
+          ]
+        }
+      },
+      "optional": [
+        "start_date"
+      ],
+      "description": "Criação de novo usuário"
+    },
+    "equipment_request": {
+      "required": [
+        "request_type"
+      ],
+      "conditionalRequired": {
+        "request_type": {
+          "Incident": [
+            "description"
+          ],
+          "Requisition": [
+            "item",
+            "reason"
+          ]
+        }
+      },
+      "optional": [
+        "item",
+        "quantity",
+        "description",
+        "reason"
+      ],
+      "inferred": [
+        "request_type"
+      ],
+      "description": "Requisição ou incidente de equipamento"
+    },
+    "printer_issue": {
+      "required": [
+        "description",
+        "location"
+      ],
+      "optional": [
+        "printer_reference"
+      ],
+      "description": "Problema de impressora"
+    },
+    "vpn_issue": {
+      "required": [
+        "description"
+      ],
+      "description": "Problema de conexão VPN"
+    },
+    "vpn_access": {
+      "required": [
+        "existing_username"
+      ],
+      "optional": [
+        "action",
+        "justification"
+      ],
+      "defaults": {
+        "action": "Grant_Access"
+      },
+      "description": "Solicitação de acesso VPN"
+    },
+    "corporate_systems": {
+      "required": [
+        "system_name",
+        "error_message"
+      ],
+      "description": "Erro em sistema corporativo"
+    }
+  }
+}

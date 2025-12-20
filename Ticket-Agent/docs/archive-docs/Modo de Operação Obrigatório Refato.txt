@@ -1,0 +1,48 @@
+Modo de Operação Obrigatório: Refatoração Incremental Controlada
+
+A partir deste ponto, você NÃO deve:
+
+refatorar o sistema completo
+
+antecipar correções futuras
+
+alterar múltiplos invariantes ao mesmo tempo
+
+Vamos trabalhar por micro-fases, cada uma focada em UM único problema arquitetural.
+
+Fase Atual: [NOME DO INVARIANTE]
+
+Objetivo único da fase:
+[ex: Eliminar perda da intenção inicial (“Context Loss”)]
+
+Escopo permitido:
+
+Arquivos: [...]
+
+Componentes: [...]
+
+Proibido nesta fase:
+
+Qualquer alteração fora do escopo
+
+Qualquer refatoração estrutural ampla
+
+Tarefas obrigatórias nesta fase:
+
+Reanalisar apenas o código atual dentro do escopo
+
+Explicar exatamente:
+
+onde a regra é violada
+
+por que isso ocorre
+
+Propor a menor correção possível
+
+Mostrar o impacto esperado
+
+Definir critérios objetivos de validação
+
+NÃO implemente ainda.
+
+Aguarde minha aprovação explícita antes de qualquer modificação.

@@ -1,0 +1,38 @@
+Atue exclusivamente como Documentador de Governança Técnica.
+
+Contexto:
+Estamos conduzindo um processo deliberado e incremental de definição de governança para o Local Triage Agent. As decisões humanas já foram tomadas e não devem ser reinterpretadas.
+
+Sua tarefa:
+
+Atualizar o Documento Mestre de Decisão (DMD) incorporando:
+
+As premissas operacionais do ambiente (usuário leigo, coleta automática de IP/patrimônio, etc.).
+
+A definição final da intenção PRINTER_ISSUE, incluindo:
+
+Dados mínimos obrigatórios (humanos).
+
+Dados técnicos como enriquecimento automático e não bloqueante.
+
+Atualizar o arquivo politicas_operacionais.md para refletir:
+
+Proibição explícita de solicitar IP, patrimônio ou inspeção física ao usuário.
+
+Postura linguística amigável e não técnica.
+
+Uso de perguntas de reconhecimento contextual.
+
+Restrições obrigatórias:
+
+NÃO sugerir novas regras.
+
+NÃO modificar decisões já tomadas.
+
+NÃO propor implementação, código ou arquitetura.
+
+NÃO expandir escopo para outras intenções além de PRINTER_ISSUE.
+
+Resultado esperado:
+Documentos atualizados, claros, consistentes entre si e prontos para validação humana antes de qualquer implementação.
+

@@ -1,0 +1,232 @@
+PROMPT — AUDITORIA ARQUITETURAL PROFUNDA DO CÓDIGO (MODO ESTUDO, SEM ALTERAÇÕES)
+
+Papel do Agente
+
+Você atuará exclusivamente como auditor técnico e pesquisador arquitetural, com foco em conformidade com boas práticas modernas de agentes conversacionais.
+
+Este ciclo NÃO autoriza:
+
+implementação,
+
+refatoração,
+
+correção,
+
+remoção,
+
+nem modificação de código de produção.
+
+Seu papel é ler, analisar, confrontar e documentar.
+
+Contexto Consolidado (Obrigatório)
+
+Você já produziu um levantamento arquitetural avançado que validou, com base no estado da arte, que o Local Triage Agent sofre de falhas estruturais claras:
+
+Uso de Sliding Window ingênua
+
+Arquitetura Chat-Driven inadequada para triagem
+
+Ausência de State Store persistente
+
+Extração implícita misturada com conversação
+
+Validação rígida baseada em string
+
+Falta de closure determinístico
+
+Loops causados por perfeccionismo do LLM
+
+Esse diagnóstico está correto e encerrado.
+
+Objetivo Deste Novo Ciclo (Phase 3 — Code & Definition Audit)
+
+Realizar uma auditoria completa do projeto, agora script por script e pasta por pasta, com o objetivo de identificar elementos do código que:
+
+Descumprem boas práticas modernas já mapeadas
+
+Utilizam definições antigas, obsoletas ou antipadrões
+
+Reforçam comportamento Chat-Driven indevido
+
+Conflitam conceitualmente com:
+
+State-Driven architecture
+
+State Store
+
+Silent Extraction
+
+Semantic Validation
+
+Deterministic Closure
+
+Criam riscos futuros de inconsistência, loop ou perda de contexto
+
+⚠️ Você NÃO deve corrigir nada. Apenas identificar, explicar e documentar.
+
+Escopo da Análise
+
+Você deve analisar todo o repositório, incluindo (mas não limitado a):
+
+agents/
+
+graph/ ou Graph.py
+
+nodes/
+
+state/
+
+intents_config.json
+
+prompts
+
+validadores
+
+lógica de classificação
+
+lógica de viabilidade
+
+lógica de extração
+
+uso de histórico (messages, history_text, buffers)
+
+testes existentes
+
+Método Obrigatório de Análise
+
+Para CADA pasta e CADA script, execute o seguinte processo:
+
+1. Identificação
+
+Qual é a responsabilidade declarada desse arquivo?
+
+Ele atua em:
+
+memória?
+
+fluxo?
+
+extração?
+
+validação?
+
+decisão?
+
+2. Avaliação Arquitetural
+
+Avalie se o código:
+
+Depende excessivamente de histórico textual
+
+Usa lógica probabilística onde deveria ser determinística
+
+Mistura NLU, NLG e Flow Logic
+
+Confia no LLM para “decidir” estados
+
+Usa validação sintática onde deveria ser semântica
+
+Assume que “conversar resolve”
+
+3. Confronto com Boas Práticas
+
+Confronte explicitamente com os conceitos já estudados:
+
+Isso viola State-Driven?
+
+Isso ignora State Store?
+
+Isso reforça Chat-Driven?
+
+Isso cria risco de looping?
+
+Isso cria risco de amnésia?
+
+Isso contradiz padrões de LangGraph / Rasa / agentes transacionais?
+
+4. Classificação do Problema
+
+Classifique cada achado como:
+
+Anti-pattern arquitetural
+
+Definição obsoleta
+
+Risco de inconsistência futura
+
+Fonte potencial de looping
+
+Fonte potencial de perda de contexto
+
+Acoplamento indevido
+
+5. Documentação (Sem Solução)
+
+Para cada ponto identificado, documente:
+
+Arquivo / Pasta
+
+Trecho ou lógica envolvida (descrição, não patch)
+
+Qual regra ou boa prática moderna é violada
+
+Por que isso conflita com o que já foi validado
+
+Quais sintomas isso explica nos testes (ex: looping, esquecimento)
+
+⚠️ Não propor correção. Não sugerir código.
+
+Exemplo de Profundidade Esperada (Ilustrativo)
+
+Arquivo: nodes/viability_node.py
+Problema: Lógica delega ao LLM a decisão de “viável ou não”, baseada em linguagem natural.
+Violação: Flow Logic probabilística em vez de determinística.
+Conflito: Arquitetura State-Driven exige regras explícitas baseadas em estado.
+Risco: Loop infinito de perguntas mesmo com dados completos.
+Sintoma observado: Falha em atingir READY nos cenários 01, 05 e 07.
+
+Entregáveis Esperados
+
+Documento estruturado por:
+
+Pasta
+
+Script
+
+Lista completa de:
+
+Antipadrões
+
+Definições antigas
+
+Decisões que conflitam com o estudo arquitetural
+
+Correlação direta com falhas observadas nos testes
+
+Linguagem técnica, objetiva e auditável
+
+Restrições Finais (Reforço)
+
+❌ Não refatorar
+
+❌ Não sugerir “como corrigir”
+
+❌ Não escrever código
+
+❌ Não adaptar ao roadmap
+
+✅ Apenas analisar, confrontar e documentar
+
+Objetivo Final
+
+Criar uma radiografia arquitetural completa do projeto, que permita, no futuro:
+
+Refatorar com segurança
+
+Evitar regressões
+
+Eliminar conflitos conceituais
+
+Alinhar o código ao estado da arte já validado
+
+Este ciclo existe exclusivamente para entendimento profundo e documentação técnica total.

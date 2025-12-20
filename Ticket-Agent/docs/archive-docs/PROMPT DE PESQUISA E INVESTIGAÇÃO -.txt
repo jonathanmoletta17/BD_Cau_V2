@@ -1,0 +1,254 @@
+PROMPT DE PESQUISA E INVESTIGAÇÃO - (MODO ESTUDO, SEM ALTERAÇÕES EM PRODUÇÃO)
+
+Papel do Agente
+
+Você está atuando exclusivamente como pesquisador, analista técnico e validador conceitual do Agente de Triage Local.
+Você NÃO deve alterar, sugerir alterar ou implementar qualquer modificação no código de produção.
+Seu objetivo é estudar profundamente, compreender e validar, com base científica e prática, as inconsistências já identificadas nos testes de simulação.
+
+Este trabalho é 100% investigativo.
+
+Contexto Obrigatório (Base do Estudo)
+
+Você deve considerar como verdade factual e ponto de partida obrigatório todo o material abaixo:
+
+Relatório de Simulação: tests/simulation_report.md
+
+Resultado: 0% de sucesso em 20 cenários
+
+Problemas centrais já identificados:
+
+Falha grave de retenção de contexto (“Efeito Goldfish”)
+
+Rejeição de inputs válidos e curtos (“Perfeccionismo”)
+
+Loops de verificação infinitos
+
+Dependência excessiva da última mensagem (sliding window)
+
+Ausência de memória de trabalho / persistência de estado
+
+Prompt excessivamente cauteloso
+
+Pontos positivos:
+
+Classificação de intenção correta
+
+Intent Locking funcional
+
+Nada disso deve ser questionado agora.
+Seu papel é entender profundamente por que isso acontece e como arquiteturas maduras lidam com esse problema.
+
+Objetivo Geral
+
+Produzir conhecimento sólido, validado e documentado que permita, no futuro, evoluir a arquitetura do agente de:
+
+“Conversa pura baseada em chat”
+para
+“Conversa guiada por estado (State-Driven Conversational Agent)”
+
+Sem implementar nada agora.
+
+Regras Absolutas
+
+❌ Não alterar código
+
+❌ Não sugerir hotfix, workaround ou gambiarra
+
+❌ Não escrever pseudocódigo de produção
+
+❌ Não assumir decisões arquiteturais
+
+✅ Somente estudar, comparar, validar e documentar
+
+Linhas de Pesquisa Obrigatórias
+
+Você deve investigar profundamente, com exemplos reais, documentação oficial e estudos práticos, os temas abaixo — sempre relacionando diretamente com as falhas observadas no agente.
+
+1. Memória em Agentes Conversacionais
+
+Investigue e documente:
+
+Diferença entre:
+
+Context Window
+
+Sliding Window
+
+Short-term memory
+
+Working memory
+
+Long-term memory
+
+Por que confiar apenas no histórico do chat falha
+
+Casos documentados de:
+
+Perda de entidades em conversas longas
+
+Degradação semântica ao longo dos turnos
+
+Como agentes maduros não dependem da releitura do chat
+
+Fontes esperadas:
+
+Documentação oficial (OpenAI, Anthropic, LangChain, Rasa, Dialogflow, Microsoft Bot Framework)
+
+Artigos técnicos
+
+Whitepapers
+
+Estudos de caso reais
+
+2. State-Driven vs Chat-Driven Agents
+
+Compare arquiteturas:
+
+Chat-Driven (LLM lê tudo e decide)
+
+State-Driven (slots, estado explícito, controle determinístico)
+
+Investigue:
+
+Slot filling clássico (NLU)
+
+Hybrid approaches (LLM + state machine)
+
+Casos em que conversa livre falha
+
+Casos em que estado explícito resolve looping
+
+Relacione diretamente com:
+
+TIPO A (Goldfish)
+
+TIPO B (Perfeccionista)
+
+TIPO C (Contexto longo)
+
+3. Extração Explícita de Entidades (NER / Slot Filling)
+
+Estude:
+
+Pipelines com:
+
+Etapa exclusiva de extração
+
+Persistência de entidades
+
+Por que misturar “conversar” com “extrair dados” gera falhas
+
+Abordagens:
+
+Regex + heurística
+
+NER clássico
+
+LLM-only
+
+LLM + validação estrutural (JSON, schemas)
+
+Relacione com falhas observadas:
+
+Nome esquecido
+
+Sistema citado e perdido
+
+Usuário informado e perguntado novamente
+
+4. Validação Semântica Relaxada
+
+Investigue:
+
+Como modelos interpretam termos como:
+
+“quebrou”
+
+“não funciona”
+
+“erro”
+
+Por que prompts excessivamente rígidos causam loops
+
+Estratégias documentadas de:
+
+Inferência semântica
+
+Normalização de intenção
+
+Mapeamento implícito (ex: “quebrou” → defeito)
+
+Busque exemplos reais de prompts e guidelines usados em produção.
+
+5. Estratégias de Pinning de Contexto
+
+Estude:
+
+Fixação da primeira mensagem
+
+Resumo controlado vs perda de informação
+
+Reenvio seletivo de contexto crítico
+
+Memória fora do prompt (external memory)
+
+Relacione diretamente com:
+
+Cenários 02, 03 e 06
+
+Hipótese de sliding window
+
+Metodologia Esperada
+
+Você deve:
+
+Buscar documentação oficial
+
+Buscar exemplos práticos reais
+
+Buscar projetos open-source maduros
+
+Buscar testes comparativos
+
+Validar conceitos com múltiplas fontes
+
+Relacionar cada achado com uma falha observada
+
+Nada abstrato. Nada genérico.
+
+Formato das Entregas (Somente Estudo)
+
+Para cada linha de pesquisa, produza:
+
+Explicação técnica clara
+
+Referências (nome da ferramenta, framework ou paper)
+
+Exemplo prático (conceitual ou documentado)
+
+Relação direta com o problema observado no agente
+
+O que isso ensina, não o que mudar
+
+Objetivo Final
+
+Ao final deste processo, você deve ser capaz de responder com clareza técnica:
+
+Por que o agente atual se comporta assim
+
+Por que isso é um problema conhecido na área
+
+Quais padrões maduros resolvem isso
+
+Quais decisões arquiteturais existem no mercado
+
+Quais riscos existem em cada abordagem
+
+Sem implementar nada.
+Sem opinar sobre qual escolher.
+Apenas entendimento profundo e validado.
+
+Modo ativo: Pesquisa contínua, crítica técnica, validação cruzada.
+Modo proibido: Implementação, refatoração, alteração de produção.
+

@@ -1,0 +1,2487 @@
+[
+  {
+    "id": 2,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 20,
+    "name": "EMAIL",
+    "completename": "ACESSO A SISTEMAS > OFFICE 365 > EMAIL",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1,\"20\":20}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-29 10:31:29",
+    "date_creation": "2023-03-21 10:04:25",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/20"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 2,
+    "name": "NOVO USUÁRIO",
+    "completename": "ACESSO A SISTEMAS > OFFICE 365 > EMAIL > NOVO USUÁRIO",
+    "comment": "",
+    "level": 4,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": null,
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-21 10:04:56",
+    "date_creation": "2023-03-21 10:04:56",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/2"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 2,
+    "name": "CAIXA COMPARTILHADA",
+    "completename": "ACESSO A SISTEMAS > OFFICE 365 > EMAIL > CAIXA COMPARTILHADA",
+    "comment": "",
+    "level": 4,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": null,
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-21 10:05:22",
+    "date_creation": "2023-03-21 10:05:22",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/2"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 2,
+    "name": "LISTA PUBLICA",
+    "completename": "ACESSO A SISTEMAS > OFFICE 365 > EMAIL > LISTA PUBLICA",
+    "comment": "",
+    "level": 4,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": null,
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-21 10:05:45",
+    "date_creation": "2023-03-21 10:05:45",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/2"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 2,
+    "name": "EXCLUSÃO",
+    "completename": "ACESSO A SISTEMAS > OFFICE 365 > EMAIL > EXCLUSÃO",
+    "comment": "",
+    "level": 4,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": null,
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-21 10:06:14",
+    "date_creation": "2023-03-21 10:06:14",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/2"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 0,
+    "name": "AJUDA E SUPORTE",
+    "completename": "AJUDA E SUPORTE",
+    "comment": "",
+    "level": 1,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "[]",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-21 10:55:02",
+    "date_creation": "2023-03-21 10:55:02",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 7,
+    "name": "INSTALAÇÃO DE SOFTWARE",
+    "completename": "AJUDA E SUPORTE > INSTALAÇÃO DE SOFTWARE",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"7\":7}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-21 14:03:28",
+    "date_creation": "2023-03-21 14:03:28",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/7"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 16,
+    "name": "RESET DE SENHA",
+    "completename": "ACESSO A SISTEMAS > SOE > RESET DE SENHA",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1,\"16\":16}",
+    "sons_cache": "{\"10\":10}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-04-04 13:47:22",
+    "date_creation": "2023-03-21 14:11:35",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/16"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 1,
+    "name": "TÚNEL PROCERGS",
+    "completename": "ACESSO A SISTEMAS > TÚNEL PROCERGS",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1}",
+    "sons_cache": "{\"11\":11}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-22 08:54:39",
+    "date_creation": "2023-03-22 08:54:39",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/1"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 9,
+    "name": "FPE",
+    "completename": "ACESSO A SISTEMAS > SOE > FPE",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1,\"9\":9}",
+    "sons_cache": "{\"13\":13}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-22 16:00:01",
+    "date_creation": "2023-03-22 15:59:50",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/9"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 0,
+    "name": "IMPRESSORA",
+    "completename": "IMPRESSORA",
+    "comment": "",
+    "level": 1,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "[]",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-22 16:20:01",
+    "date_creation": "2023-03-22 16:20:01",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 43,
+    "name": "IMPRESSORA",
+    "completename": "DTIC > EQUIPAMENTOS > INSTALAÇÃO > IMPRESSORA",
+    "comment": "",
+    "level": 4,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"38\":38,\"43\":43}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-06 09:25:52",
+    "date_creation": "2023-03-22 16:20:39",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/43"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 1,
+    "name": "SOE",
+    "completename": "ACESSO A SISTEMAS > SOE",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-22 16:53:42",
+    "date_creation": "2023-03-22 16:53:42",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/1"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 16,
+    "name": "PROA",
+    "completename": "ACESSO A SISTEMAS > SOE > PROA",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1,\"16\":16}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-22 17:22:17",
+    "date_creation": "2023-03-22 17:22:17",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/16"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 39,
+    "name": "INFRAESTRUTURA",
+    "completename": "DTIC > INFRAESTRUTURA",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 8,
+    "users_id": 0,
+    "groups_id": 91,
+    "code": "",
+    "ancestors_cache": "{\"39\":39}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 14:25:27",
+    "date_creation": "2023-03-22 17:26:49",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/39"
+      },
+      {
+        "rel": "KnowbaseItemCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/KnowbaseItemCategory/8"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/91"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 26,
+    "name": "EMPRESTIMO",
+    "completename": "AJUDA E SUPORTE > MOVIMENTO DE EQUIPAMENTOS DE TI > EMPRESTIMO",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"7\":7,\"26\":26}",
+    "sons_cache": "{\"19\":19}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-29 10:30:01",
+    "date_creation": "2023-03-23 09:12:44",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/26"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 1,
+    "name": "OFFICE 365",
+    "completename": "ACESSO A SISTEMAS > OFFICE 365",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-23 10:43:07",
+    "date_creation": "2023-03-23 10:43:07",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/1"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 1,
+    "name": "REDE",
+    "completename": "ACESSO A SISTEMAS > REDE",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-23 10:56:05",
+    "date_creation": "2023-03-23 10:56:05",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/1"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 21,
+    "name": "LIBERAÇÃO DE ACESSO",
+    "completename": "ACESSO A SISTEMAS > REDE > LIBERAÇÃO DE ACESSO",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1,\"21\":21}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-23 10:56:57",
+    "date_creation": "2023-03-23 10:56:57",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/21"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 2,
+    "name": "ALTERAR PLANO / LICENÇA",
+    "completename": "ACESSO A SISTEMAS > OFFICE 365 > EMAIL > ALTERAR PLANO / LICENÇA",
+    "comment": "",
+    "level": 4,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1,\"20\":20,\"2\":2}",
+    "sons_cache": "{\"23\":23}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-29 13:04:29",
+    "date_creation": "2023-03-23 10:57:53",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/2"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 21,
+    "name": "RESET DE SENHA",
+    "completename": "ACESSO A SISTEMAS > REDE > RESET DE SENHA",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1,\"21\":21}",
+    "sons_cache": "{\"24\":24}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-23 14:07:50",
+    "date_creation": "2023-03-23 14:07:50",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/21"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 7,
+    "name": "INSTALAÇÃO DE EQUIPAMENTOS",
+    "completename": "AJUDA E SUPORTE > INSTALAÇÃO DE EQUIPAMENTOS",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"7\":7}",
+    "sons_cache": "{\"25\":25}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-23 16:14:01",
+    "date_creation": "2023-03-23 16:14:01",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/7"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 26,
+    "name": "REQUISIÇÃO",
+    "completename": "AJUDA E SUPORTE > MOVIMENTO DE EQUIPAMENTOS DE TI > REQUISIÇÃO",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"7\":7,\"26\":26}",
+    "sons_cache": "{\"28\":28}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-03-29 10:37:43",
+    "date_creation": "2023-03-29 10:37:43",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/26"
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 17,
+    "name": "REMOVER DE GRUPO",
+    "completename": "ACESSO A SISTEMAS > SOE > PROA > REMOVER DE GRUPO",
+    "comment": "",
+    "level": 4,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1,\"16\":16,\"17\":17}",
+    "sons_cache": "{\"30\":30}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-04-04 13:49:09",
+    "date_creation": "2023-04-04 13:48:54",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/17"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 17,
+    "name": "ADICIONAR A GRUPO",
+    "completename": "ACESSO A SISTEMAS > SOE > PROA > ADICIONAR A GRUPO",
+    "comment": "",
+    "level": 4,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1,\"16\":16,\"17\":17}",
+    "sons_cache": "{\"31\":31}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-04-04 13:54:41",
+    "date_creation": "2023-04-04 13:54:35",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/17"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 2,
+    "name": "ATUALIZAR DADOS",
+    "completename": "ACESSO A SISTEMAS > OFFICE 365 > EMAIL > ATUALIZAR DADOS",
+    "comment": "",
+    "level": 4,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1,\"20\":20,\"2\":2}",
+    "sons_cache": "{\"32\":32}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-04-05 15:06:51",
+    "date_creation": "2023-04-05 15:06:51",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/2"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 21,
+    "name": "TÚNEL PROCERGS",
+    "completename": "ACESSO A SISTEMAS > REDE > TÚNEL PROCERGS",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1,\"21\":21}",
+    "sons_cache": "{\"33\":33}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-04-10 13:26:20",
+    "date_creation": "2023-04-10 13:26:20",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/21"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 7,
+    "name": "ATENDIMENTO AO USUÁRIO",
+    "completename": "AJUDA E SUPORTE > ATENDIMENTO AO USUÁRIO",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"7\":7}",
+    "sons_cache": "{\"34\":34}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-04-11 10:57:04",
+    "date_creation": "2023-04-11 10:57:04",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/7"
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 22,
+    "name": "NOVO USUÁRIO",
+    "completename": "ACESSO A SISTEMAS > REDE > LIBERAÇÃO DE ACESSO > NOVO USUÁRIO",
+    "comment": "",
+    "level": 4,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1,\"21\":21,\"22\":22}",
+    "sons_cache": "{\"35\":35}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-05-16 08:54:04",
+    "date_creation": "2023-05-16 08:53:49",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/22"
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 20,
+    "name": "CRIAR EQUIPE SHAREPOINT",
+    "completename": "ACESSO A SISTEMAS > OFFICE 365 > CRIAR EQUIPE SHAREPOINT",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "365",
+    "ancestors_cache": "{\"1\":1,\"20\":20}",
+    "sons_cache": "{\"36\":36}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-05-23 09:48:39",
+    "date_creation": "2023-05-23 09:48:05",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/20"
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 21,
+    "name": "WIFI",
+    "completename": "ACESSO A SISTEMAS > REDE > WIFI",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1,\"21\":21}",
+    "sons_cache": "{\"37\":37}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-06-05 13:59:30",
+    "date_creation": "2023-05-31 14:14:49",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/21"
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 39,
+    "name": "EQUIPAMENTOS",
+    "completename": "DTIC > EQUIPAMENTOS",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 2,
+    "users_id": 0,
+    "groups_id": 90,
+    "code": "",
+    "ancestors_cache": "{\"39\":39}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 13:48:25",
+    "date_creation": "2023-07-03 15:12:36",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/39"
+      },
+      {
+        "rel": "KnowbaseItemCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/KnowbaseItemCategory/2"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/90"
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 0,
+    "name": "DTIC",
+    "completename": "DTIC",
+    "comment": "Base ",
+    "level": 1,
+    "knowbaseitemcategories_id": 1,
+    "users_id": 0,
+    "groups_id": 90,
+    "code": "",
+    "ancestors_cache": "[]",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-03 15:40:19",
+    "date_creation": "2023-07-03 15:40:19",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "KnowbaseItemCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/KnowbaseItemCategory/1"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/90"
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 39,
+    "name": "SISTEMAS",
+    "completename": "DTIC > SISTEMAS",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 3,
+    "users_id": 0,
+    "groups_id": 90,
+    "code": "",
+    "ancestors_cache": "{\"39\":39}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-03 15:44:20",
+    "date_creation": "2023-07-03 15:44:20",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/39"
+      },
+      {
+        "rel": "KnowbaseItemCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/KnowbaseItemCategory/3"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/90"
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 38,
+    "name": "RECOLHIMENTO",
+    "completename": "DTIC > EQUIPAMENTOS > RECOLHIMENTO",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 90,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"38\":38}",
+    "sons_cache": "{\"41\":41}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 14:24:18",
+    "date_creation": "2023-07-04 13:50:36",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/38"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/90"
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 38,
+    "name": "MANUTENÇÃO",
+    "completename": "DTIC > EQUIPAMENTOS > MANUTENÇÃO",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 90,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"38\":38}",
+    "sons_cache": "{\"42\":42}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 13:51:36",
+    "date_creation": "2023-07-04 13:51:36",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/38"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/90"
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 38,
+    "name": "INSTALAÇÃO",
+    "completename": "DTIC > EQUIPAMENTOS > INSTALAÇÃO",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 2,
+    "users_id": 0,
+    "groups_id": 90,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"38\":38}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 13:53:31",
+    "date_creation": "2023-07-04 13:53:31",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/38"
+      },
+      {
+        "rel": "KnowbaseItemCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/KnowbaseItemCategory/2"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/90"
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 38,
+    "name": "CONFIGURAÇÃO",
+    "completename": "DTIC > EQUIPAMENTOS > CONFIGURAÇÃO",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 90,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"38\":38}",
+    "sons_cache": "{\"44\":44}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 13:54:44",
+    "date_creation": "2023-07-04 13:54:44",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/38"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/90"
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 40,
+    "name": "INSTALAÇÃO DE SOFTWARE",
+    "completename": "DTIC > SISTEMAS > INSTALAÇÃO DE SOFTWARE",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 3,
+    "users_id": 0,
+    "groups_id": 90,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"40\":40}",
+    "sons_cache": "{\"46\":46}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 14:00:21",
+    "date_creation": "2023-07-04 14:00:21",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/40"
+      },
+      {
+        "rel": "KnowbaseItemCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/KnowbaseItemCategory/3"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/90"
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 40,
+    "name": "CONFIGURAÇÃO DE SOFTWARE",
+    "completename": "DTIC > SISTEMAS > CONFIGURAÇÃO DE SOFTWARE",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 3,
+    "users_id": 0,
+    "groups_id": 90,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"40\":40}",
+    "sons_cache": "{\"47\":47}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 14:03:50",
+    "date_creation": "2023-07-04 14:03:50",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/40"
+      },
+      {
+        "rel": "KnowbaseItemCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/KnowbaseItemCategory/3"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/90"
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 40,
+    "name": "REMOÇÃO DE ACESSO SISTEMA",
+    "completename": "DTIC > SISTEMAS > REMOÇÃO DE ACESSO SISTEMA",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 3,
+    "users_id": 0,
+    "groups_id": 91,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"40\":40}",
+    "sons_cache": "{\"48\":48}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 14:19:52",
+    "date_creation": "2023-07-04 14:19:52",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/40"
+      },
+      {
+        "rel": "KnowbaseItemCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/KnowbaseItemCategory/3"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/91"
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 40,
+    "name": "ALTERAÇÃO DE ACESSO",
+    "completename": "DTIC > SISTEMAS > ALTERAÇÃO DE ACESSO",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 3,
+    "users_id": 0,
+    "groups_id": 91,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"40\":40}",
+    "sons_cache": "{\"49\":49}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 14:21:21",
+    "date_creation": "2023-07-04 14:21:17",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/40"
+      },
+      {
+        "rel": "KnowbaseItemCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/KnowbaseItemCategory/3"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/91"
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 18,
+    "name": "PROBLEMA DE REDE",
+    "completename": "DTIC > INFRAESTRUTURA > PROBLEMA DE REDE",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 90,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"18\":18}",
+    "sons_cache": "{\"51\":51}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 14:34:45",
+    "date_creation": "2023-07-04 14:34:45",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/18"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/90"
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 18,
+    "name": "MUDANÇA DE LOCAL",
+    "completename": "DTIC > INFRAESTRUTURA > MUDANÇA DE LOCAL",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 90,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"18\":18}",
+    "sons_cache": "{\"52\":52}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 14:36:20",
+    "date_creation": "2023-07-04 14:36:20",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/18"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/90"
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 18,
+    "name": "WI-FI",
+    "completename": "DTIC > INFRAESTRUTURA > WI-FI",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 91,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"18\":18}",
+    "sons_cache": "{\"53\":53}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 14:37:12",
+    "date_creation": "2023-07-04 14:37:12",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/18"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/91"
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 18,
+    "name": "NOVO PONTO DE REDE",
+    "completename": "DTIC > INFRAESTRUTURA > NOVO PONTO DE REDE",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 91,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"18\":18}",
+    "sons_cache": "{\"54\":54}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 14:37:47",
+    "date_creation": "2023-07-04 14:37:47",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/18"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/91"
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 18,
+    "name": "PROJETOS",
+    "completename": "DTIC > INFRAESTRUTURA > PROJETOS",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 8,
+    "users_id": 0,
+    "groups_id": 92,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"18\":18}",
+    "sons_cache": "{\"55\":55}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 14:39:15",
+    "date_creation": "2023-07-04 14:39:15",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/18"
+      },
+      {
+        "rel": "KnowbaseItemCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/KnowbaseItemCategory/8"
+      },
+      {
+        "rel": "Group",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Group/92"
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 18,
+    "name": "OUTROS",
+    "completename": "DTIC > INFRAESTRUTURA > OUTROS",
+    "comment": "",
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"18\":18}",
+    "sons_cache": "{\"56\":56}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-04 14:39:56",
+    "date_creation": "2023-07-04 14:39:56",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/18"
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 14,
+    "name": "ATOLAMENTO",
+    "completename": "IMPRESSORA > ATOLAMENTO",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"14\":14}",
+    "sons_cache": "{\"57\":57}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-13 13:21:19",
+    "date_creation": "2023-07-13 13:21:19",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/14"
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 1,
+    "name": "NDD",
+    "completename": "ACESSO A SISTEMAS > NDD",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"1\":1}",
+    "sons_cache": "{\"58\":58}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-07-13 13:24:57",
+    "date_creation": "2023-07-13 13:24:57",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/1"
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "entities_id": 3,
+    "is_recursive": 0,
+    "itilcategories_id": 0,
+    "name": "ACESSO A SISTEMAS",
+    "completename": "ACESSO A SISTEMAS",
+    "comment": null,
+    "level": 1,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "[]",
+    "sons_cache": "{\"59\":59}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-10-09 15:54:55",
+    "date_creation": "2023-10-09 15:54:55",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/3"
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "entities_id": 5,
+    "is_recursive": 0,
+    "itilcategories_id": 0,
+    "name": "ACESSO A SISTEMAS",
+    "completename": "ACESSO A SISTEMAS",
+    "comment": null,
+    "level": 1,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "[]",
+    "sons_cache": "{\"60\":60}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2023-11-06 09:55:11",
+    "date_creation": "2023-11-06 09:55:11",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/5"
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "entities_id": 2,
+    "is_recursive": 0,
+    "itilcategories_id": 38,
+    "name": "SOLICITAÇÃO",
+    "completename": "DTIC > EQUIPAMENTOS > SOLICITAÇÃO",
+    "comment": null,
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"38\":38}",
+    "sons_cache": "{\"61\":61}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2024-02-23 10:11:02",
+    "date_creation": "2024-02-23 10:11:02",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/2"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/38"
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "entities_id": 3,
+    "is_recursive": 0,
+    "itilcategories_id": 7,
+    "name": "MOVIMENTO DE EQUIPAMENTOS DE TI",
+    "completename": "AJUDA E SUPORTE > MOVIMENTO DE EQUIPAMENTOS DE TI",
+    "comment": null,
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"7\":7}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2024-08-21 13:46:43",
+    "date_creation": "2024-08-21 13:46:43",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/3"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/7"
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "entities_id": 3,
+    "is_recursive": 0,
+    "itilcategories_id": 62,
+    "name": "DEVOLUÇÃO",
+    "completename": "AJUDA E SUPORTE > MOVIMENTO DE EQUIPAMENTOS DE TI > DEVOLUÇÃO",
+    "comment": null,
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"7\":7,\"62\":62}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2024-08-21 13:46:43",
+    "date_creation": "2024-08-21 13:46:43",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/3"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/62"
+      }
+    ]
+  },
+  {
+    "id": 64,
+    "entities_id": 4,
+    "is_recursive": 0,
+    "itilcategories_id": 7,
+    "name": "MOVIMENTO DE EQUIPAMENTOS DE TI",
+    "completename": "AJUDA E SUPORTE > MOVIMENTO DE EQUIPAMENTOS DE TI",
+    "comment": null,
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"7\":7}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2024-09-03 17:22:46",
+    "date_creation": "2024-09-03 17:22:46",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/4"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/7"
+      }
+    ]
+  },
+  {
+    "id": 65,
+    "entities_id": 6,
+    "is_recursive": 0,
+    "itilcategories_id": 7,
+    "name": "MOVIMENTO DE EQUIPAMENTOS DE TI",
+    "completename": "AJUDA E SUPORTE > MOVIMENTO DE EQUIPAMENTOS DE TI",
+    "comment": null,
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"7\":7}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2024-09-27 15:13:50",
+    "date_creation": "2024-09-27 15:13:50",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/6"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/7"
+      }
+    ]
+  },
+  {
+    "id": 66,
+    "entities_id": 5,
+    "is_recursive": 0,
+    "itilcategories_id": 7,
+    "name": "MOVIMENTO DE EQUIPAMENTOS DE TI",
+    "completename": "AJUDA E SUPORTE > MOVIMENTO DE EQUIPAMENTOS DE TI",
+    "comment": null,
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"7\":7}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2024-10-09 08:53:52",
+    "date_creation": "2024-10-09 08:53:52",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/5"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/7"
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "entities_id": 5,
+    "is_recursive": 0,
+    "itilcategories_id": 66,
+    "name": "DEVOLUÇÃO",
+    "completename": "AJUDA E SUPORTE > MOVIMENTO DE EQUIPAMENTOS DE TI > DEVOLUÇÃO",
+    "comment": null,
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"7\":7,\"66\":66}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2024-10-09 08:53:52",
+    "date_creation": "2024-10-09 08:53:52",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/5"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/66"
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "entities_id": 7,
+    "is_recursive": 0,
+    "itilcategories_id": 0,
+    "name": "ACESSO A SISTEMAS",
+    "completename": "ACESSO A SISTEMAS",
+    "comment": null,
+    "level": 1,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "[]",
+    "sons_cache": "{\"68\":68}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2025-03-14 15:45:06",
+    "date_creation": "2025-03-14 15:45:06",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/7"
+      }
+    ]
+  },
+  {
+    "id": 69,
+    "entities_id": 3,
+    "is_recursive": 0,
+    "itilcategories_id": 38,
+    "name": "SOLICITAÇÃO",
+    "completename": "DTIC > EQUIPAMENTOS > SOLICITAÇÃO",
+    "comment": null,
+    "level": 3,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"39\":39,\"38\":38}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2025-06-23 10:23:46",
+    "date_creation": "2025-06-23 10:23:46",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/3"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/38"
+      }
+    ]
+  },
+  {
+    "id": 71,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 14,
+    "name": "TROCA DE TONNER",
+    "completename": "IMPRESSORA > TROCA DE TONNER",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"14\":14}",
+    "sons_cache": "{\"71\":71}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2025-07-30 16:18:38",
+    "date_creation": "2025-07-30 16:18:38",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/14"
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "entities_id": 0,
+    "is_recursive": 1,
+    "itilcategories_id": 14,
+    "name": "MOVIMENTAÇÃO FISICA",
+    "completename": "IMPRESSORA > MOVIMENTAÇÃO FISICA",
+    "comment": "",
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"14\":14}",
+    "sons_cache": "{\"72\":72}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2025-07-30 16:19:26",
+    "date_creation": "2025-07-30 16:19:26",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/0"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/14"
+      }
+    ]
+  },
+  {
+    "id": 73,
+    "entities_id": 1,
+    "is_recursive": 0,
+    "itilcategories_id": 7,
+    "name": "MOVIMENTO DE EQUIPAMENTOS DE TI",
+    "completename": "AJUDA E SUPORTE > MOVIMENTO DE EQUIPAMENTOS DE TI",
+    "comment": null,
+    "level": 2,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "{\"7\":7}",
+    "sons_cache": null,
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2025-08-12 17:12:08",
+    "date_creation": "2025-08-12 17:12:08",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/1"
+      },
+      {
+        "rel": "ITILCategory",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/ITILCategory/7"
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "entities_id": 4,
+    "is_recursive": 0,
+    "itilcategories_id": 0,
+    "name": "ACESSO A SISTEMAS",
+    "completename": "ACESSO A SISTEMAS",
+    "comment": null,
+    "level": 1,
+    "knowbaseitemcategories_id": 0,
+    "users_id": 0,
+    "groups_id": 0,
+    "code": "",
+    "ancestors_cache": "[]",
+    "sons_cache": "{\"74\":74}",
+    "is_helpdeskvisible": 1,
+    "tickettemplates_id_incident": 0,
+    "tickettemplates_id_demand": 0,
+    "changetemplates_id": 0,
+    "problemtemplates_id": 0,
+    "is_incident": 1,
+    "is_request": 1,
+    "is_problem": 1,
+    "is_change": 1,
+    "date_mod": "2025-12-02 18:00:37",
+    "date_creation": "2025-12-02 18:00:37",
+    "links": [
+      {
+        "rel": "Entity",
+        "href": "http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php/Entity/4"
+      }
+    ]
+  }
+]

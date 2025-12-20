@@ -1,0 +1,16 @@
+{
+  "questions": {
+    "username": "Qual é o seu usuário de rede (login)?",
+    "full_name": "Qual é o nome completo do novo usuário?",
+    "department": "Para qual setor/departamento será este usuário?",
+    "user_type": "O vínculo será Efetivo ou Estagiário?",
+    "cpf": "Por favor, informe o CPF do colaborador efetivo.",
+    "rg": "Por favor, informe o RG do estagiário.",
+    "item": "Qual equipamento você precisa? (Ex: Mouse, Teclado, Monitor)",
+    "description": "Por favor, descreva detalhadamente o problema ou solicitação.",
+    "existing_username": "Qual é o usuário de rede que precisa do acesso VPN?",
+    "system_name": "Qual sistema está apresentando erro? (Ex: SAP, CRM)",
+    "error_message": "Qual mensagem de erro aparece ou o que está acontecendo?",
+    "action": "Você quer instalar o cliente VPN ou receber permissão de acesso?"
+  }
+}

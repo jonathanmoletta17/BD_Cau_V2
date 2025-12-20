@@ -1,0 +1,89 @@
+Você NÃO pode implementar, corrigir ou sugerir código.
+Seu papel agora é apenas:
+– levantar decisões pendentes
+– apresentar opções claras
+– explicar consequências
+– aguardar minha decisão explícita.”
+
+Sem isso, ele sempre vai “resolver tudo de uma vez”.
+
+4. Estrutura correta para seguir daqui pra frente
+
+Você não precisa mais pedir análises soltas.
+Você precisa conduzir micro-decisões documentadas.
+
+📐 Framework que recomendo (use sempre)
+
+Para cada tema, siga exatamente este ciclo:
+
+Fase 1 — Delimitação
+
+Você pergunta:
+
+“Quais decisões de comportamento ainda NÃO estão explicitamente definidas no agente?”
+
+O agente responde apenas listando (sem propor solução).
+
+Exemplo de saída aceitável:
+
+Inferência de urgência
+
+Inferência de impacto
+
+Tratamento de múltiplos problemas no mesmo ticket
+
+Linguagem técnica vs leiga
+
+Quando encerrar conversa sem ticket
+
+Fase 2 — Uma decisão por vez
+
+Você escolhe uma única regra:
+
+“Vamos decidir agora apenas: Inferência de Urgência.”
+
+O agente responde obrigatoriamente neste formato:
+
+Opção	Descrição	Benefício	Risco
+
+Sem recomendação final.
+
+Fase 3 — Decisão humana
+
+Você responde algo como:
+
+“Adotar opção híbrida, com confirmação no resumo final.”
+
+👉 Somente aqui a regra nasce.
+
+Fase 4 — Registro
+
+O agente:
+
+Atualiza politicas_operacionais.md
+
+Marca como Regra Invariante
+
+Define critério de teste
+
+Nada mais.
+
+Fase 5 — Só depois: implementação
+
+Somente após várias regras fechadas, vocês voltam para:
+
+schemas
+
+prompts
+
+código
+
+Nunca antes.
+
+5. O que você deve pedir agora (resposta direta)
+
+Próximo pedido recomendado ao agente:
+
+“Liste todas as regras comportamentais e de inferência que ainda NÃO estão explicitamente decididas ou documentadas no agente.
+Não proponha soluções.
+Apenas enumere os pontos de decisão pendentes.”

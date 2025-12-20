@@ -1,0 +1,117 @@
+[
+  {
+    "id": "TC001_RESET_PASSWORD_SIMPLE",
+    "input": "Esqueci minha senha",
+    "expected_intent": "RESET_PASSWORD",
+    "expected_payload": {
+      "target_system": "Rede/Windows"
+    },
+    "description": "Reset simples deve assumir Rede/Windows por padrão"
+  },
+  {
+    "id": "TC002_RESET_PASSWORD_SAP",
+    "input": "Minha senha do SAP bloqueou",
+    "expected_intent": "RESET_PASSWORD",
+    "expected_payload": {
+      "target_system": "SAP"
+    },
+    "description": "Reset explícito de sistema corporativo"
+  },
+  {
+    "id": "TC003_CREATE_USER_INTERN",
+    "input": "Preciso criar um usuário para um novo estagiário chamado João Silva no RH",
+    "expected_intent": "CREATE_USER",
+    "expected_payload": {
+      "full_name": "João Silva",
+      "department": "RH",
+      "user_type": "Estagiário"
+    },
+    "description": "Criação de estagiário com extração de nome e setor"
+  },
+  {
+    "id": "TC004_VPN_ACCESS_REQUEST",
+    "input": "Gostaria de liberar acesso VPN para o usuário maria.souza",
+    "expected_intent": "VPN_ACCESS",
+    "expected_payload": {
+      "existing_username": "maria.souza",
+      "action": "Grant_Access"
+    },
+    "description": "Solicitação de acesso VPN para usuário existente"
+  },
+  {
+    "id": "TC005_EQUIPMENT_INCIDENT_MOUSE",
+    "input": "Meu mouse parou de funcionar",
+    "expected_intent": "EQUIPMENT_REQUEST",
+    "expected_payload": {
+      "item": "mouse",
+      "request_type": "Incident"
+    },
+    "description": "Incidente de hardware (quebra)"
+  },
+  {
+    "id": "TC006_EQUIPMENT_REQUISITION_HEADSET",
+    "input": "Preciso solicitar um headset novo",
+    "expected_intent": "EQUIPMENT_REQUEST",
+    "expected_payload": {
+      "item": "headset",
+      "request_type": "Requisition"
+    },
+    "description": "Requisição de novo equipamento"
+  },
+  {
+    "id": "TC007_PRINTER_ISSUE_JAM",
+    "input": "A impressora do financeiro está com papel atolado",
+    "expected_intent": "PRINTER_ISSUE",
+    "expected_payload": {
+      "description": "A impressora do financeiro está com papel atolado"
+    },
+    "description": "Problema de impressora com descrição completa"
+  },
+  {
+    "id": "TC008_CORPORATE_SYSTEM_ERROR",
+    "input": "O SAP está dando erro de conexão",
+    "expected_intent": "CORPORATE_SYSTEMS",
+    "expected_payload": {
+      "system_name": "SAP"
+    },
+    "description": "Erro em sistema corporativo identificado"
+  },
+  {
+    "id": "TC009_VPN_ISSUE_CONNECTION",
+    "input": "Não consigo conectar na VPN, dá erro de certificado",
+    "expected_intent": "VPN_ISSUE",
+    "expected_payload": {
+      "description": "Não consigo conectar na VPN, dá erro de certificado"
+    },
+    "description": "Problema técnico na VPN"
+  },
+  {
+    "id": "TC010_NLU_EDGE_LONG_INPUT",
+    "input": "A impressora do terceiro andar está fazendo um barulho muito estranho como se tivesse algo preso dentro dela e as folhas estão saindo todas manchadas de tinta preta e o painel fica piscando uma luz vermelha intermitente que eu nunca vi antes e já tentamos desligar e ligar de novo mas não resolveu nada e precisamos imprimir relatórios urgentes para a reunião da diretoria hoje a tarde por favor mandem alguém rápido.",
+    "expected_intent": "PRINTER_ISSUE",
+    "expected_payload": {
+      "description": "A impressora do terceiro andar está fazendo um barulho muito estranho como se tivesse algo preso dentro dela e as folhas estão saindo todas manchadas de tinta preta e o painel fica piscando uma luz vermelha intermitente que eu nunca vi antes e já tentamos desligar e ligar de novo mas não resolveu nada e precisamos imprimir relatórios urgentes para a reunião da diretoria hoje a tarde por favor mandem alguém rápido."
+    },
+    "description": "Input longo descrevendo problema de impressora"
+  },
+  {
+    "id": "TC011_NLU_EDGE_INJECTION",
+    "input": "Preciso de um mouse novo ' OR 1=1 --",
+    "expected_intent": "EQUIPMENT_REQUEST",
+    "expected_payload": {
+      "item": "mouse",
+      "request_type": "Requisition"
+    },
+    "description": "Tentativa de injeção SQL no input"
+  },
+  {
+    "id": "TC012_NLU_EDGE_EMOJI",
+    "input": "Meu notebook não liga 😭🔥",
+    "expected_intent": "EQUIPMENT_REQUEST",
+    "expected_payload": {
+      "item": "notebook",
+      "request_type": "Incident"
+    },
+    "description": "Input com emojis e caracteres unicode"
+  }
+]

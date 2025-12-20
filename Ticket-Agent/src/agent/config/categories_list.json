@@ -1,0 +1,259 @@
+[
+  {
+    "id": 7,
+    "name": "AJUDA E SUPORTE",
+    "children": [
+      {
+        "id": 8,
+        "name": "INSTALAÇÃO DE SOFTWARE",
+        "children": []
+      },
+      {
+        "id": 25,
+        "name": "INSTALAÇÃO DE EQUIPAMENTOS",
+        "children": []
+      },
+      {
+        "id": 34,
+        "name": "ATENDIMENTO AO USUÁRIO",
+        "children": []
+      },
+      {
+        "id": 62,
+        "name": "MOVIMENTO DE EQUIPAMENTOS DE TI",
+        "children": [
+          {
+            "id": 19,
+            "name": "EMPRESTIMO"
+          },
+          {
+            "id": 28,
+            "name": "REQUISIÇÃO"
+          },
+          {
+            "id": 63,
+            "name": "DEVOLUÇÃO"
+          },
+          {
+            "id": 67,
+            "name": "DEVOLUÇÃO"
+          }
+        ]
+      },
+      {
+        "id": 64,
+        "name": "MOVIMENTO DE EQUIPAMENTOS DE TI",
+        "children": []
+      },
+      {
+        "id": 65,
+        "name": "MOVIMENTO DE EQUIPAMENTOS DE TI",
+        "children": []
+      },
+      {
+        "id": 66,
+        "name": "MOVIMENTO DE EQUIPAMENTOS DE TI",
+        "children": []
+      },
+      {
+        "id": 73,
+        "name": "MOVIMENTO DE EQUIPAMENTOS DE TI",
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "IMPRESSORA",
+    "children": [
+      {
+        "id": 57,
+        "name": "ATOLAMENTO",
+        "children": []
+      },
+      {
+        "id": 71,
+        "name": "TROCA DE TONNER",
+        "children": []
+      },
+      {
+        "id": 72,
+        "name": "MOVIMENTAÇÃO FISICA",
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "name": "DTIC",
+    "children": [
+      {
+        "id": 18,
+        "name": "INFRAESTRUTURA",
+        "children": [
+          {
+            "id": 51,
+            "name": "PROBLEMA DE REDE"
+          },
+          {
+            "id": 52,
+            "name": "MUDANÇA DE LOCAL"
+          },
+          {
+            "id": 53,
+            "name": "WI-FI"
+          },
+          {
+            "id": 54,
+            "name": "NOVO PONTO DE REDE"
+          },
+          {
+            "id": 55,
+            "name": "PROJETOS"
+          },
+          {
+            "id": 56,
+            "name": "OUTROS"
+          }
+        ]
+      },
+      {
+        "id": 38,
+        "name": "EQUIPAMENTOS",
+        "children": [
+          {
+            "id": 41,
+            "name": "RECOLHIMENTO"
+          },
+          {
+            "id": 42,
+            "name": "MANUTENÇÃO (CONSERTO/QUEBRADO)"
+          },
+          {
+            "id": 43,
+            "name": "INSTALAÇÃO (NOVO)"
+          },
+          {
+            "id": 44,
+            "name": "CONFIGURAÇÃO"
+          },
+          {
+            "id": 61,
+            "name": "SOLICITAÇÃO"
+          },
+          {
+            "id": 69,
+            "name": "SOLICITAÇÃO"
+          }
+        ]
+      },
+      {
+        "id": 40,
+        "name": "SISTEMAS",
+        "children": [
+          {
+            "id": 46,
+            "name": "INSTALAÇÃO DE SOFTWARE"
+          },
+          {
+            "id": 47,
+            "name": "CONFIGURAÇÃO DE SOFTWARE"
+          },
+          {
+            "id": 48,
+            "name": "REMOÇÃO DE ACESSO SISTEMA"
+          },
+          {
+            "id": 49,
+            "name": "ALTERAÇÃO DE ACESSO"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "name": "ACESSO A SISTEMAS",
+    "children": [
+      {
+        "id": 11,
+        "name": "TÚNEL PROCERGS",
+        "children": []
+      },
+      {
+        "id": 16,
+        "name": "SOE",
+        "children": [
+          {
+            "id": 10,
+            "name": "RESET DE SENHA"
+          },
+          {
+            "id": 13,
+            "name": "FPE"
+          },
+          {
+            "id": 17,
+            "name": "PROA"
+          }
+        ]
+      },
+      {
+        "id": 20,
+        "name": "OFFICE 365",
+        "children": [
+          {
+            "id": 2,
+            "name": "EMAIL"
+          },
+          {
+            "id": 36,
+            "name": "CRIAR EQUIPE SHAREPOINT"
+          }
+        ]
+      },
+      {
+        "id": 21,
+        "name": "REDE",
+        "children": [
+          {
+            "id": 22,
+            "name": "LIBERAÇÃO DE ACESSO"
+          },
+          {
+            "id": 24,
+            "name": "RESET DE SENHA"
+          },
+          {
+            "id": 33,
+            "name": "TÚNEL PROCERGS"
+          },
+          {
+            "id": 37,
+            "name": "WIFI"
+          }
+        ]
+      },
+      {
+        "id": 58,
+        "name": "NDD",
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "name": "ACESSO A SISTEMAS",
+    "children": []
+  },
+  {
+    "id": 68,
+    "name": "ACESSO A SISTEMAS",
+    "children": []
+  },
+  {
+    "id": 74,
+    "name": "ACESSO A SISTEMAS",
+    "children": []
+  }
+]

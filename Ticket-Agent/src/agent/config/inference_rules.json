@@ -1,0 +1,130 @@
+{
+  "equipment_request": {
+    "item": {
+      "keywords": [
+        "suporte para notebook",
+        "mouse",
+        "teclado",
+        "notebook",
+        "monitor",
+        "tela",
+        "impressora",
+        "headset",
+        "fone",
+        "carregador",
+        "cabo",
+        "nobreak",
+        "computador",
+        "pc",
+        "desktop",
+        "laptop",
+        "suporte"
+      ]
+    },
+    "request_type": {
+      "default": "Incident",
+      "keywords_incident": [
+        "quebrado",
+        "não liga",
+        "nao liga",
+        "fumaça",
+        "fumaca",
+        "erro",
+        "lento",
+        "tela azul",
+        "defeito",
+        "problema"
+      ],
+      "keywords_requisition": [
+        "novo",
+        "troca",
+        "preciso",
+        "velho",
+        "desgast",
+        "outro",
+        "solicito",
+        "solicitação",
+        "pedido"
+      ]
+    }
+  },
+  "reset_password": {
+    "target_system": {
+      "default": "Rede/Windows",
+      "keywords": {
+        "Office 365": [
+          "office",
+          "365",
+          "outlook",
+          "email"
+        ],
+        "SAP": [
+          "sap"
+        ]
+      }
+    }
+  },
+  "corporate_systems": {
+    "system_name": {
+      "keywords": {
+        "SAP": [
+          "sap"
+        ],
+        "CRM": [
+          "crm"
+        ],
+        "PROA": [
+          "proa"
+        ],
+        "FPE": [
+          "fpe",
+          "f.p.e",
+          "folha"
+        ]
+      }
+    }
+  },
+  "create_user": {
+    "user_type": {
+      "keywords": {
+        "Efetivo": [
+          "efetivo",
+          "funcionario",
+          "funcionário",
+          "colaborador"
+        ],
+        "Estagiário": [
+          "estagiário",
+          "estagiario",
+          "estagio",
+          "bolsista"
+        ]
+      }
+    },
+    "patterns": {
+      "cpf": "\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}",
+      "rg": "\\d{2}\\.?\\d{3}\\.?\\d{3}-?\\d{1}",
+      "matricula": "\\d{4,8}"
+    }
+  },
+  "vpn_access": {
+    "action": {
+      "default": "Grant_Access",
+      "keywords": {
+        "Install_Client": [
+          "instalar",
+          "cliente",
+          "forticlient",
+          "instalação"
+        ],
+        "Grant_Access": [
+          "liberar",
+          "acesso",
+          "permissão",
+          "habilitar",
+          "conectar"
+        ]
+      }
+    }
+  }
+}

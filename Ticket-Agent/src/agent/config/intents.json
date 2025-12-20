@@ -1,0 +1,58 @@
+{
+  "intents": [
+    {
+      "id": "RESET_PASSWORD",
+      "keywords": ["senha", "esqueci", "bloqueado", "reset", "login"],
+      "priority": 10,
+      "excludeKeywords": ["novo", "criar"],
+      "schema": "reset_password",
+      "description": "Problemas de autenticação e reset de senha"
+    },
+    {
+      "id": "CREATE_USER",
+      "keywords": ["novo usuario", "novo usuário", "novo funcionário", "admissão", "criar login", "criar conta", "novo acesso", "estagiário", "criação de usuário", "criação de usuario", "criar usuário", "criar usuario"],
+      "priority": 9,
+      "schema": "create_user",
+      "description": "Solicitação de nova identidade digital"
+    },
+    {
+      "id": "PRINTER_ISSUE",
+      "keywords": ["impressora", "toner", "papel", "imprimir", "scan", "atolamento"],
+      "priority": 8,
+      "schema": "printer_issue",
+      "description": "Problemas de impressão"
+    },
+    {
+      "id": "VPN_ISSUE",
+      "keywords": ["vpn não conecta", "erro na vpn", "falha na vpn", "vpn caiu", "não consigo conectar vpn", "problema na vpn", "não consigo conectar na vpn", "vpn parou", "não conecta na vpn"],
+      "priority": 8,
+      "schema": "vpn_issue",
+      "description": "Problemas de conexão VPN"
+    },
+    {
+      "id": "VPN_ACCESS",
+      "keywords": ["vpn", "acesso remoto", "forticlient", "globalprotect", "instalar vpn", "liberar vpn"],
+      "priority": 7,
+      "excludeKeywords": ["não conecta", "erro", "falha", "problema", "caiu"],
+      "schema": "vpn_access",
+      "description": "Solicitação de acesso remoto"
+    },
+    {
+      "id": "EQUIPMENT_REQUEST",
+      "keywords": ["mouse", "teclado", "notebook", "monitor", "tela azul", "quebrado", "não liga", "nao liga", "lento", "hardware", "solicito", "preciso de", "estação de trabalho", "nobreak", "fumaça", "fumaca", "headset", "fone", "solicitar", "requisição"],
+      "priority": 6,
+      "conditionalKeywords": {
+        "computador": ["novo", "troca", "lento"]
+      },
+      "schema": "equipment_request",
+      "description": "Problemas ou requisição de equipamento"
+    },
+    {
+      "id": "CORPORATE_SYSTEMS",
+      "keywords": ["sap", "crm", "proa", "fpe", "f.p.e", "folha", "sistema"],
+      "priority": 5,
+      "schema": "corporate_systems",
+      "description": "Erros em sistemas corporativos"
+    }
+  ]
+}

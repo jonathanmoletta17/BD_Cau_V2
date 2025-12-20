@@ -1,0 +1,113 @@
+Estrutura do Documento Técnico (DRAFT)
+
+A proposta é gerar o documento com estas seções principais, organizadas de forma clara e técnica:
+
+1. Introdução e Visão Geral
+
+Objetivo do agente
+
+Escopo do documento
+
+Público-alvo (engenharia, QA, auditoria)
+
+2. Premissas do Ambiente Operacional
+
+Perfil do usuário (leigo)
+
+Tipos de identificação aceitos
+
+Coleta automática de dados técnicos
+
+Papel de automações externas
+
+3. Mapa de Intenções (DMD v2.1)
+
+Lista oficial de intenções
+
+Definições formais
+
+Fronteiras estritas por intenção
+
+4. Definições de Campos e Schemas
+
+Campos por intenção
+
+Campos obrigatórios / condicionais
+
+Identificadores (CPF, RG, Matrícula/Empresa)
+
+5. Regras de Negócio por Intenção
+
+RESET_PASSWORD
+
+CREATE_USER
+
+EQUIPMENT_REQUEST
+
+PRINTER_ISSUE
+
+VPN_ACCESS
+
+CORPORATE_SYSTEMS
+
+6. Regras de Inferência e Decisão
+
+Quando o agente pode assumir
+
+Inferência de datas vagas
+
+Inferência de tipo de request_type
+
+Regras proibidas de inferência
+
+7. Política de Confirmação e Erro
+
+Limite de 3 tentativas por campo
+
+Handover para humano
+
+Campo parado sem progresso
+
+8. Workflow de Conversação Multi-Turno
+
+Pinned request
+
+Histórico de mensagens
+
+Extração silenciosa e incremental
+
+9. Regras Especiais de Domínio
+
+Impressoras departamentais
+
+Equipamentos pessoais não atendidos
+
+Patrimônio / serial via automação
+
+10. Exemplos de Casos de Uso e Resultados Esperados
+
+Cenários típicos e respostas corretas
+
+Fluxos de Requisição vs Incidente
+
+Fluxos de confirmação e erro
+
+11. Critérios de Teste e Simulação
+
+Testes unitários por intenção
+
+Casos de integração de fluxo
+
+Script de simulação behavior
+
+12. Observações Operacionais e Notas de Execução
+
+Restrição de troubleshooting técnico
+
+Integração com GLPI
+
+Ambiente de execução e encoding
+
+13. Glossário Técnico
+
+Termos, abreviações e definições
