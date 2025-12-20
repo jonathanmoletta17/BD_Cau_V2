@@ -1,0 +1,2022 @@
+[
+  {
+    "scenario": "Access_Iter_1",
+    "timestamp": "2025-12-15T14:25:27.701706",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819527.7017062,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 4.805697202682495
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819532.5074034,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 0.9346277713775635
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819533.4420311,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 0.940373420715332
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819534.3824046,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.1825671195983887
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 7.863265514373779
+  },
+  {
+    "scenario": "Creation_Iter_1",
+    "timestamp": "2025-12-15T14:25:35.564971",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819535.5649717,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.9328203201293945
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819537.497792,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 0.9921669960021973
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819538.489959,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.0631980895996094
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819539.553157,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.062488555908203
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.050673961639404
+  },
+  {
+    "scenario": "Access_Iter_2",
+    "timestamp": "2025-12-15T14:25:41.615645",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819541.6156456,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.9245240688323975
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819543.5401697,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 0.9283089637756348
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819544.4684787,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 0.9268224239349365
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819545.395301,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.2069308757781982
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 4.986586332321167
+  },
+  {
+    "scenario": "Creation_Iter_2",
+    "timestamp": "2025-12-15T14:25:46.602232",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819546.602232,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.9209094047546387
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819548.5231414,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 0.9709024429321289
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819549.4940438,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.0382492542266846
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819550.532293,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.086838483810425
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.016899585723877
+  },
+  {
+    "scenario": "Access_Iter_3",
+    "timestamp": "2025-12-15T14:25:52.619676",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819552.6196764,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.659980058670044
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819554.2796564,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 0.9395802021026611
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819555.2192366,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.18589186668396
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819556.4051285,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.3345468044281006
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.119998931884766
+  },
+  {
+    "scenario": "Creation_Iter_3",
+    "timestamp": "2025-12-15T14:25:57.739675",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819557.7396753,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.9658360481262207
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819559.7055113,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.1051528453826904
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819560.8106642,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.0874168872833252
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819561.898081,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.218945026397705
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.377350807189941
+  },
+  {
+    "scenario": "Access_Iter_4",
+    "timestamp": "2025-12-15T14:26:04.117026",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819564.117026,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.8190479278564453
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819565.936074,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.0492932796478271
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819566.9853673,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.0252058506011963
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819568.0105731,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.0312566757202148
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 4.924803733825684
+  },
+  {
+    "scenario": "Creation_Iter_4",
+    "timestamp": "2025-12-15T14:26:09.041829",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819569.0418298,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.8432207107543945
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819570.8850505,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.0735573768615723
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819571.958608,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.2356364727020264
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819573.1942444,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.2047808170318604
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.3571953773498535
+  },
+  {
+    "scenario": "Access_Iter_5",
+    "timestamp": "2025-12-15T14:26:15.399025",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819575.3990252,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 2.0804338455200195
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819577.479459,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.218820333480835
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819578.6982794,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.2316749095916748
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819579.9299543,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.038862705230713
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.569791793823242
+  },
+  {
+    "scenario": "Creation_Iter_5",
+    "timestamp": "2025-12-15T14:26:20.968817",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819580.968817,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.8991525173187256
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819582.8679695,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.085658073425293
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819583.9536276,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.448634386062622
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819585.402262,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.259394884109497
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.692839860916138
+  },
+  {
+    "scenario": "Access_Iter_6",
+    "timestamp": "2025-12-15T14:26:27.662166",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819587.6621666,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 2.1040821075439453
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819589.7662487,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 0.932445764541626
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819590.6986945,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 0.9772598743438721
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819591.6759543,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.2581069469451904
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.271894693374634
+  },
+  {
+    "scenario": "Creation_Iter_6",
+    "timestamp": "2025-12-15T14:26:32.934061",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819592.9340613,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.9716498851776123
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819594.9057112,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.060314655303955
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819595.9660258,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.052149772644043
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819597.0181756,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.164844274520874
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.248958587646484
+  },
+  {
+    "scenario": "Access_Iter_7",
+    "timestamp": "2025-12-15T14:26:39.183019",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819599.1830199,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.9203190803527832
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819601.103339,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 0.9807796478271484
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819602.0841186,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.021454095840454
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819603.1055727,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.1550102233886719
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.077563047409058
+  },
+  {
+    "scenario": "Creation_Iter_7",
+    "timestamp": "2025-12-15T14:26:44.260583",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819604.260583,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.971529245376587
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819606.2321122,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.128584384918213
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819607.3606966,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.0898096561431885
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819608.4505062,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.173478841781616
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.3634021282196045
+  },
+  {
+    "scenario": "Access_Iter_8",
+    "timestamp": "2025-12-15T14:26:50.623985",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819610.623985,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.881047248840332
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819612.5050323,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 0.9706752300262451
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819613.4757075,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 0.9621260166168213
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819614.4378335,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.1926939487457275
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.006542444229126
+  },
+  {
+    "scenario": "Creation_Iter_8",
+    "timestamp": "2025-12-15T14:26:55.630527",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819615.6305275,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.115851402282715
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819617.746379,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.076127290725708
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819618.8225062,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.273956298828125
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819620.0964625,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.257467269897461
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.723402261734009
+  },
+  {
+    "scenario": "Access_Iter_9",
+    "timestamp": "2025-12-15T14:27:02.353929",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819622.3539298,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.761366605758667
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819624.1152964,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.1132678985595703
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819625.2285643,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.0017611980438232
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819626.2303255,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.067430019378662
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 4.943825721740723
+  },
+  {
+    "scenario": "Creation_Iter_9",
+    "timestamp": "2025-12-15T14:27:07.297755",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819627.2977555,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.9655003547668457
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819629.2632558,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.093308687210083
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819630.3565645,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.1857304573059082
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819631.542295,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.317814826965332
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.562354326248169
+  },
+  {
+    "scenario": "Access_Iter_10",
+    "timestamp": "2025-12-15T14:27:13.860109",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819633.8601098,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.7998499870300293
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819635.6599598,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.0377750396728516
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819636.6977348,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.1023406982421875
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819637.8000755,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.065915822982788
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.0058815479278564
+  },
+  {
+    "scenario": "Creation_Iter_10",
+    "timestamp": "2025-12-15T14:27:18.865991",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819638.8659914,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.0907280445098877
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819640.9567194,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.3701086044311523
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819642.326828,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.250673532485962
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819643.5775015,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.513930082321167
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 7.225440263748169
+  },
+  {
+    "scenario": "Access_Iter_11",
+    "timestamp": "2025-12-15T14:27:26.091431",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819646.0914316,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.9650187492370605
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819648.0564504,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.122166395187378
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819649.1786168,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.0577428340911865
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819650.2363596,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.0963683128356934
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.241296291351318
+  },
+  {
+    "scenario": "Creation_Iter_11",
+    "timestamp": "2025-12-15T14:27:31.332727",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819651.332728,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.3334743976593018
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819653.6662023,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.2246644496917725
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819654.8908668,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.3401296138763428
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819656.2309964,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.4724841117858887
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 7.370752573013306
+  },
+  {
+    "scenario": "Access_Iter_12",
+    "timestamp": "2025-12-15T14:27:38.703480",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819658.7034805,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.9901683330535889
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819660.6936488,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.1013007164001465
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819661.7949495,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.0343451499938965
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819662.8292947,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.0824613571166992
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.208275556564331
+  },
+  {
+    "scenario": "Creation_Iter_12",
+    "timestamp": "2025-12-15T14:27:43.911756",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819663.911756,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.83894681930542
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819665.7507029,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.0495326519012451
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819666.8002355,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.0947985649108887
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819667.895034,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.27044415473938
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.253722190856934
+  },
+  {
+    "scenario": "Access_Iter_13",
+    "timestamp": "2025-12-15T14:27:50.165478",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819670.1654782,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.928797960281372
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819672.0942762,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.1712603569030762
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819673.2655365,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.0122368335723877
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819674.2777734,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.0907347202301025
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.2030298709869385
+  },
+  {
+    "scenario": "Creation_Iter_13",
+    "timestamp": "2025-12-15T14:27:55.368508",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819675.368508,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.8623554706573486
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819677.2308636,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.132450819015503
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819678.3633144,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.1980042457580566
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819679.5613186,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.323822021484375
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.516632556915283
+  },
+  {
+    "scenario": "Access_Iter_14",
+    "timestamp": "2025-12-15T14:28:01.885140",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819681.8851407,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 2.039849042892456
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819683.9249897,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.2677791118621826
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819685.1927688,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.2342884540557861
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819686.4270573,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.3523223400115967
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.8942389488220215
+  },
+  {
+    "scenario": "Creation_Iter_14",
+    "timestamp": "2025-12-15T14:28:07.779379",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819687.7793796,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.11006236076355
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819689.889442,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.0758471488952637
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819690.965289,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.11598539352417
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819692.0812745,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.331947088241577
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.6338419914245605
+  },
+  {
+    "scenario": "Access_Iter_15",
+    "timestamp": "2025-12-15T14:28:14.413221",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819694.4138129,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.7920522689819336
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819696.2058651,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.1476013660430908
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819697.3534665,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.0030937194824219
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819698.3565602,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.1060254573822021
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.048772811889648
+  },
+  {
+    "scenario": "Creation_Iter_15",
+    "timestamp": "2025-12-15T14:28:19.462585",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819699.4625857,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.953474998474121
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819701.4160607,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.1888303756713867
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819702.604891,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.1687626838684082
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819703.7736537,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.540942430496216
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.852010488510132
+  },
+  {
+    "scenario": "Access_Iter_16",
+    "timestamp": "2025-12-15T14:28:26.314596",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819706.3145962,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.9208624362945557
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819708.2354586,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.2168519496917725
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819709.4523106,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.3188872337341309
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819710.7711978,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.3171441555023193
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.773745775222778
+  },
+  {
+    "scenario": "Creation_Iter_16",
+    "timestamp": "2025-12-15T14:28:32.088341",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819712.088342,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.0430543422698975
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819714.1313963,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.101182222366333
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819715.2325785,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.159043312072754
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819716.3916218,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.388329267501831
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.691609144210815
+  },
+  {
+    "scenario": "Access_Iter_17",
+    "timestamp": "2025-12-15T14:28:38.779951",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819718.779951,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 2.1280109882354736
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819720.907962,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.3269000053405762
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819722.234862,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.2158949375152588
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819723.450757,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.3680810928344727
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 6.038887023925781
+  },
+  {
+    "scenario": "Creation_Iter_17",
+    "timestamp": "2025-12-15T14:28:44.818837",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819724.8188381,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.046398162841797
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819726.8652363,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.0739636421203613
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819727.9392,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.0999033451080322
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819729.0391033,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.364288806915283
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.584553956985474
+  },
+  {
+    "scenario": "Access_Iter_18",
+    "timestamp": "2025-12-15T14:28:51.403392",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819731.403392,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.8182251453399658
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819733.2216172,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.0770378112792969
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819734.298655,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 0.9762954711914062
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819735.2749505,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.1196849346160889
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 4.991243362426758
+  },
+  {
+    "scenario": "Creation_Iter_18",
+    "timestamp": "2025-12-15T14:28:56.394635",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819736.3946354,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.8980364799499512
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819738.292672,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.1959123611450195
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819739.4885843,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.123168706893921
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819740.611753,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.350362777709961
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.5674803256988525
+  },
+  {
+    "scenario": "Access_Iter_19",
+    "timestamp": "2025-12-15T14:29:02.962115",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819742.9621158,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 2.1532628536224365
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819745.1153786,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.2003588676452637
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819746.3157375,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.2008323669433594
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819747.5165699,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.213672399520874
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.768126487731934
+  },
+  {
+    "scenario": "Creation_Iter_19",
+    "timestamp": "2025-12-15T14:29:08.730242",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819748.7302423,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.0804543495178223
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819750.8106966,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.189016342163086
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819751.999713,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.1955585479736328
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819753.1952715,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.2342727184295654
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.6993019580841064
+  },
+  {
+    "scenario": "Access_Iter_20",
+    "timestamp": "2025-12-15T14:29:15.429544",
+    "interactions": [
+      {
+        "input": "Preciso liberar acesso",
+        "start": 1765819755.4295442,
+        "response": {
+          "role": "assistant",
+          "content": "Para qual sistema você precisa de acesso?"
+        },
+        "duration": 1.778088092803955
+      },
+      {
+        "input": "Seria para o sistema SOE",
+        "start": 1765819757.2076323,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.0888524055480957
+      },
+      {
+        "input": "Ação de liberar mesmo",
+        "start": 1765819758.2964847,
+        "response": {
+          "role": "assistant",
+          "content": "Qual é o nome completo do usuário que precisa do acesso?"
+        },
+        "duration": 1.0428450107574463
+      },
+      {
+        "input": "Para o usuário João Silva",
+        "start": 1765819759.3393297,
+        "response": {
+          "role": "assistant",
+          "content": "Entendido. Registrei sua solicitação com as seguintes informações:\n\n* **Sistema (ex: SOE):** SOE\n* **Ação (Liberar/Remover):** liberar\n* **Nome do Beneficiário:** João Silva\n\n\n(Classificação Automática: **[Teste] Título Automático** | Categoria: **Categoria Teste**)",
+          "action": "classified",
+          "details": {
+            "ticket_type": 1,
+            "urgency": 3,
+            "category": "Teste"
+          }
+        },
+        "duration": 1.0909180641174316
+      }
+    ],
+    "success": true,
+    "error": null,
+    "final_payload": {
+      "ticket_type": 1,
+      "urgency": 3,
+      "category": "Teste"
+    },
+    "total_duration": 5.000703573226929
+  },
+  {
+    "scenario": "Creation_Iter_20",
+    "timestamp": "2025-12-15T14:29:20.430247",
+    "interactions": [
+      {
+        "input": "Quero criar um novo usuário",
+        "start": 1765819760.4302478,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.9109077453613281
+      },
+      {
+        "input": "É um servidor efetivo",
+        "start": 1765819762.3411555,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.1023545265197754
+      },
+      {
+        "input": "Nome é Maria Souza",
+        "start": 1765819763.44351,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 1.1368834972381592
+      },
+      {
+        "input": "Segue o anexo do memorando",
+        "start": 1765819764.5803936,
+        "response": {
+          "role": "assistant",
+          "content": "Qual o vínculo do usuário (Servidor, Estagiário, Terceiro)?"
+        },
+        "duration": 2.3949198722839355
+      }
+    ],
+    "success": false,
+    "error": null,
+    "total_duration": 6.545065641403198
+  }
+]

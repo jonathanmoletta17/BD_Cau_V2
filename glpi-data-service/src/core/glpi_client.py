@@ -83,7 +83,7 @@ class GLPIClient:
         finally:
             self.session_token = None
     
-    def make_request(self, endpoint: str, params: Dict = None, method: str = 'GET') -> Dict:
+    def make_request(self, endpoint: str, params: Dict = None, method: str = 'GET', json_data: Dict = None) -> Dict:
         """Make authenticated request to GLPI API."""
         if not self.session_token:
             raise Exception("Session not initialized")
@@ -99,6 +99,8 @@ class GLPIClient:
             try:
                 if method.upper() == 'GET':
                     response = self.session.get(url, headers=headers, params=params, timeout=60)
+                elif method.upper() == 'POST':
+                    response = self.session.post(url, headers=headers, json=json_data, timeout=60)
                 else:
                     raise ValueError(f"Unsupported method: {method}")
                 
@@ -120,6 +122,13 @@ class GLPIClient:
                     time.sleep(self.retry_delay)
                 else:
                     raise
+
+    def create_ticket(self, payload: Dict) -> int:
+        """Create a new ticket and return its ID."""
+        response = self.make_request('Ticket', method='POST', json_data=payload)
+        return response.get('id')
+            
+
     
     def get_all_pages(self, endpoint: str, params: Dict = None) -> List[Dict]:
         """Fetch all pages from an endpoint with automatic pagination."""

@@ -72,12 +72,12 @@ async def classify_ticket(request: ClassificationRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/chat")
-async def chat_endpoint(history: List[ChatMessage]):
+async def chat_endpoint(history: List[ChatMessage], session_id: str = "api_client"):
     """
     Conversational endpoint. Sends message history, returns Assistant response + actions.
     """
     try:
-        return await container.chat_service.handle_message(history)
+        return await container.chat_service.handle_message(history, session_id)
     except Exception as e:
         logger.error(f"Chat error: {e}")
         raise HTTPException(status_code=500, detail=str(e))

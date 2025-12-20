@@ -47,7 +47,7 @@ def get_models(context):
             'Profile': dtic_meta.Profile,
             'GroupUser': dtic_meta.GroupUser,
             'ProfileUser': dtic_meta.ProfileUser,
-            'OrphanChange': src.core.models.OrphanChange,
+            'OrphanChange': OrphanChange,
             'Ticket': dtic_tickets.Ticket,
             'TicketUser': dtic_tickets.TicketUser,
             'TicketGroup': dtic_tickets.TicketGroup,
@@ -149,28 +149,52 @@ def run_sync(context, sync_type, limit=None, incremental=False):
                     
                     if st_ticket and st_ticket.last_sync:
                         # Safety Margin (Lookback Window): Subtract 1 hour to catch late commits/clock skew
-                        since_ticket = st_ticket.last_sync - timedelta(hours=1)
+                        # Ensure naive for calculation with timedelta if basic
+                        ls = st_ticket.last_sync.replace(tzinfo=None) if st_ticket.last_sync.tzinfo else st_ticket.last_sync
+                        since_ticket = ls - timedelta(hours=1)
                         logger.info(f"   🕒 Incremental Ticket: Since {st_ticket.last_sync} (Lookback: {since_ticket})")
                     if st_changes and st_changes.last_sync:
-                        since_changes = st_changes.last_sync - timedelta(hours=1)
+                        ls_changes = st_changes.last_sync.replace(tzinfo=None) if st_changes.last_sync.tzinfo else st_changes.last_sync
+                        since_changes = ls_changes - timedelta(hours=1)
                         logger.info(f"   🕒 Incremental Changes: Since {st_changes.last_sync} (Lookback: {since_changes})")
                 
-                # Sync Tickets
-                max_ticket_date = SyncService.sync_tickets(client, session, models, valid_ids, context, limit, since_date=since_ticket)
-                
-                # Update State if Incremental AND no limit (Full Sync)
-                if incremental and not limit and max_ticket_date:
-                    if not st_ticket:
-                        st_ticket = SyncState(context=context, entity_type='Ticket')
-                        session.add(st_ticket)
+                # --- Define State Manager Callback ---
+                def update_ticket_state(new_max_date):
+                    """Callback to save SyncState incrementally."""
+                    if not incremental: return
                     
-                    # Update ONLY if newer
-                    if not st_ticket.last_sync or max_ticket_date > st_ticket.last_sync:
-                        st_ticket.last_sync = max_ticket_date
-                        logger.info(f"   💾 Cursor Updated (Ticket): {max_ticket_date}")
-                    session.commit()
-                elif incremental and limit:
-                    logger.warning("   ⚠️ Incremental Sync with LIMIT: State NOT updated.")
+                    # We query fresh or re-use? Session is same thread, so safe to query/add.
+                    # Since we are inside the same session transaction, simple add/merge works.
+                    
+                    # Need to check if it exists again ? Or keep ref? 
+                    # Keeping ref is risky if session was committed/expired. Querying is safer.
+                    
+                    # Optimization: We can reuse the st_ticket object if attached, 
+                    # but easiest and safest is to query.
+                    
+                    local_st = session.query(SyncState).filter_by(context=context, entity_type='Ticket').first()
+                    if not local_st:
+                        local_st = SyncState(context=context, entity_type='Ticket')
+                        session.add(local_st)
+                    
+                    local_st.last_sync = new_max_date
+                    session.commit() # Commit the state update immediately
+                    # logger.info(f"   💾 [CALLBACK] State saved: {new_max_date}")
+
+                # Sync Tickets
+                # Pass the callback to ensure state is saved DURING the loop
+                max_ticket_date = SyncService.sync_tickets(
+                    client, session, models, valid_ids, context, limit, 
+                    since_date=since_ticket, 
+                    sync_state_manager=update_ticket_state
+                )
+                
+                # Post-loop update is no longer strictly necessary if the loop did its job,
+                # but good for safety if max_ticket_date returned is somehow newer than last saved?
+                # Actually, sync_tickets returns the max seen.
+                # If we rely 100% on the callback, we don't need this block below.
+                # Removing redundant block to avoid confusion.
+
                 
                 # Actors (Always full for now? Or depends on ticket? Usually tied to tickets)
                 # Actors don't have date_mod easily accessible via API root usually, 
@@ -185,17 +209,6 @@ def run_sync(context, sync_type, limit=None, incremental=False):
                 # Sync Changes
                 max_changes_date = SyncService.sync_ticket_changes(client, session, models, valid_ids, limit, since_date=since_changes)
                 
-                if incremental and not limit and max_changes_date:
-                    if not st_changes:
-                        st_changes = SyncState(context=context, entity_type='TicketChange')
-                        session.add(st_changes)
-                        
-                    if not st_changes.last_sync or max_changes_date > st_changes.last_sync:
-                        st_changes.last_sync = max_changes_date
-                        logger.info(f"   💾 Cursor Updated (Changes): {max_changes_date}")
-                    session.commit()
-                elif incremental and limit:
-                    logger.warning("   ⚠️ Incremental Sync with LIMIT: State NOT updated.")
                 
                 # Sync Ticket Items (Assets)
                 if 'TicketItem' in models:

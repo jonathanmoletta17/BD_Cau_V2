@@ -1,0 +1,10 @@
+langchain
+langgraph
+chainlit
+httpx
+pydantic
+pydantic-settings
+python-dotenv
+langchain-ollama
+langchain-community
+openai

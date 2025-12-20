@@ -1,5 +1,32 @@
 services:
   # ==========================================
+  # AI Inference Service (NVIDIA NIM)
+  # ==========================================
+  nim-llm:
+    image: nvcr.io/nim/meta/llama-3.2-3b-instruct:latest
+    container_name: nim-llm
+    environment:
+      - NGC_API_KEY=${NGC_API_KEY}
+    ports:
+      - "8000:8000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+    volumes:
+      - ${NIM_CACHE_PATH:-./nim_cache}:/opt/nim/.cache
+    networks:
+      - app_network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/v1/health/ready" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # ==========================================
   # Core Infrastructure
   # ==========================================
   core-db:
@@ -42,7 +69,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER:-glpi_user}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-glpi_dev_password}
       - POSTGRES_DB=${POSTGRES_DB:-glpi_data}
-      - GLPI_PROD_URL=${GLPI_PROD_URL}
+      - GLPI_PROD_URL=${GLPI_PROD_URL_CONFIG}
       - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
       - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
       - GLPI_SIS_URL=${GLPI_SIS_URL:-}
@@ -52,6 +79,7 @@ services:
       - LOG_LEVEL=INFO
       - TZ=${TZ:-America/Sao_Paulo}
     volumes:
+      - ./glpi-data-service:/app
       - ./glpi-data-service/logs:/app/logs
     networks:
       - app_network
@@ -81,7 +109,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER:-glpi_user}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-glpi_dev_password}
       - POSTGRES_DB=${POSTGRES_DB:-glpi_data}
-      - GLPI_PROD_URL=${GLPI_PROD_URL}
+      - GLPI_PROD_URL=${GLPI_PROD_URL_CONFIG}
       - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
       - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
       - GLPI_SIS_URL=${GLPI_SIS_URL:-}
@@ -91,6 +119,7 @@ services:
       - LOG_LEVEL=INFO
       - TZ=${TZ:-America/Sao_Paulo}
     volumes:
+      - ./glpi-data-service:/app
       - ./glpi-data-service/logs:/app/logs
     networks:
       - app_network
@@ -189,7 +218,7 @@ services:
       - LLM_BASE_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
       - INFERENCE_SERVER_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
       - LLM_MODEL=${LLM_MODEL_NAME:-llama3.1}
-      - GLPI_PROD_URL=${GLPI_PROD_URL}
+      - GLPI_PROD_URL=${GLPI_PROD_URL_CONFIG}
       - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
       - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
       - GLPI_TEST_URL=${GLPI_TEST_URL}
@@ -207,21 +236,20 @@ services:
     networks:
       - app_network
 
-  # Triage Agent UI (Chat Interface)
-  agent-triage-ui:
+  # Triage Agent UI (Legacy - Agent A)
+  legacy-agent-ui:
     build:
       context: ./agents/triage
       dockerfile: Dockerfile
-    container_name: glpi-triage-ui
+    container_name: glpi-triage-ui-legacy
     command: [ "chainlit", "run", "ui.py", "--host", "0.0.0.0", "--port", "8000", "--headless", "-w" ]
     restart: unless-stopped
     ports:
-      - "8001:8000"
+      - "8006:8000"
     environment:
       - LLM_BASE_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
-      - INFERENCE_SERVER_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
       - LLM_MODEL=${LLM_MODEL_NAME:-llama3.1}
-      - GLPI_PROD_URL=${GLPI_PROD_URL}
+      - GLPI_PROD_URL=${GLPI_PROD_URL_CONFIG}
       - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
       - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
       - GLPI_TEST_URL=${GLPI_TEST_URL}
@@ -229,12 +257,41 @@ services:
       - GLPI_TEST_USER_TOKEN=${GLPI_TEST_USER_TOKEN}
       - OPENER_TARGET_ENV=${OPENER_TARGET_ENV:-test}
       - MOCK_AUTH_ENABLED=${MOCK_AUTH_ENABLED:-false}
-      - MOCK_AUTH_USER=${MOCK_AUTH_USER:-glpi}
-      - MOCK_AUTH_PASS=${MOCK_AUTH_PASS:-glpi}
       - PYTHONPATH=/app
-      - CHAINLIT_PORT=8000
+      - CHAINLIT_AUTH_SECRET=${CHAINLIT_AUTH_SECRET}
     volumes:
       - ./agents/triage:/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - app_network
+
+  # Triage Agent UI V2 (Agent B - Main)
+  agent-triage-ui:
+    build:
+      context: .
+      dockerfile: agents/local_triage/Dockerfile
+    container_name: glpi-triage-ui
+    command: [ "chainlit", "run", "agents/local_triage/ui.py", "--host", "0.0.0.0", "--port", "8000", "--headless", "-w" ]
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    environment:
+      - LLM_BASE_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
+      - INFERENCE_SERVER_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
+      - LLM_MODEL=${LLM_MODEL_NAME:-llama3.1}
+      - GLPI_PROD_URL=${GLPI_PROD_URL_CONFIG}
+      - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
+      - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
+      - GLPI_TEST_URL=${GLPI_TEST_URL}
+      - GLPI_TEST_APP_TOKEN=${GLPI_TEST_APP_TOKEN}
+      - GLPI_TEST_USER_TOKEN=${GLPI_TEST_USER_TOKEN}
+      - OPENER_TARGET_ENV=${OPENER_TARGET_ENV:-test}
+      - MOCK_AUTH_ENABLED=true
+      - MOCK_AUTH_USER=${MOCK_AUTH_USER:-glpi}
+      - MOCK_AUTH_PASS=${MOCK_AUTH_PASS:-glpi}
+    volumes:
+      - .:/app
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:

@@ -9,7 +9,16 @@ from .core import fetch_with_backoff
 
 logger = logging.getLogger(__name__)
 
-def sync_tickets(client: GLPIClient, session, models: Dict, valid_ids: Dict, context: str = 'dtic', limit: int = None, since_date: datetime = None):
+import time
+
+def sync_tickets(client: GLPIClient, session, models: Dict, valid_ids: Dict, context: str = 'dtic', limit: int = None, since_date: datetime = None, sync_state_manager=None):
+    """
+    Syncs tickets from GLPI to local DB.
+    
+    Args:
+        sync_state_manager: Optional function(max_date_mod) -> None. 
+                            Called after each batch commit to save progress incrementally.
+    """
     logger.info(f"🚀 Syncing Tickets ({context.upper()})...{f' [LIMIT={limit}]' if limit else ''}{f' [SINCE={since_date}]' if since_date else ''}")
     
     if limit: logger.info(f"   ⚠️ Limit applied: {limit}")
@@ -47,6 +56,8 @@ def sync_tickets(client: GLPIClient, session, models: Dict, valid_ids: Dict, con
         tickets = result
         if not tickets: break
         
+        batch_max_date = None
+
         for t in tickets:
             if limit and total >= limit: break
             glpi_id = t.get('id')
@@ -156,20 +167,36 @@ def sync_tickets(client: GLPIClient, session, models: Dict, valid_ids: Dict, con
                     ks = KnowledgeService()
                     # commit=False because we pledge to commit the whole batch at loop end
                     ks.learn_ticket_sync(session, glpi_id, commit=False)
+                    
+                    # [FIX] Rate Limiting to prevent LLM overload
+                    time.sleep(0.5) 
+                    
                 except Exception as e:
                     logger.warning(f"   ⚠️ RAG Optimization failed for Ticket {glpi_id}: {e}")
-
+                    # [FIX] Backoff on error (allow LLM to recover)
+                    time.sleep(10)
         
+        # Commit Data Batch
         session.commit()
         total += len(tickets)
         
-        # Cursor Update: Track max date
+        # Cursor Update: Track max date within this batch
         # Note: GLPI API sorts by ID by default if not specified, so we scan result for max date
-        current_max = max([parse_date(t.get('date_mod')) for t in tickets if t.get('date_mod')], default=None)
-        if current_max:
-            if not max_date_mod or current_max > max_date_mod:
-                max_date_mod = current_max
+        batch_max = max([parse_date(t.get('date_mod')) for t in tickets if t.get('date_mod')], default=None)
         
+        if batch_max:
+             if not max_date_mod or batch_max > max_date_mod:
+                max_date_mod = batch_max
+        
+        # [CRITICAL FIX] Update SyncState Incrementally if manager provided
+        # This ensures we save progress even if we crash in the next batch
+        if sync_state_manager and max_date_mod:
+            try:
+                sync_state_manager(max_date_mod)
+                # logger.info(f"   💾 Checkpoint Saved: {max_date_mod}") 
+            except Exception as e:
+                logger.error(f"   ❌ Failed to save checkpoint: {e}")
+
         logger.info(f"   Processed {total} tickets... (Max Date: {max_date_mod})")
         range_start += len(tickets)
         

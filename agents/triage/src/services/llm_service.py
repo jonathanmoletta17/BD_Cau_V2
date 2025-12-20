@@ -52,3 +52,44 @@ class LLMService:
         except httpx.HTTPError as e:
             logger.error(f"LLM Chat generation failed: {e}")
             raise
+    async def extract_entities(self, text: str, schema: dict) -> dict:
+        """
+        Extracts structured entities from text based on a schema.
+        Returns a dictionary with the extracted data.
+        """
+        system_prompt = f"""
+        You are a precise Data Extraction Engine.
+        Your goal is to extract entities from the user's text based on the keys below.
+        Return ONLY valid JSON.
+        
+        Keys to extract:
+        {json.dumps(schema, indent=2)}
+        
+        Rules:
+        - If a value is missing, use null.
+        - Do not assume or hallucinate values.
+        - For 'action', use normalized verbs (liberar, desbloquear, criar, remover).
+        
+        Example Input: "Liberar acesso ao SOE para o João"
+        Example Output: {{"system": "SOE", "action": "liberar", "beneficiary_name": "João", "beneficiary_id": null}}
+        """
+        
+        try:
+            response_text = await self.generate_response(
+                prompt=text,
+                system_prompt=system_prompt,
+                temperature=0.0
+            )
+            
+            # Clean response to ensure valid JSON (remove markdown code blocks if any)
+            clean_text = response_text.replace("```json", "").replace("```", "").strip()
+            
+            return json.loads(clean_text)
+            
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to decode JSON from LLM: {e}")
+            logger.debug(f"Raw response: {response_text}")
+            return {}
+        except Exception as e:
+            logger.error(f"Entity extraction failed: {e}")
+            return {}

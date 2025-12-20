@@ -69,12 +69,16 @@ class KnowledgeService:
             # 2. Text
             ticket_text = f"Título: {ticket.titulo}\nDescrição: {ticket.descricao}"
             
+            # Check if entry exists and content is identical
+            entry = db.query(KnowledgeEntry).filter(KnowledgeEntry.ticket_id == ticket.id).first()
+            if entry and entry.content == ticket_text:
+                # Optimized: Content hasn't changed, skip embedding generation
+                return entry
+
             # 3. Embedding (Sync)
             embedding = ollama_service.get_embedding_sync(ticket_text)
             
             # 4. Save/Update
-            entry = db.query(KnowledgeEntry).filter(KnowledgeEntry.ticket_id == ticket.id).first()
-            
             if not entry:
                 entry = KnowledgeEntry(
                     ticket_id=ticket.id,

@@ -1,13 +1,17 @@
 import json
 import os
-from typing import List, Optional
+from typing import List, Optional, Dict
 from src.models import ClassificationRequest, ClassificationResponse, CategoryScore
 from src.services.llm_service import LLMService
 from src.utils.logging import setup_logger
 
 logger = setup_logger(__name__)
 
-CATEGORIES_FILE = "categories_list.json"
+
+# Fix path to be relative to this file, not CWD
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+CATEGORIES_FILE = os.path.join(BASE_DIR, "categories_list.json")
+
 
 class ClassifierService:
     def __init__(self, llm_service: LLMService):
@@ -25,144 +29,158 @@ class ClassifierService:
         else:
             logger.warning("Categories file not found. Classifier might need a sync first.")
 
+    def _get_root_categories(self) -> List[Dict]:
+        return [c for c in self.categories_cache if c.get('level') == 1]
+
+    def _get_children_categories(self, root_name: str) -> List[Dict]:
+        # Filter strictly descendants
+        prefix = f"{root_name} >"
+        return [
+            c for c in self.categories_cache 
+            if c.get('completename', '').startswith(prefix)
+        ]
+
     async def classify(self, request: ClassificationRequest) -> ClassificationResponse:
-        # Reload cache if empty (lazy load)
+        # Reload cache if empty
         if not self.categories_cache:
             self._load_categories()
-
+        print(f"DEBUG: Running Two-Step Classify. Cache size: {len(self.categories_cache)}")
         if not self.categories_cache:
              raise ValueError("No categories available to classify against. Please run sync.")
 
-        # --- Stage 1: Full Context Construction ---
-        # Build the menu list
-        # Format: "- <CompleteName> (ID: <ID>)"
-        # We can optimize token usage by stripping common prefixes if needed, but for now full name is safer.
+        # --- STEP 1: ROOT CLASSIFICATION ---
+        roots = self._get_root_categories()
+        root_str = "\n".join([f"- {c['name']} (ID: {c['id']})" for c in roots])
         
-        cat_list_str = "\n".join([
-            f"- {c['completename']} (ID: {c['id']})"
-            for c in self.categories_cache
-        ])
+        logger.info(f"Step 1: Classifying Root for '{request.title}' against {len(roots)} roots.")
 
-        # --- Stage 2: Prompting ---
-        logger.info(f"Classifying ticket '{request.title}' using Full Context ({len(self.categories_cache)} categories)")
-        
-        system_prompt = (
-            "You are an expert IT Helpdesk Dispatcher. Your goal is to select the BEST GLPI category for a user ticket.\n"
-            "You will receive the ticket content and a COMPLETE list of available categories.\n"
-            "Respond ONLY with a JSON object containing 'selected_category_id' (int) and 'reasoning' (string)."
+        system_prompt_root = (
+            "You are a Triage Dispatcher. Select the broad Domain (Root Category) for this request.\n"
+            "Respond ONLY with JSON: {'root_id': <int>, 'reasoning': <string>}"
         )
+        user_prompt_root = f"""
+TICKET: {request.description}
 
-        user_prompt = f"""
+DOMAINS:
+{root_str}
+
+
+Select the most matching Domain ID.
+CRITICAL: Output ONLY the JSON object. Do not add any introductory text.
+"""
+        root_response = await self.llm.generate_response(user_prompt_root, system_prompt_root)
+        root_data = self._parse_json_response(root_response)
+        
+        if not root_data or 'root_id' not in root_data:
+            logger.error(f"Failed Step 1. Raw: {root_response}")
+            return self._create_error_response("Failed to identify ticket domain.")
+            
+        root_id = root_data['root_id']
+        selected_root = next((r for r in roots if r['id'] == root_id), None)
+        
+        if not selected_root:
+            logger.error(f"Invalid Root ID selected: {root_id}")
+            return self._create_error_response("Selected domain is invalid.")
+
+        # --- STEP 2: LEAF CLASSIFICATION ---
+        children = self._get_children_categories(selected_root['completename'])
+        
+        # Fallback: If no children, simpler classification (or just return root)
+        # But most roots in GLPI should have children. If empty, using Root as final.
+        target_list = children if children else [selected_root]
+        
+        logger.info(f"Step 2: Classifying Leaf in '{selected_root['name']}' ({len(target_list)} candidates).")
+        
+        cat_str = "\n".join([f"- {c['completename']} (ID: {c['id']})" for c in target_list])
+        
+        system_prompt_leaf = (
+            "You are an expert IT Helpdesk Dispatcher. Select the Final Category within the Service Domain.\n"
+            "Respond ONLY with standard JSON structure."
+        )
+        
+        user_prompt_leaf = f"""
 INSTRUCTIONS:
-1. **CRITICAL FALLBACK RULE**: 
-   - If the request is about **Facilities** (Air Conditioner, Furniture, Plumbing, Power infra, Cleaning) or clearly **NON-IT** -> **MUST SELECT ID 5780 (Suporte Geral)**.
-   - **DO NOT** classify Air Conditioners as "Falha Física" in Printers!
-   - **DO NOT** classify Furniture as Hardware!
+1. Analyze the ticket content.
+2. Select the BEST category from the list below (Domain: {selected_root['name']}).
+3. Determine Urgency/Impact (1-5).
+4. Generate 'suggested_title': "[SubCategory] User Intent" (Portuguese).
 
-2. Analyze the ticket content carefully.
-3. Determine **Ticket Type** (1=Incident, 2=Request).
-4. Determine **Urgency** (1-5) and **Impact** (1-5).
-5. Select the MOST SPECIFIC Category (if IT-related).
+TICKET DESCRIPTION:
+{request.description}
 
-6. **Generate Detailed Reasoning**: Write a concise but professional explanation (in Portuguese) justifying your decisions. 
-   - Structure: "Analysis: [User intent]. Metadata: [Why Urgency X/Impact Y]. Category: [Why this category]."
-   - Example: "O usuário relatou lentidão no servidor. Classificado como Urgência Alta (4) pois afeta o setor financeiro (Impacto 3). Categorizado em Servidores pois trata-se de infraestrutura central."
+AVAILABLE CATEGORIES ({selected_root['name']}):
+{cat_str}
 
-6. **HINTS**:
-   - "Monitor", "Teclado", "Mouse" -> **Periféricos**.
-   - "Computador", "PC", "Não liga" -> **Desktops**.
-   - "Adobe", "AutoCAD" -> **Softwares > Instalação**.
-
-7. **Generate Standardized Title**: Create a concise, objective title (**STRICTLY IN PORTUGUESE**) following the pattern: "[Category] Short Description".
-   - **[Category]**: Use ONLY the name of the **final sub-category** (Leaf Node). DO NOT use the full path.
-     - WRONG: "[Hardware > Impressoras > Falha]"
-     - RIGHT: "[Falha Física]" or "[Impressoras]"
-   - **Short Description**: If the user input is vague (e.g., "Dúvida"), infer the likely topic.
-     - User: "Assinatura" -> Title: "[Outlook] Configuração de Assinatura"
-   - Examples (Portuguese Only):
-     - User: "My printer is not working" -> Title: "[Impressoras] Falha no Equipamento"
-     - User: "Server on fire" -> Title: "[Servidor] Falha Crítica de Hardware"
-     - User: "Ar condicionado pingando" -> Title: "[Suporte Geral] Solicitação de Facilities"
-
-TICKET:
-Title: {request.title}
-Description: {request.description}
-
-AVAILABLE CATEGORIES:
-{cat_list_str}
-
-Respond with valid JSON only:
+JSON FORMAT:
 {{
     "selected_category_id": <int>,
-    "ticket_type": <int>,
+    "ticket_type": <int (1=Inc, 2=Req)>,
     "urgency": <int>,
     "impact": <int>,
     "suggested_title": "<string>",
-    "reasoning": "<MarkDown text with the detailed analysis>"
+    "reasoning": "<string>"
 }}
 """
-
-        # --- Stage 3: LLM Inference ---
-        llm_response_str = await self.llm.generate_response(user_prompt, system_prompt)
+        leaf_response = await self.llm.generate_response(user_prompt_leaf, system_prompt_leaf)
+        leaf_data = self._parse_json_response(leaf_response)
         
-        # --- Stage 4: Parsing ---
-        # Clean markdown code blocks if present
-        cleaned_response = llm_response_str.strip()
-        if cleaned_response.startswith("```"):
-            # Remove first line (```json) and last line (```)
-            lines = cleaned_response.splitlines()
-            if len(lines) >= 2:
-                if lines[0].startswith("```"):
-                    lines = lines[1:]
-                if lines[-1].startswith("```"):
-                    lines = lines[:-1]
-                cleaned_response = "\n".join(lines).strip()
-        
-        try:
-            llm_data = json.loads(cleaned_response)
-            selected_id = llm_data.get("selected_category_id")
-            reasoning = llm_data.get("reasoning", "No reasoning provided")
-            ticket_type = llm_data.get("ticket_type", 1)
-            urgency = llm_data.get("urgency", 3)
-            impact = llm_data.get("impact", 3)
-            suggested_title = llm_data.get("suggested_title", request.title)
-            
-            # Find name
-            selected_cat = next((c for c in self.categories_cache if c['id'] == selected_id), None)
-            selected_name = selected_cat['completename'] if selected_cat else "Unknown"
-            
-        except json.JSONDecodeError:
-            logger.error(f"Failed to parse LLM response: {llm_response_str}")
-            # Fallback (maybe first item? or error)
-            # For now, let's return a generic error or null
-            return ClassificationResponse(
-                selected_category_id=-1,
-                selected_category_name="Unclassified (Parse Error)",
-                confidence=0.0,
-                reasoning=f"Failed to parse JSON. Raw: {llm_response_str}",
+        if not leaf_data:
+             # Fallback to Root if Leaf fails? Or Error?
+             # Let's fallback to Root to be safe, but mark low confidence.
+             logger.warning("Step 2 Failed. Falling back to Root.")
+             return ClassificationResponse(
+                selected_category_id=selected_root['id'],
+                selected_category_name=selected_root['completename'],
+                confidence=0.5,
+                reasoning=f"Step 2 failed. Domain identified: {root_data.get('reasoning')}",
                 ticket_type=1,
                 urgency=3,
                 impact=3,
+                suggested_title=f"[{selected_root['name']}] Nova Solicitação",
                 candidates=[]
-            )
+             )
 
-        # We don't have "candidates" in the same sense (scores), strictly speaking.
-        # But we can return the chosen one as the single candidate.
-        chosen_candidate = [CategoryScore(
-            category_id=selected_id, 
-            name=selected_name, 
-            score=1.0, 
-            description=""
-        )]
+        # Success Step 2
+        selected_id = leaf_data.get("selected_category_id")
+        selected_leaf = next((c for c in target_list if c['id'] == selected_id), None)
+        selected_name = selected_leaf['completename'] if selected_leaf else "Unknown"
 
         return ClassificationResponse(
             selected_category_id=selected_id,
             selected_category_name=selected_name,
-            confidence=0.95, # High confidence if LLM picked it from full list
+            confidence=0.95,
+            reasoning=leaf_data.get("reasoning", ""),
+            ticket_type=leaf_data.get("ticket_type", 1),
+            urgency=leaf_data.get("urgency", 3),
+            impact=leaf_data.get("impact", 3),
+            suggested_title=leaf_data.get("suggested_title", request.title),
+            candidates=[CategoryScore(category_id=selected_id, name=selected_name, score=1.0, description="")]
+        )
+
+    def _parse_json_response(self, text: str) -> Optional[Dict]:
+        clean = text.strip()
+        
+        # Try finding the first '{' and last '}'
+        start = clean.find('{')
+        end = clean.rfind('}')
+        
+        if start != -1 and end != -1:
+             clean = clean[start:end+1]
+        
+        try:
+            return json.loads(clean)
+        except json.JSONDecodeError:
+            logger.error(f"JSON Parse Error. Raw text: {text}")
+            return None
+
+    def _create_error_response(self, reasoning: str) -> ClassificationResponse:
+        return ClassificationResponse(
+            selected_category_id=-1,
+            selected_category_name="Unclassified",
+            confidence=0.0,
             reasoning=reasoning,
-            ticket_type=ticket_type,
-            urgency=urgency,
-            impact=impact,
-            suggested_title=suggested_title,
-            candidates=chosen_candidate
+            ticket_type=1,
+            urgency=3,
+            impact=3,
+            candidates=[]
         )

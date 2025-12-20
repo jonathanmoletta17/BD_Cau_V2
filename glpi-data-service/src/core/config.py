@@ -33,7 +33,7 @@ class Config:
     
     # GLPI API Configuration (DTIC)
     # GLPI PROD Context (Previously DTIC)
-    GLPI_DTIC_URL: str = os.getenv("GLPI_PROD_URL", "")
+    GLPI_DTIC_URL: str = os.getenv("GLPI_PROD_URL_CONFIG", os.getenv("GLPI_PROD_URL", ""))
     GLPI_DTIC_APP_TOKEN: str = os.getenv("GLPI_PROD_APP_TOKEN", "")
     GLPI_DTIC_USER_TOKEN: str = os.getenv("GLPI_PROD_USER_TOKEN", "")
     

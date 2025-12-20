@@ -1,0 +1,151 @@
+{
+    "intents": [
+        {
+            "name": "CREATE_USER",
+            "keywords": [
+                "criar usuario",
+                "novo funcionario",
+                "admissao",
+                "estagiario",
+                "contratacao",
+                "acesso para"
+            ],
+            "required_fields": [
+                "nome_completo",
+                "setor",
+                "data_inicio",
+                "acessos_necessarios"
+            ],
+            "questions": {
+                "nome_completo": "Qual é o nome completo do novo colaborador?",
+                "setor": "Para qual setor ou departamento ele irá?",
+                "data_inicio": "Qual a data de início prevista?",
+                "acessos_necessarios": "Quais acessos ele precisará? (Ex: Email, Rede, Impressora, Sistemas específicos)"
+            }
+        },
+        {
+            "name": "RESET_PASSWORD",
+            "keywords": [
+                "senha",
+                "resetar",
+                "bloqueada",
+                "esqueci",
+                "nao entra",
+                "login"
+            ],
+            "required_fields": [
+                "usuario_rede",
+                "sistema_afetado"
+            ],
+            "questions": {
+                "usuario_rede": "Qual é o seu usuário de rede (login)?",
+                "sistema_afetado": "O problema é no login do Windows, Email ou algum sistema específico (Ex: SOE/PROA)?"
+            }
+        },
+        {
+            "name": "HARDWARE_ISSUE",
+            "keywords": [
+                "computador",
+                "pc",
+                "notebook",
+                "laptop",
+                "monitor",
+                "tela",
+                "não liga",
+                "queimou",
+                "tela azul"
+            ],
+            "required_fields": [
+                "equipamento",
+                "descricao_problema",
+                "patrimonio"
+            ],
+            "questions": {
+                "equipamento": "Qual equipamento está com problema?",
+                "descricao_problema": "O que está acontecendo? (Ex: Não liga, erro, tela azul)",
+                "patrimonio": "Informe o patrimônio (etiqueta) OU número de série do equipamento."
+            }
+        },
+        {
+            "name": "PRINTER_ISSUE",
+            "keywords": [
+                "impressora",
+                "imprimir",
+                "toner",
+                "papel",
+                "atolou"
+            ],
+            "required_fields": [
+                "nome_impressora",
+                "descricao_problema"
+            ],
+            "questions": {
+                "nome_impressora": "Qual é o nome ou local da impressora? (Geralmente tem uma etiqueta com Nome/IP)",
+                "descricao_problema": "Qual o problema? (Ex: Atolamento, Sem Toner, Erro no Visor)"
+            }
+        },
+        {
+            "name": "VPN_ACCESS",
+            "keywords": [
+                "vpn",
+                "acesso remoto",
+                "casa",
+                "home office",
+                "forticlient"
+            ],
+            "required_fields": [
+                "usuario_rede",
+                "erro_mensagem"
+            ],
+            "questions": {
+                "usuario_rede": "Qual seu usuário de rede?",
+                "erro_mensagem": "Aparece alguma mensagem de erro ao tentar conectar? Se sim, qual?"
+            }
+        },
+        {
+            "name": "CORPORATE_SYSTEMS",
+            "keywords": [
+                "soe",
+                "fpe",
+                "proa",
+                "gce",
+                "sistema",
+                "acesso",
+                "erro"
+            ],
+            "required_fields": [
+                "sistema",
+                "descricao_erro"
+            ],
+            "questions": {
+                "sistema": "Qual sistema você está tentando acessar? (Ex: SOE, FPE, PROA)",
+                "descricao_erro": "Qual erro está aparecendo? Se puder descrever a mensagem ou o que acontece."
+            }
+        },
+        {
+            "name": "EQUIPMENT_REQUEST",
+            "keywords": [
+                "fone",
+                "headset",
+                "mouse",
+                "teclado",
+                "monitor",
+                "webcam",
+                "periferico",
+                "computador",
+                "notebook",
+                "laptop"
+            ],
+            "required_fields": [
+                "equipamento",
+                "modelo",
+                "justificativa"
+            ],
+            "questions": {
+                "equipamento": "Qual equipamento você precisa? (Ex: Notebook, Mouse, Fone)",
+                "modelo": "Existe algum modelo específico ou configuração que você precisa? (Se não, responda 'Padrão')",
+                "justificativa": "Qual é o motivo da solicitação? (Ex: 'Defeito' ou 'Home Office')"
+            }
+        }
+    ]
+}

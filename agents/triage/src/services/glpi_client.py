@@ -1,6 +1,7 @@
 import httpx
 import base64
 import os
+import json
 from typing import Optional, Dict, Any, List
 from src.config import settings
 from src.utils.logging import setup_logger
@@ -30,10 +31,10 @@ class GLPIClient:
         
         logger.info(f"GLPIClient Initialized. Auth Source: {self.read_url} | Action Target: {self.write_url} ({target.upper()})")
 
-    async def login_on_prod(self, login: str, password: str) -> Dict[str, Any]:
+    async def login_on_prod(self, login: str, password: str, keep_session: bool = False) -> Dict[str, Any]:
         """
         Authenticates against PROD environment to verify user identity.
-        Does not maintain a persistent session.
+        If keep_session is True, returns the live session_token (Caller must manage it).
         """
         # --- MOCK AUTH BYPASS (Dev/Instability Fix) ---
         if settings.MOCK_AUTH_ENABLED:
@@ -48,7 +49,7 @@ class GLPIClient:
                     "ok": True, 
                     "class": "ok", 
                     "user_data": {
-                        "session_token": "mock_session_token_xyz",
+                        "session_token": "mock_session_token_xyz" if keep_session else None,
                         "session": {
                             "glpifriendlyname": f"{login} (Mock)",
                             "glpiactive_entity": 0,
@@ -81,9 +82,10 @@ class GLPIClient:
             
             if response.status_code == 200:
                 data = response.json()
-                # Kill this prod session immediately as we don't need it
                 sess = data.get("session_token")
-                if sess:
+                
+                # Kill this prod session immediately unless asked to keep it
+                if sess and not keep_session:
                     await self._kill_session(self.read_url, self.read_app_token, sess)
                 
                 return {"ok": True, "class": "ok", "user_data": data}
@@ -111,6 +113,7 @@ class GLPIClient:
         url = f"{self.write_url}/initSession"
         headers = {
             "App-Token": self.write_app_token,
+            "Content-Type": "application/json"
         }
         if self.write_user_token:
             headers["Authorization"] = f"user_token {self.write_user_token}"
@@ -159,14 +162,78 @@ class GLPIClient:
             logger.error(f"Search user failed: {e}")
             return None
 
+
+
+
+    async def get_user_groups(self, user_id: int, session_token: str = None, base_url: str = None, app_token: str = None) -> List[str]:
+        """Fetches the groups associated with a user."""
+        # Use provided overrides or default to initialized write-session
+        target_url = base_url or self.write_url
+        target_app_token = app_token or self.write_app_token
+        target_session = session_token or self.session_token
+        
+        if not target_session:
+            await self.init_session()
+            target_session = self.session_token
+            
+        url = f"{target_url}/User/{user_id}/Group"
+        headers = {
+            "App-Token": target_app_token,
+            "Session-Token": target_session
+        }
+        
+        try:
+            response = await self.client.get(url, headers=headers)
+            if response.status_code == 200:
+                groups = response.json()
+                if isinstance(groups, list):
+                    return [g.get('name') for g in groups if g.get('name')]
+            return []
+        except Exception as e:
+            logger.error(f"Failed to fetch user groups: {e}")
+            return []
+
+    async def get_user_profiles(self, user_id: int, session_token: str = None, base_url: str = None, app_token: str = None) -> List[int]:
+        """Fetches the profile IDs associated with a user."""
+        target_url = base_url or self.write_url
+        target_app_token = app_token or self.write_app_token
+        target_session = session_token or self.session_token
+
+        if not target_session:
+            await self.init_session()
+            target_session = self.session_token
+            
+        url = f"{target_url}/User/{user_id}/Profile"
+        headers = {
+            "App-Token": target_app_token,
+            "Session-Token": target_session
+        }
+        
+        try:
+            response = await self.client.get(url, headers=headers)
+            if response.status_code == 200:
+                profiles = response.json()
+                if isinstance(profiles, list):
+                    return [p.get('id') for p in profiles if p.get('id')]
+            return []
+        except Exception as e:
+            logger.error(f"Failed to fetch user profiles: {e}")
+            return []
+
     async def create_ticket(self, title: str, description: str, category_id: int, 
                           ticket_type: int = 1, urgency: int = 3, impact: int = 3, 
-                          requester_id: int = None, ai_analysis: str = None, entities_id: int = None):
+                          requester_id: int = None, ai_analysis: str = None, 
+                          entities_id: int = None, session_token: str = None):
         """Creates a ticket in the Target Environment"""
-        if not self.session_token:
-            success = await self.init_session()
-            if not success:
-                raise Exception("Could not initialize GLPI session")
+        
+        # Use provided user token, otherwise ensure service session
+        active_token = session_token
+        if not active_token:
+            if not self.session_token:
+                success = await self.init_session()
+                if not success:
+                    raise Exception("Could not initialize GLPI session")
+            active_token = self.session_token
 
         full_content = description
         if ai_analysis:
@@ -194,14 +261,14 @@ class GLPIClient:
         url = f"{self.write_url}/Ticket"
         headers = {
             "App-Token": self.write_app_token,
-            "Session-Token": self.session_token,
+            "Session-Token": active_token,
             "Content-Type": "application/json"
         }
         
         try:
             response = await self.client.post(url, headers=headers, json=payload)
             response.raise_for_status()
-            logger.info(f"Ticket Created: {response.json().get('id')}")
+            logger.info(f"Ticket Created: {response.json().get('id')} (User Token: {bool(session_token)})")
             return response.json()
         except Exception as e:
             logger.error(f"Create Ticket Failed: {e}")
@@ -251,4 +318,58 @@ class GLPIClient:
             return response.json()
         except Exception as e:
             logger.error(f"Failed to update ticket {ticket_id}: {e}")
+            raise
+
+    async def upload_document(self, ticket_id: int, file_path: str, filename: str, mime_type: str = "application/octet-stream"):
+        """
+        Uploads a document to GLPI and links it to a ticket.
+        Endpoint: POST /Document
+        """
+        if not self.session_token:
+            await self.init_session()
+
+        url = f"{self.write_url}/Document"
+        headers = {
+            "App-Token": self.write_app_token,
+            "Session-Token": self.session_token
+        }
+
+        # 1. Build Manifest
+        manifest = {
+            "input": {
+                "name": filename,
+                "_filename": [filename],
+                "items_id": ticket_id,
+                "itemtype": "Ticket"
+            }
+        }
+
+        # 2. Prepare Data
+        # Verify file exists
+        if not os.path.exists(file_path):
+            logger.error(f"Upload failed: File not found at {file_path}")
+            return None
+
+        try:
+            with open(file_path, "rb") as f:
+                file_content = f.read()
+
+            files = {
+                'filename[0]': (filename, file_content, mime_type)
+            }
+            data = {
+                'uploadManifest': json.dumps(manifest)
+            }
+
+            logger.info(f"Uploading document '{filename}' for Ticket {ticket_id}...")
+            
+            # 3. Send Request
+            response = await self.client.post(url, headers=headers, data=data, files=files)
+            response.raise_for_status()
+            
+            logger.info(f"Document uploaded successfully: {response.json().get('id')}")
+            return response.json()
+
+        except Exception as e:
+            logger.error(f"Failed to upload document: {e}")
             raise
