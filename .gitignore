@@ -7,6 +7,7 @@
 .aider*
 .continue/
 nvidia/
+nim_cache/
 
 # ===========================
 # Python
@@ -78,3 +79,4 @@ glpi-dtic-agent-classificator/data-large-glpi.csv
 
 # MCP Secrets
 mcp_toolbox/secrets/
+nim_cache/

@@ -2,13 +2,18 @@ services:
   # ==========================================
   # AI Inference Service (NVIDIA NIM)
   # ==========================================
-  nim-llm:
-    image: nvcr.io/nim/meta/llama-3.2-3b-instruct:latest
-    container_name: nim-llm
-    environment:
-      - NGC_API_KEY=${NGC_API_KEY}
+  # ==========================================
+  # AI Inference Service (Ollama Local)
+  # ==========================================
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
     ports:
-      - "8000:8000"
+      - "11434:11434"
+    volumes:
+      - ollama_storage:/root/.ollama
+    networks:
+      - app_network
     deploy:
       resources:
         reservations:
@@ -16,14 +21,10 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [ gpu ]
-    volumes:
-      - ${NIM_CACHE_PATH:-./nim_cache}:/opt/nim/.cache
-    networks:
-      - app_network
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8000/v1/health/ready" ]
+      test: [ "CMD", "ollama", "list" ]
       interval: 30s
-      timeout: 20s
+      timeout: 10s
       retries: 3
 
   # ==========================================
@@ -55,53 +56,51 @@ services:
   # ==========================================
   # Backend Services
   # ==========================================
-  core-api:
-    build:
-      context: ./glpi-data-service
-      dockerfile: Dockerfile
-    container_name: glpi-core-api
-    restart: unless-stopped
-    ports:
-      - "8000:8000"
-    environment:
-      - POSTGRES_HOST=${POSTGRES_HOST:-glpi-core-db}
-      - POSTGRES_PORT=5432
-      - POSTGRES_USER=${POSTGRES_USER:-glpi_user}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-glpi_dev_password}
-      - POSTGRES_DB=${POSTGRES_DB:-glpi_data}
-      - GLPI_PROD_URL=${GLPI_PROD_URL_CONFIG}
-      - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
-      - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
-      - GLPI_SIS_URL=${GLPI_SIS_URL:-}
-      - GLPI_SIS_APP_TOKEN=${GLPI_SIS_APP_TOKEN:-}
-      - GLPI_SIS_USER_TOKEN=${GLPI_SIS_USER_TOKEN:-}
-      - PYTHONUNBUFFERED=1
-      - LOG_LEVEL=INFO
-      - TZ=${TZ:-America/Sao_Paulo}
-    volumes:
-      - ./glpi-data-service:/app
-      - ./glpi-data-service/logs:/app/logs
-    networks:
-      - app_network
-    depends_on:
-      core-db:
-        condition: service_healthy
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+  # core-api:
+  #   build:
+  #     context: ./glpi-data-service
+  #     dockerfile: Dockerfile
+  #   container_name: glpi-core-api
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8000:8000"
+  #   environment:
+  #     - POSTGRES_HOST=${POSTGRES_HOST:-glpi-core-db}
+  #     - POSTGRES_PORT=5432
+  #     - POSTGRES_USER=${POSTGRES_USER:-glpi_user}
+  #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-glpi_dev_password}
+  #     - POSTGRES_DB=${POSTGRES_DB:-glpi_data}
+  #     - GLPI_PROD_URL=${GLPI_PROD_URL_CONFIG}
+  #     - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
+  #     - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
+  #     - GLPI_SIS_URL=${GLPI_SIS_URL:-}
+  #     - GLPI_SIS_APP_TOKEN=${GLPI_SIS_APP_TOKEN:-}
+  #     - GLPI_SIS_USER_TOKEN=${GLPI_SIS_USER_TOKEN:-}
+  #     - PYTHONUNBUFFERED=1
+  #     - LOG_LEVEL=INFO
+  #     - TZ=${TZ:-America/Sao_Paulo}
+  #   volumes:
+  #     - ./glpi-data-service:/app
+  #     - ./glpi-data-service/logs:/app/logs
+  #   networks:
+  #     - app_network
+  #   depends_on:
+  #     core-db:
+  #       condition: service_healthy
+  #   healthcheck:
+  #     test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #   extra_hosts:
+  #     - "host.docker.internal:host-gateway"
 
-  # [NEW] Real-Time Sync Service
-  glpi-sync:
+  glpi-sync-dtic:
     build:
-      context: ./glpi-data-service
-      dockerfile: Dockerfile
-    container_name: glpi-core-sync
+      context: .
+      dockerfile: services/glpi-sync-dtic/Dockerfile
+    container_name: glpi-sync-dtic
     restart: unless-stopped
-    # Use the same image but override command to run daemon
     command: [ "python", "-u", "scripts/daemon_sync.py" ]
     environment:
       - POSTGRES_HOST=${POSTGRES_HOST:-glpi-core-db}
@@ -109,193 +108,56 @@ services:
       - POSTGRES_USER=${POSTGRES_USER:-glpi_user}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-glpi_dev_password}
       - POSTGRES_DB=${POSTGRES_DB:-glpi_data}
-      - GLPI_PROD_URL=${GLPI_PROD_URL_CONFIG}
+      # DTIC Context Config
+      - GLPI_PROD_URL_CONFIG=${GLPI_PROD_URL_CONFIG}
       - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
       - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
-      - GLPI_SIS_URL=${GLPI_SIS_URL:-}
-      - GLPI_SIS_APP_TOKEN=${GLPI_SIS_APP_TOKEN:-}
-      - GLPI_SIS_USER_TOKEN=${GLPI_SIS_USER_TOKEN:-}
       - PYTHONUNBUFFERED=1
       - LOG_LEVEL=INFO
+      - LOG_LEVEL=INFO
       - TZ=${TZ:-America/Sao_Paulo}
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_EMBED_MODEL=nomic-embed-text
     volumes:
-      - ./glpi-data-service:/app
-      - ./glpi-data-service/logs:/app/logs
+      - ./services/glpi-sync-dtic:/app/services/glpi-sync-dtic
+      - ./services/common:/app/services/common
     networks:
       - app_network
     depends_on:
       core-db:
         condition: service_healthy
 
-  # ==========================================
-  # Frontend Applications
-  # ==========================================
-
-  # DTIC Dashboard - Porta 3006 (3005 realocada para SIS Smart Search)
-  view-dtic:
-    build:
-      context: ./glpi-dtic-dashboard/frontend
-      dockerfile: ../Dockerfile
-    container_name: glpi-view-dtic
-    restart: unless-stopped
-    ports:
-      - "3006:80"
-    networks:
-      - app_network
-    depends_on:
-      - core-api
-
-  # SIS Dashboard - Porta 3001
-  view-sis:
-    build:
-      context: ./glpi-sis-dashboard/frontend
-      dockerfile: ../Dockerfile
-    container_name: glpi-view-sis
-    restart: unless-stopped
-    ports:
-      - "3001:80"
-    networks:
-      - app_network
-    depends_on:
-      - core-api
-
-  # DTIC Smart Search - Porta 3002
-  view-dtic-search:
-    build:
-      context: ./glpi-dtic-smart-search/frontend
-      dockerfile: ../Dockerfile
-    container_name: glpi-view-dtic-search
-    restart: unless-stopped
-    ports:
-      - "3002:80"
-    networks:
-      - app_network
-    depends_on:
-      - core-api
-
-  # SIS Smart Search - Porta 3005 (Requisito: Buscador SIS)
-  view-sis-search:
-    build:
-      context: ./glpi-sis-smart-search/frontend
-      dockerfile: ../Dockerfile
-    container_name: glpi-view-sis-search
-    restart: unless-stopped
-    ports:
-      - "3005:80"
-    networks:
-      - app_network
-    depends_on:
-      - core-api
-
-  # SIS Carregadores Dashboard - Porta 3004
-  view-sis-loader:
-    build:
-      context: ./glpi-sis-carregadores-dashboard/frontend
-      dockerfile: ../Dockerfile
-    container_name: glpi-view-sis-loader
-    restart: unless-stopped
-    ports:
-      - "3004:80"
-    networks:
-      - app_network
-    depends_on:
-      - core-api
-  # ==========================================
-  # AI Agents (Unified Triage)
-  # ==========================================
-
-  # Triage Agent API (Logic Center)
-  agent-triage-api:
-    build:
-      context: ./agents/triage
-      dockerfile: Dockerfile
-    container_name: glpi-triage-api
-    command: [ "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8002", "--reload" ]
-    restart: unless-stopped
-    ports:
-      - "8002:8002"
-    environment:
-      - LLM_BASE_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
-      - INFERENCE_SERVER_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
-      - LLM_MODEL=${LLM_MODEL_NAME:-llama3.1}
-      - GLPI_PROD_URL=${GLPI_PROD_URL_CONFIG}
-      - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
-      - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
-      - GLPI_TEST_URL=${GLPI_TEST_URL}
-      - GLPI_TEST_APP_TOKEN=${GLPI_TEST_APP_TOKEN}
-      - GLPI_TEST_USER_TOKEN=${GLPI_TEST_USER_TOKEN}
-      - OPENER_TARGET_ENV=${OPENER_TARGET_ENV:-test}
-      - MOCK_AUTH_ENABLED=${MOCK_AUTH_ENABLED:-false}
-      - MOCK_AUTH_USER=${MOCK_AUTH_USER:-glpi}
-      - MOCK_AUTH_PASS=${MOCK_AUTH_PASS:-glpi}
-      - PYTHONPATH=/app
-    volumes:
-      - ./agents/triage:/app
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    networks:
-      - app_network
-
-  # Triage Agent UI (Legacy - Agent A)
-  legacy-agent-ui:
-    build:
-      context: ./agents/triage
-      dockerfile: Dockerfile
-    container_name: glpi-triage-ui-legacy
-    command: [ "chainlit", "run", "ui.py", "--host", "0.0.0.0", "--port", "8000", "--headless", "-w" ]
-    restart: unless-stopped
-    ports:
-      - "8006:8000"
-    environment:
-      - LLM_BASE_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
-      - LLM_MODEL=${LLM_MODEL_NAME:-llama3.1}
-      - GLPI_PROD_URL=${GLPI_PROD_URL_CONFIG}
-      - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
-      - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
-      - GLPI_TEST_URL=${GLPI_TEST_URL}
-      - GLPI_TEST_APP_TOKEN=${GLPI_TEST_APP_TOKEN}
-      - GLPI_TEST_USER_TOKEN=${GLPI_TEST_USER_TOKEN}
-      - OPENER_TARGET_ENV=${OPENER_TARGET_ENV:-test}
-      - MOCK_AUTH_ENABLED=${MOCK_AUTH_ENABLED:-false}
-      - PYTHONPATH=/app
-      - CHAINLIT_AUTH_SECRET=${CHAINLIT_AUTH_SECRET}
-    volumes:
-      - ./agents/triage:/app
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    networks:
-      - app_network
-
-  # Triage Agent UI V2 (Agent B - Main)
-  agent-triage-ui:
+  glpi-sync-sis:
     build:
       context: .
-      dockerfile: agents/local_triage/Dockerfile
-    container_name: glpi-triage-ui
-    command: [ "chainlit", "run", "agents/local_triage/ui.py", "--host", "0.0.0.0", "--port", "8000", "--headless", "-w" ]
+      dockerfile: services/glpi-sync-sis/Dockerfile
+    container_name: glpi-sync-sis
     restart: unless-stopped
-    ports:
-      - "8001:8000"
+    command: [ "python", "-u", "scripts/daemon_sync.py" ]
     environment:
-      - LLM_BASE_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
-      - INFERENCE_SERVER_URL=${LLM_BASE_URL:-http://host.docker.internal:9000/v1}
-      - LLM_MODEL=${LLM_MODEL_NAME:-llama3.1}
-      - GLPI_PROD_URL=${GLPI_PROD_URL_CONFIG}
-      - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
-      - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
-      - GLPI_TEST_URL=${GLPI_TEST_URL}
-      - GLPI_TEST_APP_TOKEN=${GLPI_TEST_APP_TOKEN}
-      - GLPI_TEST_USER_TOKEN=${GLPI_TEST_USER_TOKEN}
-      - OPENER_TARGET_ENV=${OPENER_TARGET_ENV:-test}
-      - MOCK_AUTH_ENABLED=true
-      - MOCK_AUTH_USER=${MOCK_AUTH_USER:-glpi}
-      - MOCK_AUTH_PASS=${MOCK_AUTH_PASS:-glpi}
+      - POSTGRES_HOST=${POSTGRES_HOST:-glpi-core-db}
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER:-glpi_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-glpi_dev_password}
+      - POSTGRES_DB=${POSTGRES_DB:-glpi_data}
+      # SIS Context Config
+      - GLPI_SIS_URL=${GLPI_SIS_URL:-}
+      - GLPI_SIS_APP_TOKEN=${GLPI_SIS_APP_TOKEN:-}
+      - GLPI_SIS_USER_TOKEN=${GLPI_SIS_USER_TOKEN:-}
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+      - LOG_LEVEL=INFO
+      - TZ=${TZ:-America/Sao_Paulo}
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_EMBED_MODEL=nomic-embed-text
     volumes:
-      - .:/app
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - ./services/glpi-sync-sis:/app/services/glpi-sync-sis
+      - ./services/common:/app/services/common
     networks:
       - app_network
+    depends_on:
+      core-db:
+        condition: service_healthy
 
 networks:
   app_network:
@@ -303,4 +165,6 @@ networks:
 
 volumes:
   postgres_data:
+    driver: local
+  ollama_storage:
     driver: local
