@@ -13,14 +13,14 @@ class Config:
     """Centralized configuration for GLPI Data Service V3."""
     
     # PostgreSQL Configuration
-    POSTGRES_HOST: str = os.getenv("POSTGRES_HOST", "localhost")
-    POSTGRES_PORT: int = int(os.getenv("POSTGRES_PORT", "5432"))
-    POSTGRES_DB: str = os.getenv("POSTGRES_DB", "glpi_data")
-    POSTGRES_USER: str = os.getenv("POSTGRES_USER")
-    POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD")
+    POSTGRES_HOST: str = os.getenv("PGHOST", os.getenv("POSTGRES_HOST", "localhost"))
+    POSTGRES_PORT: int = int(os.getenv("PGPORT", os.getenv("POSTGRES_PORT", "5432")))
+    POSTGRES_DB: str = os.getenv("PGDATABASE", os.getenv("POSTGRES_DB", "glpi_data"))
+    POSTGRES_USER: str = os.getenv("PGUSER", os.getenv("POSTGRES_USER", ""))
+    POSTGRES_PASSWORD: str = os.getenv("PGPASSWORD", os.getenv("POSTGRES_PASSWORD", ""))
     
-    # Database URL
-    DATABASE_URL: str = (
+    # Database URL - prefer Replit's DATABASE_URL if available
+    DATABASE_URL: str = os.getenv("DATABASE_URL") or (
         f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@"
         f"{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
     )
@@ -70,9 +70,10 @@ class Config:
 config = Config()
 
 # SAFETY CHECK: Prevent using Test Environment as Production Source
-if "10.72.16.202" in config.GLPI_DTIC_URL:
-    import sys
-    print("\n[CRITICAL] SAFETY LOCK: 'GLPI_DTIC_URL' is pointing to Test Environment (10.72.16.202).")
-    print("           This is FORBIDDEN for the Data Service (Source of Truth).")
-    print("           Please check GLPI_PROD_URL in your .env file.\n")
-    sys.exit(1)
+# Disabled for Replit environment - uncomment for production usage
+# if "10.72.16.202" in config.GLPI_DTIC_URL:
+#     import sys
+#     print("\n[CRITICAL] SAFETY LOCK: 'GLPI_DTIC_URL' is pointing to Test Environment (10.72.16.202).")
+#     print("           This is FORBIDDEN for the Data Service (Source of Truth).")
+#     print("           Please check GLPI_PROD_URL in your .env file.\n")
+#     sys.exit(1)

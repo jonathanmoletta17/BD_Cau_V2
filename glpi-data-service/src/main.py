@@ -39,12 +39,20 @@ async def startup_event():
     Database._initialize()
     engine = Database._engine
     
-    # 1. Enable pgvector extension
     with engine.connect() as conn:
-        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+        # 1. Create schemas if they don't exist
+        conn.execute(text("CREATE SCHEMA IF NOT EXISTS dtic"))
+        conn.execute(text("CREATE SCHEMA IF NOT EXISTS sis"))
         conn.commit()
+        
+        # 2. Enable pgvector extension (may not be available in all environments)
+        try:
+            conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+            conn.commit()
+        except Exception as e:
+            logger.warning(f"pgvector extension not available: {e}")
     
-    # 2. Create tables (if they don't exist)
+    # 3. Create tables (if they don't exist)
     # Note: In production we use Alembic, here for simplicity we use create_all
     # We must import models so Base knows about them
     from src.modules.dtic.knowledge.models import KnowledgeEntry

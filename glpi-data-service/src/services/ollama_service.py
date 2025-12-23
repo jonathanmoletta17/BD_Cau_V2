@@ -25,6 +25,8 @@ class OllamaService:
                 response.raise_for_status()
                 data = response.json()
                 return data["embedding"]
+            except Exception as e:
+                print(f"Error generating embedding: {e}")
                 raise e
 
     def get_embedding_sync(self, text: str) -> List[float]:
