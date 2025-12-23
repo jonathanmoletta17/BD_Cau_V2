@@ -27,6 +27,46 @@ def _parse_date(date_str: Optional[str]) -> Optional[datetime]:
         return None
 
 
+
+def _format_timeline_content(field: str, old_val: Optional[str], new_val: Optional[str]) -> str:
+    """Format timeline changes into human-readable text."""
+    # Ensure values are strings or empty
+    s_old = str(old_val) if old_val is not None else ""
+    s_new = str(new_val) if new_val is not None else ""
+    
+    # Mappings
+    status_map = {
+        '1': "Novo", '2': "Em Atendimento", '3': "Planejado", 
+        '4': "Pendente", '5': "Solucionado", '6': "Fechado"
+    }
+    priority_map = {
+        '5': "Muito Alta", '4': "Alta", '3': "Média", 
+        '2': "Baixa", '1': "Muito Baixa"
+    }
+    bool_map = {'0': 'Não', '1': 'Sim'}
+    
+    formatted_old = s_old
+    formatted_new = s_new
+
+    if field == 'Status':
+        formatted_old = status_map.get(s_old, s_old)
+        formatted_new = status_map.get(s_new, s_new)
+    elif field == 'Prioridade':
+        formatted_old = priority_map.get(s_old, s_old)
+        formatted_new = priority_map.get(s_new, s_new)
+    elif field == 'Leve em conta o tempo':
+        formatted_old = bool_map.get(s_old, s_old)
+        formatted_new = bool_map.get(s_new, s_new)
+        
+    # Formatting
+    if not s_old:
+        return f"{field}: -> {formatted_new}"
+    if not s_new:
+        return f"{field}: {formatted_old} ->"
+        
+    return f"{field}: {formatted_old} -> {formatted_new}"
+
+
 def get_general_stats(
     db: Session,
     inicio: Optional[str] = None,
@@ -530,7 +570,7 @@ def get_ticket_details(db: Session, ticket_id: int):
             'change' as type,
             c.id, 
             c.data_mudanca as date, 
-            CONCAT(c.campo, ': ', c.valor_antigo, ' -> ', c.valor_novo) as content,
+            c.campo, c.valor_antigo, c.valor_novo,
             u.name as author
         FROM ticket_changes c
         LEFT JOIN glpi_users u ON c.usuario_id = u.id
@@ -541,6 +581,7 @@ def get_ticket_details(db: Session, ticket_id: int):
             OR
             (c.valor_novo IS NOT NULL AND c.valor_novo != '')
         )
+        AND c.campo != 'Alteração de Sistema'
         
         ORDER BY date DESC
     """)
@@ -558,7 +599,7 @@ def get_ticket_details(db: Session, ticket_id: int):
             "date": row.date.isoformat() if row.date else "",
             "type": row.type,
             "author": row.author or "Sistema",
-            "content": row.content
+            "content": _format_timeline_content(row.campo, row.valor_antigo, row.valor_novo)
         })
         
     status_map = {1: "Novo", 2: "Em Atendimento", 3: "Planejado", 4: "Pendente", 5: "Solucionado", 6: "Fechado"}

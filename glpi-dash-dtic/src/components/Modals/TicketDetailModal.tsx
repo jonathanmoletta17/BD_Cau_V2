@@ -4,12 +4,26 @@ import {
    AlertCircle, MessageSquare, RefreshCw
 } from 'lucide-react';
 import { useTicketDetail } from '../../hooks/useTicketDetail';
+import { SmartDescription } from '../../utils/formatters';
 
 interface TicketDetailModalProps {
    ticketId: number | null;
    isOpen: boolean;
    onClose: () => void;
 }
+
+const formatDate = (dateString: string | undefined) => {
+   if (!dateString) return 'N/A';
+   try {
+      const date = new Date(dateString);
+      return new Intl.DateTimeFormat('pt-BR', {
+         day: '2-digit', month: '2-digit', year: 'numeric',
+         hour: '2-digit', minute: '2-digit'
+      }).format(date);
+   } catch (e) {
+      return dateString;
+   }
+};
 
 export const TicketDetailModal: React.FC<TicketDetailModalProps> = ({ ticketId, isOpen, onClose }) => {
    // Use Hook for data fetching
@@ -70,9 +84,7 @@ export const TicketDetailModal: React.FC<TicketDetailModalProps> = ({ ticketId, 
                            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
                               <MessageSquare size={14} /> Descrição do Chamado
                            </h3>
-                           <div className="text-sm text-slate-300 whitespace-pre-wrap leading-relaxed font-sans">
-                              {data.description}
-                           </div>
+                           <SmartDescription text={data.description} />
                         </div>
 
                         {/* Timeline */}
@@ -148,7 +160,7 @@ export const TicketDetailModal: React.FC<TicketDetailModalProps> = ({ ticketId, 
                         <SidebarItem
                            icon={<Calendar size={16} className="text-slate-400" />}
                            label="Data de Abertura"
-                           value={data.creation_date}
+                           value={formatDate(data.creation_date)}
                         />
 
                         <SidebarItem
