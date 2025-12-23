@@ -1,4 +1,3 @@
-
 import { GlpiClient } from './glpi';
 import { configManager } from '../config';
 

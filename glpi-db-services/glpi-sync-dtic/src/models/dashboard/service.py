@@ -372,8 +372,8 @@ def get_chargers_data(
                 t.titulo as ticket_name,
                 t.criado_em as ticket_date,
                 t.status_id as status
-            FROM sis.glpi_items_tickets ct
-            INNER JOIN sis.tickets t ON ct.tickets_id = t.glpi_id
+            FROM glpi_items_tickets ct
+            INNER JOIN tickets t ON ct.tickets_id = t.glpi_id
             WHERE ct.itemtype = 'PluginGenericobjectCarregador'
                 AND t.status_id NOT IN (5, 6) -- 5=SOLUCIONADO, 6=FECHADO
                 AND t.is_deleted = false
@@ -388,8 +388,8 @@ def get_chargers_data(
                 t.criado_em as ticket_date,
                 t.status_id as status,
                 t.solucionado_em as ticket_solvedate
-            FROM sis.glpi_items_tickets ct
-            INNER JOIN sis.tickets t ON ct.tickets_id = t.glpi_id
+            FROM glpi_items_tickets ct
+            INNER JOIN tickets t ON ct.tickets_id = t.glpi_id
             WHERE ct.itemtype = 'PluginGenericobjectCarregador'
                 AND t.status_id IN (5, 6)
                 AND t.is_deleted = false
@@ -400,8 +400,8 @@ def get_chargers_data(
             SELECT 
                 ct.items_id as charger_id,
                 COUNT(DISTINCT ct.tickets_id) as total_tickets
-            FROM sis.glpi_items_tickets ct
-            INNER JOIN sis.tickets t ON ct.tickets_id = t.glpi_id
+            FROM glpi_items_tickets ct
+            INNER JOIN tickets t ON ct.tickets_id = t.glpi_id
             WHERE ct.itemtype = 'PluginGenericobjectCarregador'
                 AND t.criado_em >= :inicio
                 AND t.criado_em <= :fim
@@ -426,7 +426,7 @@ def get_chargers_data(
             lc.ticket_solvedate as last_ticket_solvedate,
             -- Contagem no perÃ­odo
             COALESCE(tc.total_tickets, 0) as total_tickets_in_period
-        FROM sis.glpi_plugin_genericobject_carregadors c
+        FROM glpi_plugin_genericobject_carregadors c
         LEFT JOIN active_tickets at ON c.id = at.charger_id
         LEFT JOIN last_closed lc ON c.id = lc.charger_id
         LEFT JOIN ticket_count tc ON c.id = tc.charger_id
@@ -479,9 +479,9 @@ def get_technician_details(db: Session, tech_id: int):
             COUNT(t.id) as total_tickets,
             COUNT(CASE WHEN t.status_id IN (5, 6) THEN 1 END) as resolved_tickets,
             AVG(CASE WHEN t.status_id IN (5, 6) THEN EXTRACT(EPOCH FROM (t.solucionado_em - t.criado_em))/3600 END) as avg_resolution_time
-        FROM sis.glpi_users u
-        LEFT JOIN sis.tickets_users tu ON u.id = tu.user_id AND tu.type = 2
-        LEFT JOIN sis.tickets t ON tu.ticket_id = t.id
+        FROM glpi_users u
+        LEFT JOIN tickets_users tu ON u.id = tu.user_id AND tu.type = 2
+        LEFT JOIN tickets t ON tu.ticket_id = t.id
         WHERE u.id = :tech_id
         GROUP BY u.name
     """)
@@ -510,11 +510,11 @@ def get_ticket_details(db: Session, ticket_id: int):
             t.status_id, t.prioridade, t.criado_em, t.solucionado_em,
             u_req.name as requester_name,
             u_tech.name as technician_name
-        FROM sis.tickets t
-        LEFT JOIN sis.tickets_users tu_req ON t.id = tu_req.ticket_id AND tu_req.type = 1
-        LEFT JOIN sis.glpi_users u_req ON tu_req.user_id = u_req.id
-        LEFT JOIN sis.tickets_users tu_tech ON t.id = tu_tech.ticket_id AND tu_tech.type = 2
-        LEFT JOIN sis.glpi_users u_tech ON tu_tech.user_id = u_tech.id
+        FROM tickets t
+        LEFT JOIN tickets_users tu_req ON t.id = tu_req.ticket_id AND tu_req.type = 1
+        LEFT JOIN glpi_users u_req ON tu_req.user_id = u_req.id
+        LEFT JOIN tickets_users tu_tech ON t.id = tu_tech.ticket_id AND tu_tech.type = 2
+        LEFT JOIN glpi_users u_tech ON tu_tech.user_id = u_tech.id
         WHERE t.glpi_id = :ticket_id
     """)
     
@@ -530,9 +530,9 @@ def get_ticket_details(db: Session, ticket_id: int):
             f.date, 
             f.content, 
             u.name as author
-        FROM sis.ticket_followups f
-        LEFT JOIN sis.glpi_users u ON f.users_id = u.id
-        JOIN sis.tickets t ON f.ticket_id = t.id
+        FROM ticket_followups f
+        LEFT JOIN glpi_users u ON f.users_id = u.id
+        JOIN tickets t ON f.ticket_id = t.id
         WHERE t.glpi_id = :ticket_id
         
         UNION ALL
@@ -543,9 +543,9 @@ def get_ticket_details(db: Session, ticket_id: int):
             c.data_mudanca as date, 
             CONCAT(c.campo, ': ', c.valor_antigo, ' -> ', c.valor_novo) as content,
             u.name as author
-        FROM sis.ticket_changes c
-        LEFT JOIN sis.glpi_users u ON c.usuario_id = u.id
-        JOIN sis.tickets t ON c.ticket_id = t.id
+        FROM ticket_changes c
+        LEFT JOIN glpi_users u ON c.usuario_id = u.id
+        JOIN tickets t ON c.ticket_id = t.id
         WHERE t.glpi_id = :ticket_id
         
         ORDER BY date DESC

@@ -1,0 +1,7 @@
+sqlalchemy
+psycopg2-binary
+requests
+python-dotenv
+fastapi
+uvicorn
+apscheduler>=3.10.0

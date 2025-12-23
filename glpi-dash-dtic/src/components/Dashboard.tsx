@@ -9,6 +9,8 @@ import { MetricsCarousel } from './Charts/MetricsCarousel';
 import { TechnicianModal } from './TechnicianModal';
 import { TicketDetailModal } from './Modals/TicketDetailModal';
 import { DateRangePicker } from './DateRangePicker';
+import { AlertsSummary } from './Quality/AlertsSummary';
+import { ViolationsTable } from './Quality/ViolationsTable';
 import { TicketNovo, TecnicoRanking, TechnicianDetails } from '../types';
 import { getMockTechnicianDetails } from '../constants';
 
@@ -130,8 +132,16 @@ const Dashboard: React.FC = () => {
           <div className="col-span-9 flex flex-col gap-4 min-h-0 h-full">
 
             {/* CAROUSEL SECTION */}
-            <div className="flex-1 min-h-0">
+            <div className="flex-1 min-h-[300px] flex flex-col gap-4">
               <MetricsCarousel data={data.carouselData} />
+
+              {/* QUALITY ALERTS SECTION */}
+              {data.qualityAlerts && (
+                <div className="grid grid-cols-1 gap-4">
+                  <AlertsSummary data={data.qualityAlerts.summary} />
+                  <ViolationsTable alerts={data.qualityAlerts.details || []} />
+                </div>
+              )}
             </div>
 
             {/* BOTTOM RANKING SECTION */}
@@ -145,7 +155,7 @@ const Dashboard: React.FC = () => {
               </div>
 
               <div className="flex gap-4 h-full overflow-x-auto items-center pb-2 px-1">
-                {data.ranking.map((tech, idx) => (
+                {(data.ranking || []).map((tech, idx) => (
                   <TechnicianCard
                     key={idx}
                     tech={tech}
@@ -168,12 +178,12 @@ const Dashboard: React.FC = () => {
                 <button className="text-xs flex items-center gap-1 text-slate-400 hover:text-white">
                   <Filter className="w-3 h-3" /> Todas
                 </button>
-                <span className="bg-blue-600 text-xs px-2 py-0.5 rounded-full text-white">{data.newTickets.length} tickets</span>
+                <span className="bg-blue-600 text-xs px-2 py-0.5 rounded-full text-white">{(data.newTickets || []).length} tickets</span>
               </div>
             </div>
 
             <div className="flex-1 overflow-y-auto p-2 space-y-2 custom-scrollbar">
-              {data.newTickets.map((ticket) => (
+              {(data.newTickets || []).map((ticket) => (
                 <TicketCard
                   key={ticket.id}
                   ticket={ticket}

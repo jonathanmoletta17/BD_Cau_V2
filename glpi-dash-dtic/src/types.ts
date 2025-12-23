@@ -72,10 +72,38 @@ export interface TicketDetail {
   timeline: TicketTimelineItem[];
 }
 
+export interface QualityAlert {
+  id: number;
+  alert_uuid: string;
+  rule_id: string;
+  severity: 'HIGH' | 'MEDIUM' | 'LOW';
+  ticket_id: number;
+  detected_at: string;
+  glpi_id?: number;
+  titulo?: string;
+  status_id?: number;
+  tecnico?: string;
+  grupo?: string;
+  metadata?: any;
+}
+
+export interface QualityStats {
+  high: number;
+  medium: number;
+  low: number;
+  total_alerts: number;
+  active_rules: number;
+  affected_tickets: number;
+}
+
 export interface DashboardData {
-  metrics: GeneralStats;
+  metrics: GeneralStats; // Was 'stats', renamed to match usage
   newTickets: TicketNovo[];
   ranking: TecnicoRanking[];
-  carouselData: MetricsCarouselData; 
+  carouselData: MetricsCarouselData;
+  qualityAlerts?: {
+    summary: QualityStats;
+    details: QualityAlert[];
+  };
   lastUpdated: Date;
 }

@@ -1,15 +1,11 @@
 
 import Redis from 'ioredis';
-import { AgentContext } from '../core/types';
 
-export interface SessionRepository {
-    getSession(sessionId: string): Promise<AgentContext | null>;
-    saveSession(context: AgentContext): Promise<void>;
-    deleteSession(sessionId: string): Promise<void>;
-}
+// V1 AgentContext removed - TOD V2 uses Redis client directly
+// This class only provides Redis client access for TOD architecture
 
-export class RedisSessionRepository implements SessionRepository {
-    private client: Redis;
+export class RedisSessionRepository {
+    public client: Redis;  // Public for TOD agent access
     private ttl: number = 3600; // 1 Hour Session TTL
 
     constructor() {
@@ -30,21 +26,5 @@ export class RedisSessionRepository implements SessionRepository {
         this.client.on('connect', () => console.log('[Redis] Connected'));
     }
 
-    async getSession(sessionId: string): Promise<AgentContext | null> {
-        const data = await this.client.get(`session:${sessionId}`);
-        if (!data) return null;
-        return JSON.parse(data);
-    }
-
-    async saveSession(context: AgentContext): Promise<void> {
-        await this.client.setex(
-            `session:${context.sessionId}`,
-            this.ttl,
-            JSON.stringify(context)
-        );
-    }
-
-    async deleteSession(sessionId: string): Promise<void> {
-        await this.client.del(`session:${sessionId}`);
-    }
+    // V1 methods removed - TOD V2 uses Redis client directly via StateTracker
 }

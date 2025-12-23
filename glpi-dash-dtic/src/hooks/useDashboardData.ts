@@ -40,11 +40,17 @@ export const useDashboardData = (
       ]);
 
       // Fetch carousel data (FILTERED by date)
-      const [categoriesRes, historyRes, levelsRes] = await Promise.allSettled([
+      const results = await Promise.allSettled([
         fetch(`${API_BASE_URL}/dashboard/ranking-categorias${dateParams}`),
         fetch(`${API_BASE_URL}/dashboard/historico${dateParams}`),
-        fetch(`${API_BASE_URL}/dashboard/support-levels${dateParams}`)
+        fetch(`${API_BASE_URL}/dashboard/support-levels${dateParams}`),
+        fetch(`${API_BASE_URL}/quality/stats`),
+        fetch(`${API_BASE_URL}/quality/alerts?limit=50`)
       ]);
+
+      const categoriesRes = results[0];
+      const historyRes = results[1];
+      const levelsRes = results[2];
 
       // Check for failures
       if (statsRes.status === 'rejected' || (statsRes.status === 'fulfilled' && !statsRes.value.ok)) {
@@ -62,6 +68,16 @@ export const useDashboardData = (
       if (levelsRes.status === 'rejected' || (levelsRes.status === 'fulfilled' && !levelsRes.value.ok)) {
         throw new Error(`Failed to fetch support levels: ${levelsRes.status === 'rejected' ? levelsRes.reason : levelsRes.value.statusText}`);
       }
+
+      // Quality API checks
+      // We treat quality failures as non-blocking (dashboard can still load)
+      const qualityStats = (results[3].status === 'fulfilled' && (results[3] as PromiseFulfilledResult<Response>).value.ok)
+        ? await (results[3] as PromiseFulfilledResult<Response>).value.json()
+        : null;
+
+      const qualityAlertsList = (results[4].status === 'fulfilled' && (results[4] as PromiseFulfilledResult<Response>).value.ok)
+        ? await (results[4] as PromiseFulfilledResult<Response>).value.json()
+        : [];
 
       // Get filtered stats (for Em Progresso, Pendentes, Resolvidos)
       const filteredStats: GeneralStats = await (statsRes as PromiseFulfilledResult<Response>).value.json();
@@ -117,6 +133,10 @@ export const useDashboardData = (
           history,     // ✅ Derived from real filtered data
           categories   // ✅ Real API data (filtered)
         },
+        qualityAlerts: qualityStats ? {
+          summary: qualityStats,
+          details: qualityAlertsList
+        } : undefined,
         lastUpdated: new Date()
       });
 

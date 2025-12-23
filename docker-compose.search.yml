@@ -1,0 +1,44 @@
+services:
+  glpi-sis-api:
+    build:
+      context: .
+      dockerfile: glpi-db-services/glpi-sync-sis/Dockerfile.api
+    ports:
+      - "8002:8002"
+    environment:
+      # DATABASE_URL removida para usar defaults via POSTGRES_ vars que estão corretas
+      # - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@glpi-core-db:5432/glpi_db}
+      - POSTGRES_HOST=glpi-core-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=glpi_user
+      - POSTGRES_PASSWORD=glpi_secure_2024
+      - POSTGRES_DB=glpi_data
+      - GLPI_SIS_URL=${GLPI_SIS_URL}
+      - GLPI_SIS_APP_TOKEN=${GLPI_SIS_APP_TOKEN}
+      - GLPI_SIS_USER_TOKEN=${GLPI_SIS_USER_TOKEN}
+    volumes:
+      - ./glpi-db-services/glpi-sync-sis:/app/services/glpi-sync-sis
+      - ./glpi-db-services/common:/app/services/common
+    networks:
+      - glpi-network
+
+  glpi-search-sis:
+    build:
+      context: .
+      dockerfile: glpi-search-sis/Dockerfile
+    ports:
+      - "3003:3000"
+    environment:
+      - VITE_API_URL=http://glpi-sis-api:8002
+      - VITE_API_PROXY_TARGET=http://glpi-sis-api:8002
+    volumes:
+      - ./glpi-search-sis:/app
+      - /app/node_modules
+    networks:
+      - glpi-network
+    depends_on:
+      - glpi-sis-api
+
+networks:
+  glpi-network:
+    external: true

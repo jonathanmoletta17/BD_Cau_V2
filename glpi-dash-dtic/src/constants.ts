@@ -1,6 +1,6 @@
 import { TechnicianDetails, TicketDetail } from './types';
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8003';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8003/dtic';
 
 // Colors for Charts
 export const CHART_COLORS = {

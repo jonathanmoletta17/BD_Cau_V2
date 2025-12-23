@@ -1,22 +1,43 @@
-# Stage 1: Build/Setup Backend (Frontend REMOVED)
-FROM node:20-alpine as backend
+# ==========================================
+# Multi-Stage Build: Backend TOD
+# ==========================================
+
+# Stage 1: Dependencies
+FROM node:20-alpine AS deps
+
 WORKDIR /app
 
-# Install Backend Dependencies
+# Copiar apenas package files para cache
 COPY package.json package-lock.json ./
-RUN npm ci
 
-# Copy Backend Source
-COPY . .
+# Instalar todas dependências (incluindo tsx para runtime)
+RUN npm ci --quiet
 
-# Environment
+# Stage 2: Runner
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+# Copiar node_modules do stage anterior
+COPY --from=deps /app/node_modules ./node_modules
+
+# Copiar package files
+COPY package.json package-lock.json ./
+
+# Copiar código fonte
+COPY tsconfig.json ./
+COPY src ./src
+
+# Variáveis de ambiente
 ENV NODE_ENV=production
-ENV PORT=8000
+ENV PORT=4000
 
+# Expor porta
+EXPOSE 4000
 
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:4000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
-# Expose Port
-EXPOSE 8000
-
-# Start Command (Using tsx directly as defined in package.json start script)
+# Comando de start
 CMD ["npm", "start"]

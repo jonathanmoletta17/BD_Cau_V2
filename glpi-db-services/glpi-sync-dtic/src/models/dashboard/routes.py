@@ -35,7 +35,7 @@ from .service import (
 # Frontend calls: /api/v1/sis/dashboard/stats-gerais
 # Main app mounts at /api/v1
 # So prefix here is /sis/dashboard
-router = APIRouter(prefix="/sis", tags=["SIS Dashboard"])
+router = APIRouter(tags=["DTIC Dashboard"])
 
 
 def get_db_session():

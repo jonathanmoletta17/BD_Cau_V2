@@ -1,0 +1,5 @@
+{
+  "name": "GLPI Charger Dashboard",
+  "description": "Real-time dashboard for managing equipment chargers, tracking status, usage history, and user rankings within the GLPI ecosystem.",
+  "requestFramePermissions": []
+}
