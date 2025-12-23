@@ -86,8 +86,4 @@ Este documento consolida os formulários detectados nos tickets com “Dados do 
 - Campos sensíveis (ex.: CPF) surgem em solicitações de criação/alteração de acesso. Devem ser solicitados apenas quando estritamente necessários e tratados com cautela.
 - Em alguns casos (Office/Outlook), detalhes aparecem em texto livre sem o padrão numerado; ainda assim, os campos acima são recorrentes e úteis para o agente.
 
-## Uso no Agente
-- Para “Acesso a Sistemas – Rede Piratini”: priorizar TIPO, Organização, Setor, Nome completo, ID funcional, Cargo, Ramal e Hostname.
-- Para “Office 365”: coletar Tipo de Serviço, E-mail do usuário, Localização, Telefone, e lista de membros/permissões quando aplicável.
-- Para “Outlook – Caixa Compartilhada”: nome/identificação da caixa, unidade proprietária, lista de usuários e tipo de acesso.
-- Para “Ingresso/RHE”: confirmar anexo com dados do novo usuário e campos de identificação (Nome, Cargo, Setor).
+

@@ -1,9 +1,6 @@
 services:
   # ==========================================
-  # AI Inference Service (NVIDIA NIM)
-  # ==========================================
-  # ==========================================
-  # AI Inference Service (Ollama Local)
+  # 1. AI Inference Service (OLLAMA - Fallback)
   # ==========================================
   ollama:
     image: ollama/ollama:latest
@@ -28,10 +25,98 @@ services:
       retries: 3
 
   # ==========================================
-  # Core Infrastructure
+  # 1. AI Inference Service (NIM - Requires Auth)
+  # ==========================================
+  # nim-llm:
+  #   image: nvcr.io/nim/meta/llama-3.1-8b-instruct:latest
+  #   container_name: glpi-nim
+  #   environment:
+  #     - NGC_API_KEY=${NGC_API_KEY}
+  #   ports:
+  #     - "8888:8000"
+  #   volumes:
+  #     - nim_cache:/opt/nim/.cache
+  #   networks:
+  #     - app_network
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #           count: 1
+  #           capabilities: [gpu]
+
+  # ==========================================
+  # 2. State Management (Redis)
+  # ==========================================
+  redis:
+    image: redis:7-alpine
+    container_name: glpi-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - app_network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ==========================================
+  # 3. Backend API (Ticket Agent)
+  # ==========================================
+  backend:
+    build:
+      context: ./glpi-ticket-agent
+      dockerfile: Dockerfile
+    container_name: glpi-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - LLM_BASE_URL=http://ollama:11434
+      # - LLM_BASE_URL=http://nim-llm:8000
+      - LLM_MODEL_NAME=llama3.1
+      # - LLM_MODEL_NAME=meta/llama-3.1-8b-instruct
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - GLPI_TEST_URL=${GLPI_TEST_URL}
+      - GLPI_TEST_APP_TOKEN=${GLPI_TEST_APP_TOKEN}
+      - GLPI_TEST_USER_TOKEN=${GLPI_TEST_USER_TOKEN}
+      - GLPI_PROD_URL_CONFIG=${GLPI_PROD_URL_CONFIG}
+      - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
+      - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
+      - ENVIRONMENT=${ENVIRONMENT}
+    depends_on:
+      redis:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    networks:
+      - app_network
+
+  # ==========================================
+  # 4. Frontend (Web Chat)
+  # ==========================================
+  frontend:
+    build:
+      context: ./glpi-webChat-agent
+      dockerfile: Dockerfile
+    container_name: glpi-frontend
+    restart: always
+    ports:
+      - "3000:80"
+    networks:
+      - app_network
+
+  # ==========================================
+  # 5. Core Infrastructure (Legacy/DB)
   # ==========================================
   core-db:
-    # image: postgres:15-alpine
     build:
       context: ./glpi-db
       dockerfile: Dockerfile
@@ -54,51 +139,12 @@ services:
       retries: 5
 
   # ==========================================
-  # Backend Services
+  # 6. Legacy Sync Services (Python)
   # ==========================================
-  # core-api:
-  #   build:
-  #     context: ./glpi-data-service
-  #     dockerfile: Dockerfile
-  #   container_name: glpi-core-api
-  #   restart: unless-stopped
-  #   ports:
-  #     - "8000:8000"
-  #   environment:
-  #     - POSTGRES_HOST=${POSTGRES_HOST:-glpi-core-db}
-  #     - POSTGRES_PORT=5432
-  #     - POSTGRES_USER=${POSTGRES_USER:-glpi_user}
-  #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-glpi_dev_password}
-  #     - POSTGRES_DB=${POSTGRES_DB:-glpi_data}
-  #     - GLPI_PROD_URL=${GLPI_PROD_URL_CONFIG}
-  #     - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
-  #     - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
-  #     - GLPI_SIS_URL=${GLPI_SIS_URL:-}
-  #     - GLPI_SIS_APP_TOKEN=${GLPI_SIS_APP_TOKEN:-}
-  #     - GLPI_SIS_USER_TOKEN=${GLPI_SIS_USER_TOKEN:-}
-  #     - PYTHONUNBUFFERED=1
-  #     - LOG_LEVEL=INFO
-  #     - TZ=${TZ:-America/Sao_Paulo}
-  #   volumes:
-  #     - ./glpi-data-service:/app
-  #     - ./glpi-data-service/logs:/app/logs
-  #   networks:
-  #     - app_network
-  #   depends_on:
-  #     core-db:
-  #       condition: service_healthy
-  #   healthcheck:
-  #     test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
-  #     interval: 30s
-  #     timeout: 10s
-  #     retries: 3
-  #   extra_hosts:
-  #     - "host.docker.internal:host-gateway"
-
   glpi-sync-dtic:
     build:
       context: .
-      dockerfile: services/glpi-sync-dtic/Dockerfile
+      dockerfile: glpi-services/glpi-sync-dtic/Dockerfile
     container_name: glpi-sync-dtic
     restart: unless-stopped
     command: [ "python", "-u", "scripts/daemon_sync.py" ]
@@ -108,7 +154,6 @@ services:
       - POSTGRES_USER=${POSTGRES_USER:-glpi_user}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-glpi_dev_password}
       - POSTGRES_DB=${POSTGRES_DB:-glpi_data}
-      # DTIC Context Config
       - GLPI_PROD_URL_CONFIG=${GLPI_PROD_URL_CONFIG}
       - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
       - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
@@ -119,8 +164,8 @@ services:
       - OLLAMA_BASE_URL=http://ollama:11434
       - OLLAMA_EMBED_MODEL=nomic-embed-text
     volumes:
-      - ./services/glpi-sync-dtic:/app/services/glpi-sync-dtic
-      - ./services/common:/app/services/common
+      - ./glpi-services/glpi-sync-dtic:/app/services/glpi-sync-dtic
+      - ./glpi-services/common:/app/services/common
     networks:
       - app_network
     depends_on:
@@ -130,7 +175,7 @@ services:
   glpi-sync-sis:
     build:
       context: .
-      dockerfile: services/glpi-sync-sis/Dockerfile
+      dockerfile: glpi-services/glpi-sync-sis/Dockerfile
     container_name: glpi-sync-sis
     restart: unless-stopped
     command: [ "python", "-u", "scripts/daemon_sync.py" ]
@@ -140,7 +185,6 @@ services:
       - POSTGRES_USER=${POSTGRES_USER:-glpi_user}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-glpi_dev_password}
       - POSTGRES_DB=${POSTGRES_DB:-glpi_data}
-      # SIS Context Config
       - GLPI_SIS_URL=${GLPI_SIS_URL:-}
       - GLPI_SIS_APP_TOKEN=${GLPI_SIS_APP_TOKEN:-}
       - GLPI_SIS_USER_TOKEN=${GLPI_SIS_USER_TOKEN:-}
@@ -151,8 +195,8 @@ services:
       - OLLAMA_BASE_URL=http://ollama:11434
       - OLLAMA_EMBED_MODEL=nomic-embed-text
     volumes:
-      - ./services/glpi-sync-sis:/app/services/glpi-sync-sis
-      - ./services/common:/app/services/common
+      - ./glpi-services/glpi-sync-sis:/app/services/glpi-sync-sis
+      - ./glpi-services/common:/app/services/common
     networks:
       - app_network
     depends_on:
@@ -167,4 +211,8 @@ volumes:
   postgres_data:
     driver: local
   ollama_storage:
+    driver: local
+  redis_data:
+    driver: local
+  nim_cache:
     driver: local
