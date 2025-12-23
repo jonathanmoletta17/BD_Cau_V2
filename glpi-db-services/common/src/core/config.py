@@ -33,7 +33,7 @@ class CommonConfig:
     # DTIC Context Config Helpers
     @property
     def GLPI_DTIC_URL(self) -> str:
-        return os.getenv("GLPI_PROD_URL_CONFIG", "")
+        return os.getenv("GLPI_DTIC_URL", os.getenv("GLPI_PROD_URL_CONFIG", ""))
         
     @property
     def GLPI_DTIC_APP_TOKEN(self) -> str:

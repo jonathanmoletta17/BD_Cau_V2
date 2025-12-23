@@ -8,6 +8,8 @@ from src.core.database import SessionLocal
 from src.models.dashboard.routes import router as dashboard_router
 from src.models.metadata.router import router as metadata_router
 from src.models.quality.routes import router as quality_router
+from src.models.config.router import router as config_router
+from src.models.search.routes import router as search_router
 from src.services.quality.monitor import QualityMonitor
 
 # Logging configuration
@@ -64,6 +66,8 @@ async def shutdown_event():
 app.include_router(dashboard_router, prefix="/dtic")
 app.include_router(metadata_router, prefix="/dtic")
 app.include_router(quality_router, prefix="/dtic")
+app.include_router(config_router, prefix="/dtic")
+app.include_router(search_router, prefix="/dtic")
 
 @app.get("/health")
 def health_check():

@@ -145,7 +145,7 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* BOTTOM RANKING SECTION */}
-            <div className="h-48 bg-dtic-card rounded-lg border border-dtic-border p-4 flex flex-col shrink-0">
+            <div className="h-56 bg-dtic-card rounded-lg border border-dtic-border p-4 flex flex-col shrink-0">
               <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-2 text-slate-200 font-semibold">
                   <Trophy className="w-5 h-5 text-blue-400" />

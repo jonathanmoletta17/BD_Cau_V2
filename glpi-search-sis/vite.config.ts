@@ -9,11 +9,14 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       host: '0.0.0.0',
       proxy: {
-        '/api': {
-          target: env.VITE_API_PROXY_TARGET || 'http://localhost:8002',
+        '/api/sis': {
+          target: 'http://localhost:8002',
           changeOrigin: true,
-          secure: false,
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          // Rewrite: /api/sis/xxx -> /sis/xxx (necessário em Dev Mode se target for localhost:8002 que serve /sis prefix)
+          // Mas depende: se uvicorn é iniciado na raiz e api inclui router /sis, então URL é localhost:8002/sis/xxx.
+          // Se eu mando request /api/sis/xxx -> target/api/sis/xxx.
+          // Precisamos rewrite para /sis/xxx se o backend tiver prefix.
+          rewrite: (path) => path.replace(/^\/api\/sis/, '/sis')
         }
       }
     },

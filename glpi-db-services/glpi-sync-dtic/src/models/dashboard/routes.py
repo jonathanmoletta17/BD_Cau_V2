@@ -32,9 +32,9 @@ from .service import (
 )
 
 # Create router with prefix matching frontend expectations
-# Frontend calls: /api/v1/sis/dashboard/stats-gerais
-# Main app mounts at /api/v1
-# So prefix here is /sis/dashboard
+# Frontend calls: /api/dtic/dashboard/stats-gerais
+# Nginx rewrites to: /dtic/dashboard/stats-gerais
+# Main app mounts at /dtic, so prefix here is /dashboard
 router = APIRouter(tags=["DTIC Dashboard"])
 
 

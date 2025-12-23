@@ -70,6 +70,7 @@ export interface TicketDetail {
   requester: string;
   technician?: string; // Optional, can be unassigned
   timeline: TicketTimelineItem[];
+  url?: string;
 }
 
 export interface QualityAlert {

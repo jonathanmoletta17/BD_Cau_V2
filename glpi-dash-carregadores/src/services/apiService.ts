@@ -7,7 +7,7 @@ import { Charger } from '../types';
  * Configure a variável de ambiente VITE_API_URL em .env.local
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = '/api/sis';
 
 /**
  * Busca dados do dashboard de carregadores

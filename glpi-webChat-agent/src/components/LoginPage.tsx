@@ -10,7 +10,7 @@ const LoginPage: React.FC = () => {
     const { login } = useAuth();
 
     // Get API URL from enviroment or default
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+    const API_URL = '/api';
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

@@ -5,11 +5,12 @@ Business logic for dashboard queries using SQLAlchemy
 from typing import List, Optional
 from datetime import datetime
 from sqlalchemy.orm import Session
-from sqlalchemy import func, or_
+from sqlalchemy import func, or_, text
 
 from ..metadata.models import User, Entity, ITILCategory
 from ..tickets.models import Ticket
 from ..tickets.relationship_models import TicketUser
+from src.core.config import config
 
 # Relationship models might be in tickets/models.py or tickets/relationship_models.py
 # Check imports based on file existence. Assuming TicketUser is available via tickets.models or tickets.relationship_models
@@ -506,8 +507,8 @@ def get_ticket_details(db: Session, ticket_id: int):
     # 1. Basic Info
     ticket_query = text("""
         SELECT 
-            t.id, t.glpi_id, t.titulo, t.conteudo as description, 
-            t.status_id, t.prioridade, t.criado_em, t.solucionado_em,
+            t.id, t.glpi_id, t.titulo, t.descricao as description, 
+            t.status_id, t.prioridade_id, t.criado_em, t.solucionado_em,
             u_req.name as requester_name,
             u_tech.name as technician_name
         FROM tickets t
@@ -523,20 +524,8 @@ def get_ticket_details(db: Session, ticket_id: int):
         return None
         
     # 2. Timeline
+    # 2. Timeline
     timeline_query = text("""
-        SELECT 
-            'followup' as type,
-            f.id, 
-            f.date, 
-            f.content, 
-            u.name as author
-        FROM ticket_followups f
-        LEFT JOIN glpi_users u ON f.users_id = u.id
-        JOIN tickets t ON f.ticket_id = t.id
-        WHERE t.glpi_id = :ticket_id
-        
-        UNION ALL
-        
         SELECT 
             'change' as type,
             c.id, 
@@ -547,6 +536,11 @@ def get_ticket_details(db: Session, ticket_id: int):
         LEFT JOIN glpi_users u ON c.usuario_id = u.id
         JOIN tickets t ON c.ticket_id = t.id
         WHERE t.glpi_id = :ticket_id
+        AND (
+            (c.valor_antigo IS NOT NULL AND c.valor_antigo != '')
+            OR
+            (c.valor_novo IS NOT NULL AND c.valor_novo != '')
+        )
         
         ORDER BY date DESC
     """)
@@ -568,17 +562,25 @@ def get_ticket_details(db: Session, ticket_id: int):
         })
         
     status_map = {1: "Novo", 2: "Em Atendimento", 3: "Planejado", 4: "Pendente", 5: "Solucionado", 6: "Fechado"}
+    priority_map = {5: "Muito Alta", 4: "Alta", 3: "Média", 2: "Baixa", 1: "Muito Baixa"}
     
+    # Generate Ticket URL
+    # Config URL normally ends with /apirest.php, so we strip it to get base
+    base_url = config.GLPI_DTIC_URL.replace('/apirest.php', '')
+    # Default to # if config is missing
+    ticket_url = f"{base_url}/front/ticket.form.php?id={ticket.glpi_id}" if base_url else "#"
+
     return {
         "id": ticket.id,
         "glpi_id": ticket.glpi_id,
         "title": ticket.titulo,
         "description": ticket.description,
         "status": status_map.get(ticket.status_id, str(ticket.status_id)),
-        "priority": str(ticket.prioridade),
+        "priority": priority_map.get(ticket.prioridade_id, "Normal"),
         "creation_date": ticket.criado_em.isoformat() if ticket.criado_em else "",
         "solve_date": ticket.solucionado_em.isoformat() if ticket.solucionado_em else None,
         "requester": ticket.requester_name or "N/A",
         "technician": ticket.technician_name or "N/A",
-        "timeline": timeline
+        "timeline": timeline,
+        "url": ticket_url
     }

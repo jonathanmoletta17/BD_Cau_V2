@@ -15,8 +15,8 @@ const Header: React.FC<HeaderProps> = ({ searchTerm, onSearchChange }) => {
              <Search size={32} className="text-white" />
           </div>
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">GLPI SIS SMART SEARCH</h1>
-            <p className="text-blue-100 text-sm md:text-base opacity-90">Busca de Tickets - Manutenção e Conservação</p>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">GLPI DTIC SMART SEARCH</h1>
+            <p className="text-blue-100 text-sm md:text-base opacity-90">Busca de Tickets - Departamento de Tecnologia da Informação e Comunicação</p>
           </div>
         </div>
 

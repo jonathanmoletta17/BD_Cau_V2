@@ -1,7 +1,7 @@
 
 import { Ticket, TicketStatus, KPIStats } from '../types';
 
-const API_BASE = '/api/sis/search';
+const API_BASE = '/api/dtic/search';
 
 interface SearchResponse {
     items: any[];

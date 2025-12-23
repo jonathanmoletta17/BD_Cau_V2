@@ -1,18 +1,29 @@
-FROM node:20-slim
+# Build Stage
+FROM node:20-alpine as builder
 
 WORKDIR /app
 
-# Copy package.json and lockfile
-COPY glpi-search-dtic/package.json glpi-search-dtic/package-lock.json ./
+# Copy package files
+COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm ci --quiet
 
 # Copy source code
-COPY glpi-search-dtic ./
+COPY . .
 
-# Expose port
-EXPOSE 3000
+# Build the application
+RUN npm run build
 
-# Start development server
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+# Production Stage
+FROM nginx:alpine
+
+# Copy built assets from builder stage
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copy Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

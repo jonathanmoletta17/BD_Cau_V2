@@ -92,3 +92,4 @@ class TicketDetail(BaseModel):
     requester: str
     technician: Optional[str] = None
     timeline: List[TicketTimelineItem]
+    url: Optional[str] = None

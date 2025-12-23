@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { QualityAlert, QualityStats } from '../types';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8003/sis';
+import { API_BASE_URL } from '../constants';
 
 interface UseQualityAlertsReturn {
     alerts: QualityAlert[];

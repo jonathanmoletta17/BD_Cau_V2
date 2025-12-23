@@ -10,7 +10,7 @@ from src.core.database import Database
 from .models import SearchResponse, StatsResponse
 from .service import search_tickets, get_suggestions, get_search_stats
 
-router = APIRouter(prefix="/sis/search", tags=["DTIC Search"])
+router = APIRouter(prefix="/search", tags=["DTIC Search"])
 
 def get_db_session():
     """Dependency injection for DTIC database session."""

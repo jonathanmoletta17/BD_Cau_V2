@@ -16,9 +16,7 @@ RUN npm ci --quiet
 # Copiar código fonte
 COPY . .
 
-# Build argument para API URL
-ARG VITE_API_URL=http://localhost:4000
-ENV VITE_API_URL=$VITE_API_URL
+# Build argument para API URL removido (agora usa proxy relativo)
 
 # Build da aplicação React
 RUN npm run build

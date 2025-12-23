@@ -121,8 +121,6 @@ services:
     build:
       context: ./glpi-webChat-agent
       dockerfile: Dockerfile
-      args:
-        - VITE_API_URL=http://localhost:4000
     container_name: glpi-frontend
     restart: always
     ports:
@@ -144,7 +142,7 @@ services:
   # ==========================================
   core-db:
     build:
-      context: ./glpi-db
+      context: ./glpi-db-services/glpi-db
       dockerfile: Dockerfile
     container_name: glpi-core-db
     restart: unless-stopped
@@ -201,7 +199,7 @@ services:
   glpi-sync-sis:
     build:
       context: .
-      dockerfile: glpi-db-services/glpi-sync-sis/Dockerfile
+      dockerfile: glpi-db-services/glpi-sync-'sis/'Dockerfile
     container_name: glpi-sync-sis
     restart: unless-stopped
     command: [ "python", "-u", "scripts/daemon_sync.py" ]
@@ -229,12 +227,33 @@ services:
       core-db:
         condition: service_healthy
 
+  glpi-sis-api:
+    build:
+      context: .
+      dockerfile: glpi-db-services/glpi-sync-sis/Dockerfile.api
+    container_name: glpi-sis-api
+    restart: unless-stopped
+    ports:
+      - "8002:8002"
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST:-glpi-core-db}
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER:-glpi_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-glpi_dev_password}
+      - POSTGRES_DB=${POSTGRES_DB:-glpi_data}
+    volumes:
+      - ./glpi-db-services/glpi-sync-sis:/app/services/glpi-sync-sis
+      - ./glpi-db-services/common:/app/services/common
+    networks:
+      - app_network
+    depends_on:
+      core-db:
+        condition: service_healthy
+
   glpi-dash-carregadores:
     build:
       context: ./glpi-dash-carregadores
       dockerfile: Dockerfile
-      args:
-        - VITE_API_URL=http://localhost:8002/sis
     container_name: glpi-dash-carregadores
     restart: unless-stopped
     ports:
@@ -277,12 +296,42 @@ services:
     build:
       context: ./glpi-dash-dtic
       dockerfile: Dockerfile
-      args:
-        - VITE_API_URL=/api/sis
     container_name: glpi-dash-dtic
     restart: unless-stopped
     ports:
       - "3006:80"
+    networks:
+      - app_network
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health" ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  glpi-search-dtic:
+    build:
+      context: ./glpi-search-dtic
+      dockerfile: Dockerfile
+    container_name: glpi-search-dtic
+    restart: unless-stopped
+    ports:
+      - "3002:80"
+    networks:
+      - app_network
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health" ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  glpi-search-sis:
+    build:
+      context: ./glpi-search-sis
+      dockerfile: Dockerfile
+    container_name: glpi-search-sis
+    restart: unless-stopped
+    ports:
+      - "3003:80"
     networks:
       - app_network
     healthcheck:

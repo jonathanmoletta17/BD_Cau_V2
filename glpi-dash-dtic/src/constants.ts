@@ -1,6 +1,8 @@
 import { TechnicianDetails, TicketDetail } from './types';
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8003/dtic';
+// Usando padrão Reverse Proxy: URL relativa
+// O Nginx (prod) ou Vite Proxy (dev) resolverá o destino
+export const API_BASE_URL = '/api/dtic';
 
 // Colors for Charts
 export const CHART_COLORS = {
@@ -39,65 +41,4 @@ export const getMockTechnicianDetails = (name: string): TechnicianDetails => {
       { id: 12000 + Math.floor(Math.random() * 100), title: "Atualização Office 365", date: "Ontem, 14:20", status: "Resolvido" }
     ]
   };
-};
-
-// Async Mock for Ticket Detail V4 (Simulating network request)
-export const fetchMockTicketDetail = async (id: number): Promise<TicketDetail> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        id: id,
-        glpi_id: id,
-        title: "Erro intermitente no acesso ao Sistema de Protocolo",
-        description: `Prezados,
-
-Desde hoje pela manhã, ao tentar acessar o módulo de cadastro de processos, o sistema apresenta lentidão extrema e, ocasionalmente, o erro "Connection Timed Out". 
-
-Já limpei cache e tentei em outro navegador.
-Anexo print do erro.`,
-        status: "Em Atendimento",
-        priority: "Alta",
-        creation_date: "10/12/2025 09:15",
-        requester: "Ana Paula Souza",
-        technician: "Luciano Marcelino da Silva",
-        timeline: [
-          {
-            id: 1,
-            date: "10/12/2025 09:30",
-            type: "change",
-            author: "Sistema",
-            content: "Status alterado de 'Novo' para 'Em Atendimento' por Luciano Marcelino da Silva"
-          },
-          {
-            id: 2,
-            date: "10/12/2025 09:35",
-            type: "followup",
-            author: "Luciano Marcelino da Silva",
-            content: "Olá Ana Paula. Verifiquei os logs do servidor e identificamos uma sobrecarga no banco de dados. Estamos reiniciando o serviço responsável."
-          },
-          {
-            id: 3,
-            date: "10/12/2025 10:00",
-            type: "followup",
-            author: "Ana Paula Souza",
-            content: "Obrigada, Luciano. Aguardo retorno. O setor está parado."
-          },
-          {
-            id: 4,
-            date: "10/12/2025 10:45",
-            type: "change",
-            author: "Luciano Marcelino da Silva",
-            content: "Categoria alterada de 'Incidente > Software' para 'Incidente > Infraestrutura'"
-          },
-          {
-            id: 5,
-            date: "10/12/2025 11:15",
-            type: "followup",
-            author: "Luciano Marcelino da Silva",
-            content: "O serviço foi restabelecido e aplicamos um patch de correção. Por favor, tente acessar novamente e confirme se a velocidade normalizou."
-          }
-        ]
-      });
-    }, 800); // 800ms simulated delay
-  });
 };

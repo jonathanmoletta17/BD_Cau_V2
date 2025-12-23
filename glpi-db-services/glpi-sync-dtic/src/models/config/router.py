@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from src.core.database import Database
 from .models import Setting
 
-router = APIRouter(prefix="/sis/config", tags=["SIS - Config"])
+router = APIRouter(prefix="/config", tags=["DTIC - Config"])
 
 def get_db_session():
     session = Database.get_session(schema="dtic")
