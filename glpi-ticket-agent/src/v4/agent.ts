@@ -5,6 +5,7 @@ import { FormAgentV4 } from './agents/form_agent_v4';
 import { IncidentAgent } from './agents/incident_agent';
 import { GLPIBridgeService } from './services/glpi_bridge_service';
 import { AgentResponse, V3Intent } from './types';
+import { ConversationStateManager } from './state/conversation_state';
 
 /**
  * GLPIAgentV4 - Orquestrador principal com schemas dinâmicos
@@ -38,9 +39,10 @@ export class GLPIAgentV4 {
         );
 
         // Inicializa agentes
+        const stateManager = new ConversationStateManager(redis);
         this.router = new RouterService(llm);
         this.formAgent = new FormAgentV4(llm, this.glpiBridge);
-        this.incidentAgent = new IncidentAgent(llm);
+        this.incidentAgent = new IncidentAgent(llm, stateManager);
 
         console.log('[V4] GLPI Agent Inicializado com schemas dinâmicos 🚀');
     }
@@ -75,6 +77,8 @@ export class GLPIAgentV4 {
         // 3. Despachar para o agente apropriado
         let response: AgentResponse;
 
+        console.log('[V4] 🎯 About to switch, intent =', intent, '| type:', typeof intent);
+
         switch (intent) {
             case 'SERVICE_REQUEST':
                 // Usa FormAgentV4 (dinâmico!)
@@ -85,11 +89,14 @@ export class GLPIAgentV4 {
                 break;
 
             case 'INCIDENT':
+                console.log('[V4] 🔧 Executing INCIDENT case, calling IncidentAgent...');
                 // IncidentAgent (mantém lógica V3 por enquanto)
                 response = await this.incidentAgent.process(
                     message,
-                    state.history.map((h: any) => h.content)
+                    state.history.map((h: any) => h.content),
+                    conversationId
                 );
+                console.log('[V4] 📤 IncidentAgent returned:', { hasMessage: !!response?.message, type: response?.type });
                 break;
 
             case 'CHITCHAT':
@@ -109,6 +116,7 @@ export class GLPIAgentV4 {
         }
 
         // 4. Salvar estado + histórico
+        console.log('[V4] 💾 Response before save:', JSON.stringify(response).substring(0, 200));
         state.history.push({ role: 'assistant', content: response.message });
         if (state.history.length > 20) state.history = state.history.slice(-20);
 

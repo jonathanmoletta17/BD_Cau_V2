@@ -45,6 +45,8 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [ gpu ]
+        limits:
+          memory: 12G # Prevent OOM on 16GB RTX A4000
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8000/v1/health/ready" ]
       interval: 30s
@@ -88,7 +90,15 @@ services:
       - ENABLE_TOD=true
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      # LLM Configuration (Ollama)
+      # LLM Configuration (Dual Provider: NIM + Ollama)
+      - LLM_NIM_URL=http://nim-llm:8000
+      - LLM_NIM_MODEL=meta/llama-3.1-8b-instruct
+      - LLM_OLLAMA_URL=http://ollama:11434
+      - LLM_OLLAMA_MODEL=llama3.1
+      - LLM_FALLBACK_ENABLED=true
+      - LLM_TEMPERATURE=0.1
+      - NGC_API_KEY=${NGC_API_KEY}
+      # Legacy LLM vars (for backward compatibility)
       - LLM_BASE_URL=http://ollama:11434
       - LLM_MODEL_NAME=llama3.1
       - LLM_API_KEY=ollama
@@ -104,6 +114,8 @@ services:
       redis:
         condition: service_healthy
       ollama:
+        condition: service_healthy
+      nim-llm:
         condition: service_healthy
     networks:
       - app_network

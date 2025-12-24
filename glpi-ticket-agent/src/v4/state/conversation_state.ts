@@ -29,6 +29,8 @@ export interface ConversationState {
         lastActivityAt: string;
         turnCount: number;
     };
+    // Campo genérico para dados customizados por intent
+    customData?: Record<string, any>;
 }
 
 export class ConversationStateManager {

@@ -10,10 +10,16 @@ const __dirname = path.dirname(__filename);
 // Load env vars
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
-export interface LLMConfig {
+export interface LLMProviderConfig {
   baseUrl: string;
   model: string;
-  apiKey: string;
+  apiKey?: string;
+}
+
+export interface LLMConfig {
+  nim: LLMProviderConfig;
+  ollama: LLMProviderConfig;
+  fallbackEnabled: boolean;
   temperature: number;
 }
 
@@ -29,12 +35,26 @@ export class ConfigManager {
   private glpi: GlpiConfig;
 
   constructor() {
+    // LLM Configuration - Dual Provider (NIM + Ollama)
     this.llm = {
-      baseUrl: process.env.LLM_BASE_URL || "http://localhost:11434",
-      model: process.env.LLM_MODEL_NAME || "llama3",
-      apiKey: process.env.LLM_API_KEY || "ollama",
-      temperature: 0.1
+      nim: {
+        baseUrl: process.env.LLM_NIM_URL || 'http://nim-llm:8000',
+        model: process.env.LLM_NIM_MODEL || 'meta/llama-3.1-8b-instruct',
+        apiKey: process.env.NGC_API_KEY
+      },
+      ollama: {
+        baseUrl: process.env.LLM_OLLAMA_URL || process.env.LLM_BASE_URL || 'http://ollama:11434',
+        model: process.env.LLM_OLLAMA_MODEL || process.env.LLM_MODEL_NAME || 'llama3.1',
+        apiKey: 'ollama' // Ollama doesn't use API keys
+      },
+      fallbackEnabled: process.env.LLM_FALLBACK_ENABLED !== 'false', // Default: true
+      temperature: parseFloat(process.env.LLM_TEMPERATURE || '0.1')
     };
+
+    console.log('[Config] LLM Providers:');
+    console.log(`  - NIM: ${this.llm.nim.baseUrl} (model: ${this.llm.nim.model})`);
+    console.log(`  - Ollama: ${this.llm.ollama.baseUrl} (model: ${this.llm.ollama.model})`);
+    console.log(`  - Fallback Enabled: ${this.llm.fallbackEnabled}`);
 
     // Safety Switch Logic
     const environment = process.env.ENVIRONMENT || 'test';
