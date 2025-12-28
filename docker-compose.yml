@@ -1,58 +1,11 @@
 services:
   # ==========================================
-  # 1. AI Inference Service (OLLAMA - Fallback)
+  # ARCHIVED 2025-12-28: Agent services deprecated
+  # ollama, nim-llm, and backend removed
+  # See: archive/agent_v4_deprecated/
   # ==========================================
-  ollama:
-    image: ollama/ollama:latest
-    container_name: ollama
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama_storage:/root/.ollama
-    networks:
-      - app_network
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [ gpu ]
-    healthcheck:
-      test: [ "CMD", "ollama", "list" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
-  # ==========================================
-  # 1. AI Inference Service (NIM - NVIDIA)
-  # ==========================================
-  nim-llm:
-    image: nvcr.io/nim/meta/llama-3.1-8b-instruct:latest
-    container_name: glpi-nim
-    environment:
-      - NGC_API_KEY=${NGC_API_KEY}
-    ports:
-      - "8888:8000"
-    volumes:
-      - nim_cache:/opt/nim/.cache
-    networks:
-      - app_network
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [ gpu ]
-        limits:
-          memory: 12G # Prevent OOM on 16GB RTX A4000
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8000/v1/health/ready" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 120s
+
 
   # ==========================================
   # 2. State Management (Redis)
@@ -72,59 +25,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-
-  # ==========================================
-  # 3. Backend API (Ticket Agent TOD)
-  # ==========================================
-  backend:
-    build:
-      context: ./glpi-ticket-agent
-      dockerfile: Dockerfile
-    container_name: glpi-backend
-    restart: always
-    ports:
-      - "4000:4000"
-    environment:
-      - NODE_ENV=production
-      - PORT=4000
-      - ENABLE_TOD=true
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      # LLM Configuration (Dual Provider: NIM + Ollama)
-      - LLM_NIM_URL=http://nim-llm:8000
-      - LLM_NIM_MODEL=meta/llama-3.1-8b-instruct
-      - LLM_OLLAMA_URL=http://ollama:11434
-      - LLM_OLLAMA_MODEL=llama3.1
-      - LLM_FALLBACK_ENABLED=true
-      - LLM_TEMPERATURE=0.1
-      - NGC_API_KEY=${NGC_API_KEY}
-      # Legacy LLM vars (for backward compatibility)
-      - LLM_BASE_URL=http://ollama:11434
-      - LLM_MODEL_NAME=llama3.1
-      - LLM_API_KEY=ollama
-      # GLPI Credentials
-      - GLPI_TEST_URL=${GLPI_TEST_URL}
-      - GLPI_TEST_APP_TOKEN=${GLPI_TEST_APP_TOKEN}
-      - GLPI_TEST_USER_TOKEN=${GLPI_TEST_USER_TOKEN}
-      - GLPI_PROD_URL_CONFIG=${GLPI_PROD_URL_CONFIG}
-      - GLPI_PROD_APP_TOKEN=${GLPI_PROD_APP_TOKEN}
-      - GLPI_PROD_USER_TOKEN=${GLPI_PROD_USER_TOKEN}
-      - ENVIRONMENT=${ENVIRONMENT:-test}
-    depends_on:
-      redis:
-        condition: service_healthy
-      ollama:
-        condition: service_healthy
-      nim-llm:
-        condition: service_healthy
-    networks:
-      - app_network
-    healthcheck:
-      test: [ "CMD", "node", "-e", "require('http').get('http://localhost:4000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})" ]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
 
   # ==========================================
   # 4. Frontend (WebChat React)
@@ -359,9 +259,5 @@ networks:
 volumes:
   postgres_data:
     driver: local
-  ollama_storage:
-    driver: local
   redis_data:
-    driver: local
-  nim_cache:
     driver: local
