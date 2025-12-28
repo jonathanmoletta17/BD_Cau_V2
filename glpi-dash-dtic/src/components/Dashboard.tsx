@@ -37,6 +37,9 @@ const Dashboard: React.FC = () => {
   const [selectedTicketId, setSelectedTicketId] = useState<number | null>(null);
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
 
+  // Quality filter state
+  const [qualityFilter, setQualityFilter] = useState<'HIGH' | 'MEDIUM' | 'AFFECTED' | 'RULES' | null>(null);
+
   // Handler for technician click
   const handleTechClick = (techName: string) => {
     const details = getMockTechnicianDetails(techName);
@@ -128,23 +131,30 @@ const Dashboard: React.FC = () => {
         {/* --- MAIN CONTENT GRID --- */}
         <div className="grid grid-cols-12 gap-4 flex-1 min-h-0">
 
-          {/* LEFT COLUMN: CAROUSEL + RANKING */}
-          <div className="col-span-9 flex flex-col gap-4 min-h-0 h-full">
+          {/* LEFT COLUMN: CAROUSEL + QUALITY + RANKING */}
+          <div className="col-span-9 flex flex-col gap-4 min-h-0">
 
-            {/* CAROUSEL SECTION */}
-            <div className="flex-1 min-h-[300px] flex flex-col gap-4">
+            {/* CAROUSEL SECTION - Fixed height */}
+            <div className="h-[300px] shrink-0">
               <MetricsCarousel data={data.carouselData} />
-
-              {/* QUALITY ALERTS SECTION */}
-              {data.qualityAlerts && (
-                <div className="grid grid-cols-1 gap-4">
-                  <AlertsSummary data={data.qualityAlerts.summary} />
-                  <ViolationsTable alerts={data.qualityAlerts.details || []} />
-                </div>
-              )}
             </div>
 
-            {/* BOTTOM RANKING SECTION */}
+            {/* QUALITY ALERTS SECTION - Max height controlled */}
+            {data.qualityAlerts && (
+              <div className="grid grid-cols-1 gap-4 shrink-0">
+                <AlertsSummary
+                  stats={data.qualityAlerts.summary}
+                  activeFilter={qualityFilter}
+                  onFilterClick={setQualityFilter}
+                />
+                <ViolationsTable
+                  alerts={data.qualityAlerts.details || []}
+                  activeFilter={qualityFilter}
+                />
+              </div>
+            )}
+
+            {/* BOTTOM RANKING SECTION - Fixed height */}
             <div className="h-56 bg-dtic-card rounded-lg border border-dtic-border p-4 flex flex-col shrink-0">
               <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-2 text-slate-200 font-semibold">
