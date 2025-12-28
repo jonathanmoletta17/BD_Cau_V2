@@ -88,7 +88,7 @@ services:
   glpi-sync-sis:
     build:
       context: .
-      dockerfile: glpi-db-services/glpi-sync-'sis/'Dockerfile
+      dockerfile: glpi-db-services/glpi-sync-sis/Dockerfile
     container_name: glpi-sync-sis
     restart: unless-stopped
     command: [ "python", "-u", "scripts/daemon_sync.py" ]
