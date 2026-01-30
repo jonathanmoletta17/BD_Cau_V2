@@ -37,6 +37,6 @@ A análise da arquitetura revela prioridades estratégicas implícitas:
 
 O agente deve ser configurado para responder prioritariamente sobre:
 1.  **Gargalos Operacionais:** "Qual setor tem mais chamados parados?"
-2.  **Produtividade:** "Quem são os técnicos com mais demandas?"
+2.  **DTICutividade:** "Quem são os técnicos com mais demandas?"
 3.  **Tendências:** "O volume de chamados de rede está aumentando ou diminuindo?"
 4.  **Ativos:** "Temos carregadores disponíveis?"

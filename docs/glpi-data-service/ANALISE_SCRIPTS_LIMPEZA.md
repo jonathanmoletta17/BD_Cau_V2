@@ -2,7 +2,7 @@
 
 ## CRITÉRIO DE ESSENCIALIDADE
 
-**ESSENCIAL para produção:**
+**ESSENCIAL para DTICução:**
 - Scripts que criam/migram schema do banco
 - Scripts que sincronizam dados da API GLPI  
 - Scripts de deploy/setup inicial
@@ -17,14 +17,14 @@
 
 ## ANÁLISE COMPLETA (21 scripts)
 
-### ✅ ESSENCIAIS PARA PRODUÇÃO (4)
+### ✅ ESSENCIAIS PARA DTICUÇÃO (4)
 
 | Script | Função | Motivo |
 |--------|--------|--------|
-| **sync.py** | Sincroniza dados GLPI→DB | Core - usado em produção |
+| **sync.py** | Sincroniza dados GLPI→DB | Core - usado em DTICução |
 | **create_db.py** | Cria schema e tabelas | Setup inicial obrigatório |
-| **deploy.sh** | Deploy Linux/Docker | Produção Linux |
-| **deploy.ps1** | Deploy Windows | Produção Windows |
+| **deploy.sh** | Deploy Linux/Docker | DTICução Linux |
+| **deploy.ps1** | Deploy Windows | DTICução Windows |
 
 ---
 
@@ -51,9 +51,9 @@
 | Script | Motivo |
 |--------|--------|
 | rebuild_database.py | Substituído por create_db.py |
-| drop_tables.py | Operação perigosa, não deve estar em produção |
-| setup-postgres-docker.ps1 | Setup local dev, não produção |
-| run_dev.ps1 | Alias dev, não produção |
+| drop_tables.py | Operação perigosa, não deve estar em DTICução |
+| setup-postgres-docker.ps1 | Setup local dev, não DTICução |
+| run_dev.ps1 | Alias dev, não DTICução |
 
 ---
 
@@ -141,7 +141,7 @@ src/core/
 
 1. ✅ Criar backup dos scripts antes de deletar
 2. ✅ Deletar 15-16 scripts não essenciais
-3. ✅ Manter apenas 4-5 scripts de produção
+3. ✅ Manter apenas 4-5 scripts de DTICução
 4. ✅ Atualizar README se necessário
 
-**Resultado:** Pasta limpa e organizada, apenas essencial para produção
+**Resultado:** Pasta limpa e organizada, apenas essencial para DTICução

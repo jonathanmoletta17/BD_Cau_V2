@@ -41,7 +41,8 @@ class GLPIClient:
         url = f"{self.base_url}/initSession"
         headers = {
             'App-Token': self.app_token,
-            'Authorization': f'user_token {self.user_token}'
+            'Authorization': f'user_token {self.user_token}',
+            'Content-Type': 'application/json'
         }
         
         for attempt in range(self.max_retries):

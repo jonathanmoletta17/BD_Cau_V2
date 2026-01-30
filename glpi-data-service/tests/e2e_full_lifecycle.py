@@ -102,7 +102,7 @@ def check_db_features(session, glpi_id, expect_deleted=False):
 def main():
     logger.info("🎬 Starting E2E Lifecycle Test")
     
-    # Context: DTIC (Prod mapped)
+    # Context: DTIC (DTIC mapped)
     context = 'dtic'
     session = Database.get_session(context=context)
     

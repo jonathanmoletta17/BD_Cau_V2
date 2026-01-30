@@ -3,7 +3,7 @@ GLPI Data Service V3 - DTIC Tickets Models
 Core domain models for ticket management
 """
 from sqlalchemy import (
-    Column, Integer, String, Text, Boolean, CheckConstraint
+    Column, Integer, String, Text, Boolean, CheckConstraint, Index
 )
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 from datetime import datetime
@@ -17,7 +17,17 @@ class Ticket(Base):
     Users and groups are in separate tables (tickets_users, tickets_groups).
     """
     __tablename__ = 'tickets'
-    __table_args__ = {'schema': 'dtic'}
+    __table_args__ = (
+        Index('ix_dtic_tickets_status_id', 'status_id'),
+        Index('ix_dtic_tickets_entidade_id', 'entidade_id'),
+        Index('ix_dtic_tickets_criado_em', 'criado_em'),
+        Index('ix_dtic_tickets_prioridade_id', 'prioridade_id'),
+        Index('ix_dtic_tickets_categoria_id', 'categoria_id'),
+        Index('ix_dtic_tickets_is_deleted', 'is_deleted'),
+        Index('ix_dtic_tickets_status_criado', 'status_id', 'criado_em'),
+        Index('ix_dtic_tickets_entidade_criado', 'entidade_id', 'criado_em'),
+        {'schema': 'dtic'}
+    )
     
     # Identificadores
     id = Column(Integer, primary_key=True, autoincrement=True)

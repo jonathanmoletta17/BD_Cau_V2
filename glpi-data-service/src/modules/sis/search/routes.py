@@ -21,6 +21,12 @@ async def search(
     q: Optional[str] = Query(None, description="Termo de busca (título, descrição)"),
     status: Optional[str] = Query(None, description="IDs de status separados por vírgula"),
     entidade_id: Optional[int] = Query(None, description="ID da entidade"),
+    glpi_id: Optional[int] = Query(None, description="ID do ticket no GLPI"),
+    prioridade_id: Optional[int] = Query(None, description="ID da prioridade"),
+    categoria_id: Optional[int] = Query(None, description="ID da categoria"),
+    requerente_id: Optional[int] = Query(None, description="ID do requerente"),
+    tecnico_id: Optional[int] = Query(None, description="ID do técnico"),
+    grupo_id: Optional[int] = Query(None, description="ID do grupo técnico"),
     data_inicio: Optional[str] = Query(None, description="Data inicial (ISO)"),
     data_fim: Optional[str] = Query(None, description="Data final (ISO)"),
     page: int = Query(1, ge=1),
@@ -30,7 +36,7 @@ async def search(
     """Busca tickets com filtros."""
     try:
         return search_tickets(
-            db, q, status, entidade_id, data_inicio, data_fim, page, per_page
+            db, q, status, entidade_id, glpi_id, prioridade_id, categoria_id, requerente_id, tecnico_id, grupo_id, data_inicio, data_fim, page, per_page
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -52,12 +58,20 @@ async def stats(
     q: Optional[str] = Query(None),
     status: Optional[str] = Query(None),
     entidade_id: Optional[int] = Query(None),
+    glpi_id: Optional[int] = Query(None),
+    prioridade_id: Optional[int] = Query(None),
+    categoria_id: Optional[int] = Query(None),
+    requerente_id: Optional[int] = Query(None),
+    tecnico_id: Optional[int] = Query(None),
+    grupo_id: Optional[int] = Query(None),
     data_inicio: Optional[str] = Query(None),
     data_fim: Optional[str] = Query(None),
     db: Session = Depends(get_db_session)
 ):
     """Retorna estatísticas da busca atual."""
     try:
-        return get_search_stats(db, q, status, entidade_id, data_inicio, data_fim)
+        return get_search_stats(
+            db, q, status, entidade_id, glpi_id, prioridade_id, categoria_id, requerente_id, tecnico_id, grupo_id, data_inicio, data_fim
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

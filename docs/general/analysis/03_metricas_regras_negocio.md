@@ -15,7 +15,7 @@ Este documento descreve os indicadores de desempenho (KPIs) e as regras de negó
 *   **Fonte:** `dashboard.py` (Endpoint `/metrics-gerais`)
 *   **Atualização:** Tempo Real.
 
-### Ranking de Técnicos (Produtividade)
+### Ranking de Técnicos (DTICutividade)
 *   **Descrição:** Top 10 técnicos com maior volume de tickets atribuídos no período.
 *   **Fórmula:** `SELECT tecnico, COUNT(*) FROM tickets GROUP BY tecnico ORDER BY count DESC LIMIT 10`
 *   **Filtros:** Exclui tickets deletados e técnicos 'N/A'.

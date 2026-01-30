@@ -2,7 +2,7 @@
 
 ## ✅ Configurado para NÃO Conflitar com V1
 
-**V1 (Produção):** Porta 8000, containers `glpi-*`  
+**V1 (DTICução):** Porta 8000, containers `glpi-*`  
 **V2 (Novo):** Porta 8001, containers `glpi-*-v2`
 
 ## 🚀 Como Subir V2

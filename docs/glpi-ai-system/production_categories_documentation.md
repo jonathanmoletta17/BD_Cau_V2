@@ -1,8 +1,8 @@
-# Documentação Detalhada - Categorias GLPI Produção
+# Documentação Detalhada - Categorias GLPI DTICução
 
 ## Sumário Executivo
 
-Documentação completa das **65 categorias** do GLPI de produção.
+Documentação completa das **65 categorias** do GLPI de DTICução.
 
 **Extração:** 2025-12-05_16-55-39  
 **Ambiente:** http://cau.ppiratini.intra.rs.gov.br/glpi/apirest.php
@@ -173,7 +173,7 @@ rios
 ## Exportação Completa
 
 Arquivo JSON completo disponível em:
-`exports/prod_categories_2025-12-05_16-55-39.json`
+`exports/DTIC_categories_2025-12-05_16-55-39.json`
 
 Tamanho: 73.45 KB  
 Contém todos os campos e metadados de cada categoria.

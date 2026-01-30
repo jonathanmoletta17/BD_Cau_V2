@@ -9,7 +9,7 @@ Este documento introduz o **Universal AI Framework**, uma infraestrutura criada 
 Até hoje, o desenvolvimento com IA seguia um padrão arriscado:
 1.  Pedimos código para a IA.
 2.  A IA "imagina" como o banco de dados é (alucinação).
-3.  A IA gera código que funciona isoladamente (Mock) mas quebra em produção.
+3.  A IA gera código que funciona isoladamente (Mock) mas quebra em DTICução.
 4.  Resultado: Retrabalho, frustração e quebra de confiança.
 
 **A Solução:** Inverter o fluxo. A IA não pode mais "imaginar"; ela deve "obedecer" a uma especificação validada contra um ambiente real.

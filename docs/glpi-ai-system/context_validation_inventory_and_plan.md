@@ -53,7 +53,7 @@
   - Propósito: aplica reclassificação em massa no GLPI de teste via `SimpleAgent` (pagina tickets e chama `process_ticket`).
   - Entradas: `agent.simple_agent`, cliente GLPI embutido.
   - Saídas: atualizações no GLPI (ambiente `test`), logs `deploy_log_*.txt`.
-  - Relações: valida hipóteses em sandbox; não deve apontar para produção.
+  - Relações: valida hipóteses em sandbox; não deve apontar para DTICução.
   - Risco/Impacto remoção: alto para fluxo de validação em ambiente; crítico se mal configurado (proteções já previstas).
 
 - `analyze_audit_queue.py`
@@ -150,14 +150,14 @@
 - `tools/`: todos atualizados em 2025-12-06 (ativos). Tamanhos variam de ~1.3KB a ~12KB.
 - `reports/`: múltiplos `accuracy_report_*` gerados em 2025-12-06; `summary_latest.txt` atualizado.
 - `docs/`: vários documentos atualizados recentemente (inclui `INC_2025_001_*` em 2025-12-06).
-- Referências cruzadas (código): docs mencionam diretamente `evaluate_accuracy.py`, `auto_clean_dataset.py`, `app_audit.py`, `apply_audit.py`. Outros módulos (`glpi-agent-classificator/docs`) mencionam scripts ausentes (`extract_prod_categories.py`) — sinalizam obsolescência externa.
+- Referências cruzadas (código): docs mencionam diretamente `evaluate_accuracy.py`, `auto_clean_dataset.py`, `app_audit.py`, `apply_audit.py`. Outros módulos (`glpi-agent-classificator/docs`) mencionam scripts ausentes (`extract_DTIC_categories.py`) — sinalizam obsolescência externa.
 
 ## 5. Critérios Objetivos para Limpeza/Manutenção
 - Remoção/arquivamento:
   - Não referenciado em código ou docs por ≥ 60 dias.
   - Sem execução recente e sem saída consumível (`reports`/`data`).
   - Duplicidade funcional com outro script/documento mais atualizado.
-  - Caminhos hardcoded e side-effects perigosos sem proteção (ex.: apontar produção).
+  - Caminhos hardcoded e side-effects perigosos sem proteção (ex.: apontar DTICução).
 - Manter/refatorar:
   - Parte do pipeline core (`audit_dataset.py`, `evaluate_accuracy.py`, `generate_rich_contexts.py`).
   - UI de auditoria (`app_audit.py`) e aplicação (`apply_audit.py`).
@@ -187,7 +187,7 @@
 - Manter (core): `audit_dataset.py`, `app_audit.py`, `apply_audit.py`, `auto_clean_dataset.py`, `evaluate_accuracy.py`, `generate_rich_contexts.py`.
 - Manter (diagnóstico): `analyze_audit_queue.py`, `analyze_errors.py`, `show_report.py`, `generate_diagnostic.py`, `inspect_errors.py`, `read_latest_report.py`.
 - Manter com refatoração: `analyze_errors_deep.py` (remover caminhos absolutos; usar `PROJECT_ROOT`).
-- Manter com atenção: `deploy_to_test.py` (validar ambiente `test`; proteger contra produção).
+- Manter com atenção: `deploy_to_test.py` (validar ambiente `test`; proteger contra DTICução).
 - `reports/`: limpar arquivos de mais de 7 dias via tarefa de housekeeping; manter `baseline_diagnostico.md` e último `summary_latest.txt`.
 - `docs/`: manter; consolidar conteúdos correlatos em releases futuros (evitar duplicação entre `conceptual_architecture.md` e `project_architecture.md`).
 
@@ -215,5 +215,5 @@
 - Sempre criar backups (`*.bak`) ao sobrescrever dados (`audit_queue.json`, `category_context.json`).
 
 ## 11. Observações adicionais
-- Cross-projeto: `glpi-agent-classificator/docs` referencia `context-validation/tools` com scripts inexistentes (`extract_prod_categories.py`, `extract_prod_entities.py`). Decisão: revisar e alinhar documentação externa; marcar como desatualizada até ajuste.
+- Cross-projeto: `glpi-agent-classificator/docs` referencia `context-validation/tools` com scripts inexistentes (`extract_DTIC_categories.py`, `extract_DTIC_entities.py`). Decisão: revisar e alinhar documentação externa; marcar como desatualizada até ajuste.
 - Métrica atual: `summary_latest.txt` indica `Accuracy ~84.89%` pós-limpeza — manter como baseline e comparar após próximas fases.

@@ -22,8 +22,8 @@
 - Manter “Gold Set” validado e medir periodicamente (`evaluate_accuracy.py`).
 
 ## Replicação e Sandbox
-- Replicação (prod→teste) com mapeamento de IDs: já suportada por `glpi_agent/migration.py`.
-- Proteções: operações de escrita apenas em teste; produção read-only.
+- Replicação (DTIC→teste) com mapeamento de IDs: já suportada por `glpi_agent/migration.py`.
+- Proteções: operações de escrita apenas em teste; DTICução read-only.
 
 ## Próximas Integrações
 - Expandir `preprocess.py` com normalização adicional baseada nas regras acima.

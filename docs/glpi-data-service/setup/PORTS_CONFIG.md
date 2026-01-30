@@ -2,7 +2,7 @@
 
 ## Portas Usadas
 
-### V1 (Produção - glpi-data-service)
+### V1 (DTICução - glpi-data-service)
 - Backend: **8000**
 - PostgreSQL: **5432**
 - pgAdmin: **5050**

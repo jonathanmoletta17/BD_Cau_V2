@@ -142,7 +142,7 @@ class TicketAnalysisService:
                     LEAD(data_mudanca) OVER (PARTITION BY ticket_id ORDER BY data_mudanca) as end_time
                 FROM dtic.ticket_changes
                 WHERE campo = 'status'
-                  AND data_mudanca >= NOW() - INTERVAL ':days days'
+                  AND data_mudanca >= NOW() - make_interval(days => :days)
             )
             SELECT 
                 status_nome,

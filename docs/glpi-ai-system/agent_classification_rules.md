@@ -89,7 +89,7 @@ Recomenda-se unificar categorias redundantes para simplificar o trabalho do agen
 ## 5. Validação e Manutenção
 
 ### 5.1 Teste de Conceito (PoC)
-Antes de ativar em produção (escrita), executar o modo `SANDBOX=true` por 1 semana:
+Antes de ativar em DTICução (escrita), executar o modo `SANDBOX=true` por 1 semana:
 *   O agente lê tickets novos.
 *   Registra no log "Eu teria mudado para X com confiança Y".
 *   Comparamos com a classificação final dada pelo técnico.

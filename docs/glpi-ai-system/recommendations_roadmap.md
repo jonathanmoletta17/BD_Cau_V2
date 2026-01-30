@@ -1,6 +1,6 @@
 # Roadmap e Recomendações de Evolução
 
-Este documento sintetiza o diagnóstico atual e propõe um plano de ação estruturado para transformar o piloto em um sistema de produção confiável.
+Este documento sintetiza o diagnóstico atual e propõe um plano de ação estruturado para transformar o piloto em um sistema de DTICução confiável.
 
 ---
 

@@ -30,7 +30,7 @@ Este arquivo é a ponte entre nosso código Python e o servidor GLPI. Ele isola 
     *   `update_ticket_category()`: Envia comando de atualização (PUT).
 
 **Padrões e Lógica:**
-1.  **Configuração via Ambiente:** O cliente decide se conecta em TESTE ou PRODUÇÃO olhando variáveis de ambiente, não código fixo (idealmente).
+1.  **Configuração via Ambiente:** O cliente decide se conecta em TESTE ou DTICUÇÃO olhando variáveis de ambiente, não código fixo (idealmente).
 2.  **Sessão Persistente:** Ele obtém um token no início e o reutiliza em todas as chamadas seguintes para ser eficiente.
 3.  **Tratamento de Erro:** Se o GLPI falhar (rede ou erro 500), o cliente captura e retorna `None` ou `False`, evitando que o programa todo quebre.
 
@@ -122,9 +122,9 @@ print(f"O ticket '{desc}' é da categoria: {categoria}")
 
 Com base na análise da arquitetura atual, aqui estão caminhos para evolução futura:
 
-1.  **Configuração Centralizada:** Mover todas as variáveis de ambiente e constantes (URLs, Tokens, Thresholds de confiança) para um único arquivo `.env` ou `config.yaml`, facilitando a troca entre TESTE e PROD.
+1.  **Configuração Centralizada:** Mover todas as variáveis de ambiente e constantes (URLs, Tokens, Thresholds de confiança) para um único arquivo `.env` ou `config.yaml`, facilitando a troca entre TESTE e DTIC.
 2.  **Log de Decisão Detalhado:** Fazer o agente salvar não apenas "Classificou X", mas "Classificou X porque encontrou o termo Y e a similaridade foi 0.95". Isso ajuda muito na auditoria.
-3.  **Modo "Dry-Run" (Simulação):** Criar uma flag oficial no agente que, quando ativa, *nunca* escreve no GLPI, apenas gera um relatório do que *faria*. Isso dá segurança para testar novas regras em produção sem risco.
+3.  **Modo "Dry-Run" (Simulação):** Criar uma flag oficial no agente que, quando ativa, *nunca* escreve no GLPI, apenas gera um relatório do que *faria*. Isso dá segurança para testar novas regras em DTICução sem risco.
 4.  **Fallback Híbrido:** Se a IA (embeddings) não tiver certeza (confiança < 70%), tentar usar regras de palavras-chave exatas (como no Exemplo 2 acima) para "desempatar" categorias óbvias.
 
 ---

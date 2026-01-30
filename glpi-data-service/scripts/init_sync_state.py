@@ -20,7 +20,10 @@ def init_sync_state():
     session = Database.get_session(context='dtic') # Context doesn't matter for public table
     
     contexts = ['dtic', 'sis']
-    entities = ['Ticket', 'TicketChange'] # Entities we plan to sync incrementally
+    entities = [
+        'Ticket:tickets',
+        'TicketChange:changes'
+    ]
     
     # Default: Start from NOW (ignore old raw history for delta loop)
     # OR: Start from a specific date if we want to re-scan recent history
@@ -36,9 +39,7 @@ def init_sync_state():
     try:
         for ctx in contexts:
             for ent in entities:
-                state = session.query(SyncState).filter_by(
-                    context=ctx, entity_type=ent
-                ).first()
+                state = session.query(SyncState).filter_by(context=ctx, entity_type=ent).first()
                 
                 if not state:
                     print(f"   [NEW] Creating state for {ctx.upper()} / {ent} -> {start_date}")

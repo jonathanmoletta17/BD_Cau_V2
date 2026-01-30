@@ -18,59 +18,13 @@ def _parse_date(date_str: Optional[str]) -> Optional[datetime]:
         return None
     try:
         # Try parsing ISO format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)
-        return datetime.fromisoformat(date_str.replace('Z', '+00:00'))
+        dt = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
+        return dt
     except (ValueError, AttributeError):
         return None
 
 
-def get_general_stats(
-    db: Session,
-    inicio: Optional[str] = None,
-    fim: Optional[str] = None
-) -> dict:
-    """
-    Get general ticket statistics by status.
-    
-    Args:
-        db: Database session
-        inicio: Start date (ISO format, optional)
-        fim: End date (ISO format, optional)
-    
-    Returns:
-        Dict with counts: novos, em_atendimento, pendentes, planejados, resolvidos
-    """
-    # Parse dates
-    inicio_dt = _parse_date(inicio)
-    fim_dt = _parse_date(fim)
-    
-    # Base query
-    # Base query for date-filtered stats
-    query = db.query(Ticket).filter(Ticket.is_deleted == False)
-    
-    # Apply date filters if provided
-    if inicio_dt:
-        query = query.filter(Ticket.criado_em >= inicio_dt)
-    if fim_dt:
-        query = query.filter(Ticket.criado_em <= fim_dt)
-    
-    # Count by status (with date filter)
-    em_atendimento = query.filter(Ticket.status_id == 2).count()
-    planejados = query.filter(Ticket.status_id == 3).count()
-    pendentes = query.filter(Ticket.status_id == 4).count()
-    resolvidos = query.filter(or_(Ticket.status_id == 5, Ticket.status_id == 6)).count()
 
-    # Special case for "Novos": Ignore date filters, show total backlog
-    novos = db.query(Ticket).filter(
-        Ticket.is_deleted == False,
-        Ticket.status_id == 1
-    ).count()
-    
-    return {
-        "novos": novos,
-        "em_progresso": em_atendimento + planejados,
-        "pendentes": pendentes,
-        "resolvidos": resolvidos
-    }
 
 
 def get_entity_ranking(
@@ -92,6 +46,10 @@ def get_entity_ranking(
     # Parse dates
     inicio_dt = _parse_date(inicio)
     fim_dt = _parse_date(fim)
+
+    # Adjust end date to include the entire day
+    if fim_dt and fim_dt.hour == 0 and fim_dt.minute == 0 and fim_dt.second == 0:
+        fim_dt = fim_dt.replace(hour=23, minute=59, second=59, microsecond=999999)
     
     # Query with join
     query = db.query(
@@ -136,6 +94,10 @@ def get_category_ranking(
     # Parse dates
     inicio_dt = _parse_date(inicio)
     fim_dt = _parse_date(fim)
+
+    # Adjust end date to include the entire day
+    if fim_dt and fim_dt.hour == 0 and fim_dt.minute == 0 and fim_dt.second == 0:
+        fim_dt = fim_dt.replace(hour=23, minute=59, second=59, microsecond=999999)
     
     # Query with join
     query = db.query(
@@ -244,7 +206,13 @@ def get_technician_ranking(
     inicio_dt = _parse_date(inicio)
     fim_dt = _parse_date(fim)
     
-    # Query
+    # Adjust end date to include the entire day
+    if fim_dt and fim_dt.hour == 0 and fim_dt.minute == 0 and fim_dt.second == 0:
+        fim_dt = fim_dt.replace(hour=23, minute=59, second=59, microsecond=999999)
+    
+    # Query: Count RESOLVED tickets by Technician within the period
+    # Filter by Solved (5) or Closed (6) status
+    # Date filter applies to 'solucionado_em' (Resolution Date)
     query = db.query(
         func.coalesce(
             func.concat(User.realname, ' ', User.firstname),
@@ -255,13 +223,14 @@ def get_technician_ranking(
     ).join(User, TicketUser.user_id == User.id) \
      .join(Ticket, TicketUser.ticket_id == Ticket.id) \
      .filter(TicketUser.type == 2) \
-     .filter(Ticket.is_deleted == False)
+     .filter(Ticket.is_deleted == False) \
+     .filter(or_(Ticket.status_id == 5, Ticket.status_id == 6))  # Only Resolved/Closed
     
-    # Apply date filters
+    # Apply date filters on Resolution Date
     if inicio_dt:
-        query = query.filter(Ticket.criado_em >= inicio_dt)
+        query = query.filter(Ticket.solucionado_em >= inicio_dt)
     if fim_dt:
-        query = query.filter(Ticket.criado_em <= fim_dt)
+        query = query.filter(Ticket.solucionado_em <= fim_dt)
     
     # Group and order
     results = query.group_by(User.id, User.realname, User.firstname, User.name) \
@@ -274,13 +243,82 @@ def get_technician_ranking(
     ]
 
 
+def get_general_stats(
+    db: Session,
+    inicio: Optional[str] = None,
+    fim: Optional[str] = None
+) -> dict:
+    """
+    Get general ticket statistics by status using optimized aggregation.
+    
+    Args:
+        db: Database session
+        inicio: Start date (ISO format, optional)
+        fim: End date (ISO format, optional)
+    
+    Returns:
+        Dict with counts: novos, em_progresso, pendentes, resolvidos
+    """
+    inicio_dt = _parse_date(inicio)
+    fim_dt = _parse_date(fim)
+    
+    # Adjust end date to include the entire day
+    if fim_dt and fim_dt.hour == 0 and fim_dt.minute == 0 and fim_dt.second == 0:
+        fim_dt = fim_dt.replace(hour=23, minute=59, second=59, microsecond=999999)
+    
+    # 1. Total "Novos" (Always ignoring date filter, shows backlog)
+    novos = db.query(func.count(Ticket.id)).filter(
+        Ticket.is_deleted == False,
+        Ticket.status_id == 1
+    ).scalar() or 0
+    
+    # 2. Aggregated Status Counts (With Date Filter)
+    # Group by status_id to get all other stats in one query
+    query = db.query(Ticket.status_id, func.count(Ticket.id))\
+        .filter(Ticket.is_deleted == False)
+    
+    if inicio_dt:
+        query = query.filter(Ticket.criado_em >= inicio_dt)
+    if fim_dt:
+        query = query.filter(Ticket.criado_em <= fim_dt)
+        
+    # Exclude status 1 (Novos) as it's handled separately
+    query = query.filter(Ticket.status_id != 1)
+    
+    status_counts = dict(query.group_by(Ticket.status_id).all())
+    
+    # Helper to safely get counts
+    def get_count(status_id):
+        return status_counts.get(status_id, 0)
+    
+    # Map status IDs to metrics
+    # Status ID 2 = Em Atendimento (Processing)
+    # Status ID 3 = Planejado (Planned)
+    # Status ID 4 = Pendente (Pending)
+    # Status ID 5 = Solucionado (Solved)
+    # Status ID 6 = Fechado (Closed)
+    
+    em_progresso = get_count(2) + get_count(3)
+    pendentes = get_count(4)
+    resolvidos = get_count(5) + get_count(6)
+
+    return {
+        "novos": novos,
+        "em_progresso": em_progresso,
+        "pendentes": pendentes,
+        "resolvidos": resolvidos
+    }
+
+
+
+
 def get_level_stats(
     db: Session,
     inicio: Optional[str] = None,
     fim: Optional[str] = None
 ) -> dict:
     """
-    Get ticket statistics by Support Level (N1-N4) based on Assigned Group.
+    Get ticket statistics by Support Level (N1-N4) using optimized aggregation.
     
     Group mapping (from database):
     - N1: Group ID 89
@@ -293,40 +331,47 @@ def get_level_stats(
     - em_progresso: status_id = 2
     - pendentes: status_id = 4
     - resolvidos: status_id = 5 or 6
-    
-    Args:
-        db: Database session
-        inicio: Start date (ISO format, optional)
-        fim: End date (ISO format, optional)
-    
-    Returns:
-        Dict with N1-N4 keys, each containing status counts and total
     """
-    # Parse dates
     inicio_dt = _parse_date(inicio)
     fim_dt = _parse_date(fim)
+
+    # Adjust end date to include the entire day
+    if fim_dt and fim_dt.hour == 0 and fim_dt.minute == 0 and fim_dt.second == 0:
+        fim_dt = fim_dt.replace(hour=23, minute=59, second=59, microsecond=999999)
     
-    # Base query for Tickets
-    # We need to join with TicketGroup to filter by assigned group
-    base_query = db.query(Ticket).join(TicketGroup, Ticket.id == TicketGroup.ticket_id) \
-                   .filter(Ticket.is_deleted == False) \
-                   .filter(TicketGroup.type == 2)  # Type 2 = Assigned Group
+    # IDs of interest
+    target_groups = [89, 90, 91, 92]
     
-    # Apply date filters
-    if inicio_dt:
-        base_query = base_query.filter(Ticket.criado_em >= inicio_dt)
-    if fim_dt:
-        base_query = base_query.filter(Ticket.criado_em <= fim_dt)
-    
-    # Helper function to count tickets by status for a specific group ID
-    def count_by_group(group_id):
-        # Filter by specific group ID
-        filtered_query = base_query.filter(TicketGroup.group_id == group_id)
+    # Optimized Query:
+    # Select GroupID, StatusID, Count(*)
+    # Join Ticket -> TicketGroup
+    # Filter by Group IDs and Date Range
+    # Group By GroupID, StatusID
+    query = db.query(TicketGroup.group_id, Ticket.status_id, func.count(Ticket.id))\
+        .join(Ticket, Ticket.id == TicketGroup.ticket_id)\
+        .filter(Ticket.is_deleted == False)\
+        .filter(TicketGroup.type == 2)\
+        .filter(TicketGroup.group_id.in_(target_groups))
         
-        novos = filtered_query.filter(Ticket.status_id == 1).count()
-        em_progresso = filtered_query.filter(Ticket.status_id == 2).count()
-        pendentes = filtered_query.filter(Ticket.status_id == 4).count()
-        resolvidos = filtered_query.filter(or_(Ticket.status_id == 5, Ticket.status_id == 6)).count()
+    if inicio_dt:
+        query = query.filter(Ticket.criado_em >= inicio_dt)
+    if fim_dt:
+        query = query.filter(Ticket.criado_em <= fim_dt)
+        
+    results = query.group_by(TicketGroup.group_id, Ticket.status_id).all()
+    
+    # Process results into structured dict
+    # Structure: {(group_id, status_id): count}
+    data_map = {(r[0], r[1]): r[2] for r in results}
+    
+    def get_stats_for_group(group_id):
+        def count(status_id):
+            return data_map.get((group_id, status_id), 0)
+            
+        novos = count(1)
+        em_progresso = count(2)
+        pendentes = count(4)
+        resolvidos = count(5) + count(6)
         total = novos + em_progresso + pendentes + resolvidos
         
         return {
@@ -336,13 +381,12 @@ def get_level_stats(
             "resolvidos": resolvidos,
             "total": total
         }
-    
-    # Calculate stats for each level (Group IDs 89, 90, 91, 92)
+
     return {
-        "N1": count_by_group(89),
-        "N2": count_by_group(90),
-        "N3": count_by_group(91),
-        "N4": count_by_group(92)
+        "N1": get_stats_for_group(89),
+        "N2": get_stats_for_group(90),
+        "N3": get_stats_for_group(91),
+        "N4": get_stats_for_group(92)
     }
 
 

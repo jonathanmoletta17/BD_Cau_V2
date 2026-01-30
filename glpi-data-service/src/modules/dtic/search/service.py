@@ -31,7 +31,7 @@ PRIORITY_MAP = {
     6: "Crítica"
 }
 
-def _apply_filters(query, filters: Dict[str, Any]):
+def _apply_filters(query, filters: Dict[str, Any], requester_rel=None, technician_rel=None, group_rel=None):
     """Aplica filtros comuns à query."""
     
     # Filtro de Texto (Busca ampla)
@@ -59,6 +59,24 @@ def _apply_filters(query, filters: Dict[str, Any]):
     if filters.get('entidade_id'):
         query = query.filter(Ticket.entidade_id == filters['entidade_id'])
 
+    if filters.get('glpi_id'):
+        query = query.filter(Ticket.glpi_id == filters['glpi_id'])
+
+    if filters.get('prioridade_id'):
+        query = query.filter(Ticket.prioridade_id == filters['prioridade_id'])
+
+    if filters.get('categoria_id'):
+        query = query.filter(Ticket.categoria_id == filters['categoria_id'])
+
+    if filters.get('requerente_id') and requester_rel is not None:
+        query = query.filter(requester_rel.user_id == filters['requerente_id'])
+
+    if filters.get('tecnico_id') and technician_rel is not None:
+        query = query.filter(technician_rel.user_id == filters['tecnico_id'])
+
+    if filters.get('grupo_id') and group_rel is not None:
+        query = query.filter(group_rel.group_id == filters['grupo_id'])
+
     # Filtro de Data
     if filters.get('data_inicio'):
         query = query.filter(Ticket.criado_em >= filters['data_inicio'])
@@ -73,6 +91,12 @@ def search_tickets(
     q: Optional[str] = None,
     status: Optional[str] = None,
     entidade_id: Optional[int] = None,
+    glpi_id: Optional[int] = None,
+    prioridade_id: Optional[int] = None,
+    categoria_id: Optional[int] = None,
+    requerente_id: Optional[int] = None,
+    tecnico_id: Optional[int] = None,
+    grupo_id: Optional[int] = None,
     data_inicio: Optional[str] = None,
     data_fim: Optional[str] = None,
     page: int = 1,
@@ -85,6 +109,12 @@ def search_tickets(
         'q': q,
         'status': status,
         'entidade_id': entidade_id,
+        'glpi_id': glpi_id,
+        'prioridade_id': prioridade_id,
+        'categoria_id': categoria_id,
+        'requerente_id': requerente_id,
+        'tecnico_id': tecnico_id,
+        'grupo_id': grupo_id,
         'data_inicio': data_inicio,
         'data_fim': data_fim
     }
@@ -94,6 +124,7 @@ def search_tickets(
     TechnicianUser = aliased(User)
     RequesterRel = aliased(TicketUser)
     TechnicianRel = aliased(TicketUser)
+    GroupRel = aliased(TicketGroup)
 
     # Query Base
     query = db.query(
@@ -119,10 +150,14 @@ def search_tickets(
         TechnicianUser,
         TechnicianRel.user_id == TechnicianUser.id,
         isouter=True
+    ).join(
+        GroupRel,
+        and_(Ticket.id == GroupRel.ticket_id, GroupRel.type == 2),
+        isouter=True
     )
 
     # Aplica Filtros
-    query = _apply_filters(query, filters)
+    query = _apply_filters(query, filters, requester_rel=RequesterRel, technician_rel=TechnicianRel, group_rel=GroupRel)
 
     # Contagem Total (para paginação)
     # Usamos distinct(Ticket.id) para evitar duplicatas causadas pelos joins N:N se houver múltiplos atores
@@ -191,6 +226,12 @@ def get_search_stats(
     q: Optional[str] = None,
     status: Optional[str] = None,
     entidade_id: Optional[int] = None,
+    glpi_id: Optional[int] = None,
+    prioridade_id: Optional[int] = None,
+    categoria_id: Optional[int] = None,
+    requerente_id: Optional[int] = None,
+    tecnico_id: Optional[int] = None,
+    grupo_id: Optional[int] = None,
     data_inicio: Optional[str] = None,
     data_fim: Optional[str] = None
 ) -> Dict[str, Any]:
@@ -200,13 +241,43 @@ def get_search_stats(
         'q': q,
         'status': status,
         'entidade_id': entidade_id,
+        'glpi_id': glpi_id,
+        'prioridade_id': prioridade_id,
+        'categoria_id': categoria_id,
+        'requerente_id': requerente_id,
+        'tecnico_id': tecnico_id,
+        'grupo_id': grupo_id,
         'data_inicio': data_inicio,
         'data_fim': data_fim
     }
 
-    # Base Query para Stats
     base_query = db.query(Ticket)
-    base_query = _apply_filters(base_query, filters)
+    requester_rel = None
+    technician_rel = None
+    group_rel = None
+
+    if requerente_id or tecnico_id:
+        requester_rel = aliased(TicketUser)
+        technician_rel = aliased(TicketUser)
+        base_query = base_query.join(
+            requester_rel,
+            and_(Ticket.id == requester_rel.ticket_id, requester_rel.type == 1),
+            isouter=True
+        ).join(
+            technician_rel,
+            and_(Ticket.id == technician_rel.ticket_id, technician_rel.type == 2),
+            isouter=True
+        )
+
+    if grupo_id:
+        group_rel = aliased(TicketGroup)
+        base_query = base_query.join(
+            group_rel,
+            and_(Ticket.id == group_rel.ticket_id, group_rel.type == 2),
+            isouter=True
+        )
+
+    base_query = _apply_filters(base_query, filters, requester_rel=requester_rel, technician_rel=technician_rel, group_rel=group_rel)
 
     # Stats por Status
     status_counts = base_query.with_entities(

@@ -48,6 +48,8 @@ class TicketChange(Base):
     """Ticket changes history (SIS schema)."""
     __tablename__ = 'ticket_changes'
     __table_args__ = (
+        Index('ix_sis_ticket_changes_ticket_data', 'ticket_id', 'data_mudanca'),
+        Index('ix_sis_ticket_changes_campo_data', 'campo', 'data_mudanca'),
         {'schema': 'sis'}
     )
     

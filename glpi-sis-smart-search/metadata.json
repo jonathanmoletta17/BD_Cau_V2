@@ -1,0 +1,5 @@
+{
+  "name": "GLPI SIS Smart Search",
+  "description": "Interface de busca inteligente para tickets de manutenção e conservação integrada ao GLPI.",
+  "requestFramePermissions": []
+}

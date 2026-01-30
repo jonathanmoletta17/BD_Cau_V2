@@ -95,7 +95,7 @@
 
 ## 7. Recomendação Executiva
 
-- **Produção**: manter o classificador baseado em embeddings como motor principal para categorias.
+- **DTICução**: manter o classificador baseado em embeddings como motor principal para categorias.
 - **Híbrido**: integrar LLM como apoio em ambiguidade e geração de comunicação com usuários.
 - **Governança**: curadoria contínua de contextos e validação com F1, revisão mensal.
 

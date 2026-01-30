@@ -33,7 +33,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-LOOP_INTERVAL = 30 # Seconds
+LOOP_INTERVAL = 10 # Seconds
 
 class GracefulKiller:
     kill_now = False
@@ -99,19 +99,24 @@ def ensure_schema():
 def bootstrap_if_needed(contexts=['dtic', 'sis']):
     logger.info("🔎 Checking Bootstrap Status...")
     session = Database.get_session()
+    pending = []
     try:
-        pending = []
         for ctx in contexts:
             state = session.query(BootstrapState).filter_by(context=ctx).first()
             if not state or state.status != 'completed':
                 pending.append(ctx)
+    finally:
         session.close()
-        if not pending:
-            logger.info("✅ Bootstrap already completed.")
-            return
-        logger.info("🚀 Starting Full Bootstrap...")
+
+    if not pending:
+        logger.info("✅ Bootstrap already completed.")
+        return
+
+    logger.info("🚀 Starting Full Bootstrap...")
+    for ctx in pending:
+        # 1. Mark as Pending
         session = Database.get_session()
-        for ctx in pending:
+        try:
             bs = session.query(BootstrapState).filter_by(context=ctx).first()
             if not bs:
                 bs = BootstrapState(context=ctx, status='pending', last_attempt=datetime.utcnow())
@@ -120,24 +125,29 @@ def bootstrap_if_needed(contexts=['dtic', 'sis']):
                 bs.status = 'pending'
                 bs.last_attempt = datetime.utcnow()
             session.commit()
-            logger.info(f"   Bootstrapping {ctx.upper()}...")
+        finally:
+            session.close()
+
+        logger.info(f"   Bootstrapping {ctx.upper()}...")
+        try:
+            # 2. Run Sync (It manages its own sessions)
+            run_sync(context=ctx, sync_type='all', limit=None, incremental=False)
+            
+            # 3. Mark as Completed
+            session = Database.get_session()
             try:
-                run_sync(context=ctx, sync_type='all', limit=None, incremental=False)
                 bs = session.query(BootstrapState).filter_by(context=ctx).first()
                 bs.status = 'completed'
                 bs.last_attempt = datetime.utcnow()
                 session.commit()
                 logger.info(f"   {ctx.upper()} completed.")
-            except Exception as e:
-                logger.error(f"❌ Bootstrap error on {ctx}: {e}")
-                bs = session.query(BootstrapState).filter_by(context=ctx).first()
-                bs.status = 'pending'
-                bs.last_attempt = datetime.utcnow()
-                session.commit()
-                raise
-        logger.info("✅ Bootstrap Complete.")
-    except Exception as e:
-        logger.error(f"❌ Bootstrap Failed: {e}")
+            finally:
+                session.close()
+
+        except Exception as e:
+            logger.error(f"❌ Bootstrap error on {ctx}: {e}")
+            # Ensure it stays pending or logs error
+            raise
 
 def main():
     logger.info("🚀 Starting GLPI Sync Daemon...")
@@ -169,11 +179,15 @@ def main():
             
             for ctx in contexts:
                 logger.info(f"🔄 Tick: Syncing {ctx.upper()}...")
+                run_sync(context=ctx, sync_type='metadata', incremental=True)
                 run_sync(context=ctx, sync_type='tickets', incremental=True)
                 
             elapsed = time.time() - start_time
             logger.info(f"✅ Tick Complete in {elapsed:.2f}s.")
             
+        except MemoryError:
+            logger.critical("❌ OUT OF MEMORY! Exiting to restart container.")
+            sys.exit(137) # OOM exit code standard
         except Exception as e:
             logger.error(f"❌ Error in Sync Loop: {e}")
             import traceback

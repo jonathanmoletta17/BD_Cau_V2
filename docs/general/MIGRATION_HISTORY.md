@@ -171,7 +171,7 @@ BD_Cau_V2/ (estrutura ATUAL)
 
 ### Estrutura de Branches
 ```
-main       → Produção (protegido, requer PR)
+main       → DTICução (protegido, requer PR)
   ↓
 develop    → Integração (branch padrão para merge)
   ↓

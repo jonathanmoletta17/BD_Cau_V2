@@ -2,8 +2,8 @@
 
 ## 📁 Estrutura de Diretórios
 
-### `glpi-data-service` (V1 - PRODUÇÃO - NÃO MEXER)
-**Status:** Backend legado em produção  
+### `glpi-data-service` (V1 - DTICUÇÃO - NÃO MEXER)
+**Status:** Backend legado em DTICução  
 **Responsabilidade:** Manter funcionando até migração completa
 
 **Conteúdo:**
@@ -11,7 +11,7 @@
 - `src/glpi_client/` - Cliente API GLPI (compartilhado)
 - `src/utils/` - Utilitários (compartilhado)
 - `docker-compose.yml` - Infraestrutura atual
-- `.env` - Configurações de produção
+- `.env` - Configurações de DTICução
 
 **NÃO criar arquivos novos aqui!**
 
@@ -71,8 +71,8 @@ glpi-data-service-v2/
 
 ### ❌ NÃO FAZER (V1)
 - Adicionar código novo
-- Refatorar (pode quebrar produção)
-- Deletar arquivos (pode afetar prod)
+- Refatorar (pode quebrar DTICução)
+- Deletar arquivos (pode afetar DTIC)
 - Criar scripts novos
 
 ### 🔄 COMPARTILHADO (entre V1 e V2)
@@ -89,14 +89,14 @@ glpi-data-service-v2/
 2. **Testes:** Executar contra ambiente de teste
 3. **Validação:** Garantir compatibilidade
 4. **Deploy:** Blue-Green deployment (v1 e v2 em paralelo)
-5. **Migração:** Switch gradual de prod para v2
+5. **Migração:** Switch gradual de DTIC para v2
 6. **Cleanup:** Após 100% migrado, arquivar v1
 
 ---
 
 ## 📊 Status Atual
 
-| Componente | V1 (Prod) | V2 (Novo) | Progresso |
+| Componente | V1 (DTIC) | V2 (Novo) | Progresso |
 |-----------|-----------|-----------|-----------|
 | Dashboard routes | ✅ Funcionando | ✅ Refatorado | 100% |
 | Sync Worker | ✅ Funcionando | ⏳ Pendente | 0% |
@@ -117,4 +117,4 @@ glpi-data-service-v2/
 
 ---
 
-**Importante:** SEMPRE criar arquivos novos em `glpi-data-service-v2`, nunca em `glpi-data-service` (produção).
+**Importante:** SEMPRE criar arquivos novos em `glpi-data-service-v2`, nunca em `glpi-data-service` (DTICução).

@@ -1,6 +1,6 @@
 
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict
 
 from src.core.glpi_client import GLPIClient
@@ -114,6 +114,9 @@ def sync_ticket_changes(client: GLPIClient, session, models: Dict, valid_ids: Di
             session.add(change)
         
         session.commit()
+        # Clear Identity Map to free memory (critical for large log datasets)
+        session.expunge_all()
+        
         total_changes += len(logs)
         
         # Cursor Update
@@ -129,3 +132,83 @@ def sync_ticket_changes(client: GLPIClient, session, models: Dict, valid_ids: Di
 
     logger.info(f"   ✅ Total Changes Synced: {total_changes}")
     return max_date_mod
+
+
+def reprocess_orphan_changes(session, models: Dict, context: str, limit: int = 500, base_backoff_minutes: int = 5):
+    """
+    Reprocessa mudanças órfãs com backoff e limite por lote.
+    """
+    OrphanChange = models.get('OrphanChange')
+    if not OrphanChange:
+        return {"processed": 0, "skipped": 0, "remaining": 0}
+    TicketModel = models['Ticket']
+    TicketChange = models['TicketChange']
+    now = datetime.utcnow()
+
+    orphans = (
+        session.query(OrphanChange)
+        .filter_by(context=context)
+        .order_by(OrphanChange.created_at.asc())
+        .limit(limit)
+        .all()
+    )
+
+    tickets_map = {t.glpi_id: t.id for t in session.query(TicketModel.glpi_id, TicketModel.id).all()}
+
+    processed = 0
+    skipped = 0
+
+    for orphan in orphans:
+        delay = timedelta(minutes=base_backoff_minutes * (2 ** min(orphan.attempt_count or 0, 6)))
+        if orphan.last_attempt and orphan.last_attempt + delay > now:
+            skipped += 1
+            continue
+
+        payload = orphan.payload or {}
+        glpi_id = orphan.glpi_log_id
+        ticket_glpi_id = orphan.glpi_ticket_id
+
+        orphan.attempt_count = (orphan.attempt_count or 0) + 1
+        orphan.last_attempt = now
+
+        if ticket_glpi_id not in tickets_map:
+            continue
+
+        existing = session.query(TicketChange).filter_by(glpi_id=glpi_id).first()
+        if existing:
+            session.delete(orphan)
+            processed += 1
+            continue
+
+        has_usuario_nome = hasattr(TicketChange, 'usuario_nome')
+        has_campo_id = hasattr(TicketChange, 'campo_id')
+
+        data = {
+            'glpi_id': glpi_id,
+            'ticket_id': tickets_map[ticket_glpi_id],
+            'data_mudanca': parse_date(payload.get('date_mod')),
+            'usuario_id': get_int(payload.get('users_id')),
+            'campo': clean_str(payload.get('field')) or get_campo_name(get_int(payload.get('id_search_option'))),
+            'valor_antigo': clean_html(payload.get('old_value')),
+            'valor_novo': clean_html(payload.get('new_value')),
+            'sincronizado_em': datetime.now()
+        }
+
+        if data['campo'] == 'content':
+            session.delete(orphan)
+            processed += 1
+            continue
+
+        if has_usuario_nome:
+            data['usuario_nome'] = clean_usuario_nome(payload.get('user_name'))
+        if has_campo_id:
+            data['campo_id'] = get_int(payload.get('id_search_option')) or 0
+
+        change = TicketChange(**data)
+        session.add(change)
+        session.delete(orphan)
+        processed += 1
+
+    session.commit()
+    remaining = session.query(OrphanChange).filter_by(context=context).count()
+    return {"processed": processed, "skipped": skipped, "remaining": remaining}

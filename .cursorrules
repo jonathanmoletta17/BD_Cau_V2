@@ -185,7 +185,7 @@ async function fetchMetrics() {  // Sem tipo de retorno
 ## Fluxo de Trabalho (GitFlow Simplificado)
 
 ```
-main       → Produção (protegida, apenas via PR)
+main       → DTICução (protegida, apenas via PR)
   ↓
 develop    → Integração (branch padrão)
   ↓

@@ -1,10 +1,10 @@
 # Guia de Configuração de Categorias GLPI
 
-Este guia foi elaborado a partir da análise de dados reais do ambiente de PRODUÇÃO (`glpi_data_audit.md`). Ele serve como referência para entender o que cada categoria representa na prática e como configurá-las no futuro.
+Este guia foi elaborado a partir da análise de dados reais do ambiente de DTICUÇÃO (`glpi_data_audit.md`). Ele serve como referência para entender o que cada categoria representa na prática e como configurá-las no futuro.
 
 ---
 
-## 1. Tabela Mestre de Categorias (Produção)
+## 1. Tabela Mestre de Categorias (DTICução)
 
 | ID | Nome da Categoria | Caminho Completo (Hierarquia) |
 |:--:|:---|:---|

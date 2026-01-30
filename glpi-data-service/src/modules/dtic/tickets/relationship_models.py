@@ -2,7 +2,7 @@
 GLPI Data Service V3 - DTIC Ticket Relationship Models
 """
 from sqlalchemy import (
-    Column, Integer, String, Text, ForeignKey, UniqueConstraint
+    Column, Integer, String, Text, ForeignKey, UniqueConstraint, Index
 )
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 from datetime import datetime
@@ -49,7 +49,11 @@ class TicketGroup(Base):
 class TicketChange(Base):
     """Historical changes to tickets."""
     __tablename__ = 'ticket_changes'
-    __table_args__ = {'schema': 'dtic'}
+    __table_args__ = (
+        Index('ix_dtic_ticket_changes_ticket_data', 'ticket_id', 'data_mudanca'),
+        Index('ix_dtic_ticket_changes_campo_data', 'campo', 'data_mudanca'),
+        {'schema': 'dtic'}
+    )
     
     id = Column(Integer, primary_key=True, autoincrement=True)
     glpi_id = Column(Integer, unique=True, nullable=False, index=True)

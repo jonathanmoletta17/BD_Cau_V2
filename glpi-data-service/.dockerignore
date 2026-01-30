@@ -56,7 +56,7 @@ validation_*.txt
 analyze_*.txt
 proof_*.txt
 
-# Scripts de validação (não necessários em produção)
+# Scripts de validação (não necessários em DTICução)
 validate_*.py
 analyze_*.py
 prove_*.py
